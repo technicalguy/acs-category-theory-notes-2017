@@ -1,4 +1,277 @@
-\documentclass{article}
+\documentclass[a4paper, 12pt]{article}
+\title{ACS Category Theory Notes 2017}
+\usepackage{nth}
+\date{\nth{5} October 2017}
+\author{Marcelo Fiore, Dhruv Makwana, and Shaun Steenkamp}
+
+\usepackage{fourier} % Better font
+\usepackage{inconsolata} % mono spaced font
+\usepackage{amssymb,amsthm,amsmath}
+\usepackage{fdsymbol}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{microtype}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{exercise}{Exercise}
+
+%%%% Stylistic
+\setlength\parindent{0pt}
+\setlength\parskip{0.5em}
+
+%%%% Category Theory Macros
+\newcommand {\cat}{%
+    \mathbf%
+}
+\newcommand {\domain}[1] {%
+    \mathrm{dom}(#1)%
+}
+\newcommand {\codomain}[1] {%
+    \mathrm{cod}(#1)%
+}
+\newcommand {\idarrow}[1][] {%
+    \mathbf{1}{#1}%
+}
+%%%% Macros for specific categories
+\newcommand {\Cat}{%
+    \cat {Cat}%
+}
+\newcommand {\Mon}{%
+    \cat {Mon}%
+}
+\newcommand {\Poset}{%
+    \cat {Poset}%
+}
+\newcommand {\Rel}{%
+    \cat {Rel}%
+}
+\newcommand {\Sets}{%
+    \cat {Sets}%
+}
+\newcommand {\Groups}{%
+    \cat {Groups}%
+}
+\newcommand {\Graphs}{%
+    \cat {Graphs}%
+}
+
 \begin{document}
-foo
+\maketitle
+
+L108: Category Theory, Type Theory, and Logic.
+
+Marcelo Fiore, FE15, mpf23.
+
+\section{How to think Categorically}
+Introduction to Category Theory and application to Logic and Type Theory. (Not a
+spectator sport.)
+
+Approach: Find an understanding somewhere between the concrete (examples) and
+the abstract ("nonsense").
+
+We are looking at \textbf{Universal Properties} through examples.
+
+\subsection{Adding an element to a set}
+Given a set $S$, consider
+
+\textbf{data:} $$ S \overset{f}{\rightarrow} S' \ni x $$ \\
+\textbf{criteria:} $$
+    \begin{tikzcd}
+        S \arrow[r, "f_1"]
+          \arrow[dr, swap, "f_2"]
+          &
+        S_1 \ni x_1 \arrow[d, "h"]
+          \\
+          {}&
+        S_2 \in x_2
+    \end{tikzcd}
+$$
+
+Diagrams such as these implicitly assumes that compositions commute:
+Function $h : S_1 \rightarrow S_2$ such that $h(x_1) = x_2$ and $\forall x \in S
+. h(f_1(x)) = f_2(x)$.
+
+So we can express the above using more concisely as: $h \circ f_1 = f_2$.
+% functional extensionality
+
+% TODO: Dhruv - put in a box
+$$
+\begin{tikzcd}
+    A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
+\end{tikzcd}
+$$
+
+\subsubsection*{Initial (Universal) Solution}
+Initial: Any other solution can be mapped to from this solution. Note that the
+solution doesn't always exist.
+
+Find $S \overset{f}{\rightarrow} T \ni t$ such that
+$$
+\forall S \overset{f'}{\rightarrow} S' \ni x \ .\ 
+\exists!\ h : T \rightarrow S' \text{ where }
+h(t) = x \text{ and }
+h \circ f = f'
+$$
+
+Solution
+
+$$
+    \begin{tikzcd}
+        S \arrow[r, "\iota"]
+          \arrow[dr, swap, "f"]
+          & 
+        S \cupplus \{\ast\} \ni \ast
+          \arrow[d, "h"]
+          \\
+        {}
+          &
+        T \ni t
+    \end{tikzcd}
+$$
+
+Where the disjoint union $\cupplus$ is defined as $\{\ast\} \cup \{ \lbrack
+x\rbrack | x \in S \}$, and the square bracket tag the elements from $S$.
+
+And defining $h$ as
+\begin{equation*}
+    h(z) = \begin{cases}
+        f(x) & \text{if } z = \lbrack x \rbrack \\
+        t & \text{if } z = \ast
+    \end{cases}
+\end{equation*}
+
+For universality we must also prove that this is a unique solution.
+Consider a $k$ that satisfies $k \circ \iota = f$, and $k(\ast) = t$. Then RTP
+$k(z) = h(z) \forall z \in S \cupplus \{ \ast \}$.
+
+\subsubsection*{Final solution}
+There is also a final solution. Any other solution can map to the final
+solution.
+
+$$
+    \begin{tikzcd}
+        S \arrow[r, "\forall g"]
+          \arrow[dr, swap, "f"]
+          & 
+        \mathcal{U} \ni u
+          \\
+        {}
+          &
+        T \ni t
+          \arrow[u, swap, "h"]
+    \end{tikzcd}
+$$
+
+Let $!_A$ be the constantly $\ast$ function, $!_A : A \rightarrow \{ \ast \}$.
+
+So $f = !_S$, $h = !_{\mathcal{U}}$, $T = \{ \ast \}$, and $t = \ast$.
+
+Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{(): unit} in
+most functional programming languages.
+
+\subsection{Adding two sets}
+
+Given $A$ and $B$ sets.
+
+\textbf{data:}
+$$
+\begin{tikzcd}
+    A \arrow[r, "f"] & C & B \arrow[l, swap, "g"]
+\end{tikzcd}
+$$
+
+\textbf{criteria:}
+$$
+\begin{tikzcd}
+    {} & C_1 \arrow[dd, "h"] & {} \\
+    A \arrow[ru, "f_1"] \arrow[rd, swap, "f_2"]
+    & {}
+    &
+    B \arrow[lu, swap, "g_1"] \arrow[ld, "g_2"]
+    \\
+    {} & C_2 & {}
+\end{tikzcd}
+$$
+
+Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes. (i.e. $h \circ f_1 = f_2$
+and $h \circ g_1 = g_2$.)
+
+\begin{exercise}
+    Find the initial solution.
+\end{exercise}
+
+\subsection{Dual form}
+
+\subsubsection*{Duality}
+When you have a problem in one direction you can turn it around and get a
+problem in the other direction.
+
+\subsubsection*{Dual form of adding two sets}
+
+Given two sets $A$ and $B$.
+
+\textbf{data:}
+$$
+\begin{tikzcd}
+    A & C \arrow[l, swap, "f"] \arrow[r, "g"] & B
+\end{tikzcd}
+$$
+
+\textbf{criteria:}
+$$
+\begin{tikzcd}
+    {} & C_1 \arrow[dd, "h"] \arrow[ld, swap, "f_1"] \arrow[rd, "g_1"] & {} \\
+    A & {} & B \\
+    {} & C_2 \arrow[lu, "f_2"] \arrow[ru, swap, "g_2"] & {}
+\end{tikzcd}
+$$
+
+Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes. (i.e. $h \circ f_2 = f_1$
+and $h \circ g_2 = g_1$.)
+
+\begin{exercise}
+    Find the final solution.
+\end{exercise}
+
+When considering the dual problem, the final solution is the one that is
+interesting.
+
+\subsection{Generating a monoid}
+
+\subsubsection*{Monoids}
+
+A monoid is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a neutral
+element, and $\ast$ is a binary operation. Where $e$ and $\ast$ obey:
+\begin{align*}
+    \forall x \in M\ .\ e \ast x = x \text{ and } x \ast e = x && \text{(neutral
+    element)} \\
+    (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
+\end{align*}
+
+\subsubsection*{Monoid homomorphism}
+A monoid homomorphism is a function between two monoids that preserves the
+monoid structure (i.e. preserves the rules). Formally, $h : (M_1, e_1, \ast_1)
+\rightarrow (M_2, e_2, \ast_2)$ such that $h(e_1) = e_2$ and $\forall x, y \in
+M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
+
+Given a set $S$, and where $M, M_1, M_2$ are monoids.
+
+\textbf{data:}
+$$S \overset{f}{\rightarrow}M$$
+
+\textbf{criteria:}
+$$
+\begin{tikzcd}
+    S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] & M_1 \arrow[d, "h"] \\
+    {} & M_2
+\end{tikzcd}
+$$
+
+\begin{exercise}
+    Solve for the initial.
+\end{exercise}
+
 \end{document}
