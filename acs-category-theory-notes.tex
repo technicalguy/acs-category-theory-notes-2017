@@ -62,6 +62,17 @@
     \cat {Graphs}%
 }
 
+\newcommand{\ie}{\emph{i.e.}}
+
+\newcommand{\eqdef}{\stackrel{\text{def}}{=}} % composition
+\newcommand{\comp}{\circ} % composition
+\newcommand{\icomp}{\,} % implicit composition
+
+\newcommand{\setof}[1]{ \{ #1 \} } 
+\newcommand{\bigsetof}[1]{ \big\{ #1 \big\} } 
+\newcommand{\suchthat}{\mid}
+\newcommand{\union}{\cup}
+
 \begin{document}
 
 \maketitle
@@ -93,95 +104,107 @@ Given a set $S$, consider
         S \arrow[r, "f_1"]
           \arrow[dr, swap, "f_2"]
           &
-        S_1 \ni x_1 \arrow[d, "h"]
+        S_1 \arrow[d, "h"] & \ni & x_1 \arrow[d, mapsto]
           \\
           {}&
-        S_2 \in x_2
+        S_2 & \ni & x_2
     \end{tikzcd}
 $$
+\quad function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and 
+$\forall x \in S .\; h(f_1(x)) = f_2(x)$.
 
 \begin{framed}
-Diagrams such as these implicitly assume that compositions commute:
-function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and $\forall x
-\in S .\; h(f_1(x)) = f_2(x)$.
-
-So we can express the above using more concisely as $h \circ f_1 = f_2$.
-
+Diagrams such as the above implicitly assume that compositions commute.  We
+can express the above using more concisely as:
+\begin{center}
+$h\comp f_1 = f_2$
+\quad or \quad
+$h\icomp f_1 = f_2$
+\end{center}
+where 
 $$
 \begin{tikzcd}
     A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
 \end{tikzcd}
 $$
-
+with $(g\comp f)(a)\eqdef g(f(a))$ for all $a\in A$.
 \end{framed}
 
 \subsubsection*{Initial (Universal) Solution}
-Initial: Any other solution can be mapped to from this solution. Note that the
-solution doesn't always exist.
+
+\emph{Initial}: Any other solution can be mapped to from this solution. 
+
+Note that the solution doesn't always exist.
 
 Find $S \overset{f}{\rightarrow} T \ni t$ such that
 $$
 \forall S \overset{f'}{\rightarrow} S' \ni x \ .\ 
-\exists!\ h : T \rightarrow S' \text{ where }
+\exists!\ h : T \rightarrow S' \text{ such that }
 h(t) = x \text{ and }
 h \circ f = f'
 $$
 
 Solution
-
 $$
     \begin{tikzcd}
         S \arrow[r, "\iota"]
           \arrow[dr, swap, "f"]
           & 
-        S \cupplus \{\ast\} \ni \ast
-          \arrow[d, "h"]
+        S_{\ast} 
+        \arrow[d, "h"]
+        & \ni & \ast
+        \arrow[d, mapsto]
           \\
         {}
           &
-        T \ni t
+        T & \ni & t
     \end{tikzcd}
 $$
+where $S_\ast$ is defined as 
+$\setof{ \ast } \union \bigsetof{ \lbrack x\rbrack \suchthat x \in S }$
+and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.  
+%
+(The set $S_\ast$ is an \emph{implementation} of the disjoint union of
+$\setof{*}$ and $S$; the square brackets tag the elements from $S$.)
 
-Where the disjoint union $\cupplus$ is defined as $\{\ast\} \cup \{ \lbrack
-x\rbrack | x \in S \}$, and the square brackets tag the elements from $S$.
-
-And defining $h$ as
+Define $h$, for $z\in S_\ast$, as
 \begin{equation*}
     h(z) = \begin{cases}
-        f(x) & \text{if } z = \lbrack x \rbrack \\
-        t & \text{if } z = \ast
+        t & \text{if } z = \ast\\
+        f(x) & \text{if } z = \lbrack x \rbrack 
     \end{cases}
 \end{equation*}
 
 For universality we must also prove that this is a unique solution.
-Consider a $k$ that satisfies $k \circ \iota = f$, and $k(\ast) = t$. Then RTP
-$k(z) = h(z) \forall z \in S \cupplus \{ \ast \}$.
+Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$, and 
+$k(\ast) = t$. Then, we are RTP: $k(z) = h(z)\ \forall z \in S_\ast$.
 
 \subsubsection*{Final solution}
-There is also a final solution. Any other solution can map to the final
-solution.
 
+There is also a final solution: any other solution can map to the final one.
 $$
     \begin{tikzcd}
         S \arrow[r, "f"]
           \arrow[dr, swap, "\forall g"]
           & 
-        T \ni t
+        T & \ni & t
           \\
         {}
           &
-        \mathcal{U} \ni u
-          \arrow[u, swap, "h"]
+          U 
+          \arrow[u, swap, "\exists! h"]
+          & \ni & u
+          \arrow[u, swap, mapsto]
     \end{tikzcd}
 $$
 
-Let $!_A$ be the constantly $\ast$ function, $!_A : A \rightarrow \{ \ast \}$.
+For a set $A$, let $!_A$ be the unique function $A\to \setof{\ast}$ given by
+the constantly $\ast$ function, that is, $!_A(a) = \ast$ for all $a\in A$.
 
-So $f = !_S$, $h = !_{\mathcal{U}}$, $T = \{ \ast \}$, and $t = \ast$.
+Then, $T=\setof{\ast}$, $t=\ast$, and $f=\ !_S$ is a final solution.
 
-Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{(): unit} in
-most functional programming languages.
+(Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{(): unit}
+in most functional programming languages.)
 
 \subsection{Adding two sets}
 
@@ -206,19 +229,19 @@ $$
     {} & C_2 & {}
 \end{tikzcd}
 $$
-
-Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes (i.e. $h \circ f_1 = f_2$
-and $h \circ g_1 = g_2$).
+That is, such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it 
+commutes~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
 
 \begin{exercise}
     Find the initial solution.
 \end{exercise}
 
-\subsection{Duality}
+\subsection{Dual form}
 
 \subsubsection*{Duality}
-When you have a problem in one direction you can turn it around and get a
-problem in the other direction.
+
+When you have a problem in ``one direction'' you can turn it around and get a
+problem in ``the other direction''.
 
 \subsubsection*{Dual form of adding two sets}
 
@@ -239,49 +262,58 @@ $$
     {} & C_2 \arrow[lu, "f_2"] \arrow[ru, swap, "g_2"] & {}
 \end{tikzcd}
 $$
-
-Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes (i.e. $h \circ f_2 = f_1$
-and $h \circ g_2 = g_1$).
+That is, such that (1)~$h\ :\ C_1 \rightarrow C_2$ and (2)~it 
+commutes~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
 
 \begin{exercise}
     Find the final solution.
 \end{exercise}
 
-When considering the dual problem, the final solution is the one that is
-interesting.
+Typically, when considering the dual problem, the dual solution is the one
+that is of interest.
 
 \subsection{Generating a monoid}
 
 \subsubsection*{Monoids}
 
 A monoid is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a neutral
-element, and $\ast$ is a binary operation. Where $e$ and $\ast$ obey:
+element, and $\ast$ is a binary operation on $M$; where $e$ and $\ast$ obey:
 \begin{align*}
-    \forall x \in M\ .\ e \ast x = x \text{ and } x \ast e = x && \text{(neutral
+    & \forall x \in M\ .\ 
+    e \ast x = x \text{ and } x \ast e = x && \text{(neutral
     element)} \\
+    & \forall x,y,z \in M\ .\ 
     (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
 \end{align*}
 
 \subsubsection*{Monoid homomorphism}
+
 A monoid homomorphism is a function between two monoids that preserves the
-monoid structure. Formally, $h : (M_1, e_1, \ast_1)
-\rightarrow (M_2, e_2, \ast_2)$ such that $h(e_1) = e_2$ and $\forall x, y \in
+structure. Formally, $h : (M_1, e_1, \ast_1) \rightarrow (M_2, e_2, \ast_2)$
+is a function $h: M_1\to M_2$ such that $h(e_1) = e_2$ and $\forall x, y \in
 M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
 
-Given a set $S$, and where $M, M_1, M_2$ are monoids.
+Given a set $S$, consider
 
 \textbf{data:}
-$$S \overset{f_1}{\rightarrow}M_1$$
+$$
+S \overset{f_1}{\longrightarrow}M \qquad \text{$(M,e,\ast)$ a monoid}
+$$
 
 \textbf{criteria:}
 $$
 \begin{tikzcd}
-    S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] & M_1 \arrow[d, "h"] \\
-    {} & M_2
+    S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] & 
+    M_1 
+    \arrow[d, "h"] 
+    & (M_1,e_1,\ast_1) 
+    \arrow[d, "\text{$h$ an homomorphism}"] 
+    & \text{a monoid}
+    \\
+    {}  
+    & M_2 & (M_2,e_2,\ast_2) & \text{a monoid}
 \end{tikzcd}
 $$
-
-where $h$ is a monoid homomorphism.
 
 \begin{exercise}
     Solve for the initial.
