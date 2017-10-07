@@ -1,8 +1,11 @@
 \documentclass[a4paper, 12pt]{article}
-\title{ACS Category Theory Notes 2017}
+\usepackage{a4wide}
+
+\title{L108: Category Theory, Type Theory, and Logic\\
+  ACS Category Theory Notes 2017}
 \usepackage{nth}
 \date{\nth{5} October 2017}
-\author{Marcelo Fiore, Dhruv Makwana, and Shaun Steenkamp}
+\author{Marcelo Fiore\\ Dhruv Makwana\\ Shaun Steenkamp}
 
 \usepackage{fourier} % Better font
 \usepackage{inconsolata} % mono spaced font
@@ -60,22 +63,28 @@
 }
 
 \begin{document}
+
 \maketitle
 
-L108: Category Theory, Type Theory, and Logic.
+\tableofcontents
 
-Marcelo Fiore, FE15, mpf23.
+\newpage
+\section{Lecture 1 (\nth{5} October): How to think Categorically}
+\vspace*{-5mm}\hspace*{7.75mm}
+Marcelo Fiore, Dhruv Makwana, Shaun Steenkamp
+\bigskip
 
-\section{How to think Categorically}
-Introduction to Category Theory and application to Logic and Type Theory.
+Introduction to Category Theory with applications to Logic and Type Theory.
+
 \emph{Not a spectator sport.}
 
 Approach: Find an understanding somewhere between the concrete (examples) and
-the abstract ("nonsense").
+the abstract (``nonsense'').
 
-We are looking at \textbf{Universal Properties} through examples.
+Looking at \textbf{Universal Properties} through example problems.
 
 \subsection{Adding an element to a set}
+
 Given a set $S$, consider
 
 \textbf{data:} $$ S \overset{f}{\rightarrow} S' \ni x $$ \\
@@ -205,7 +214,7 @@ and $h \circ g_1 = g_2$).
     Find the initial solution.
 \end{exercise}
 
-\subsection{Dual form}
+\subsection{Duality}
 
 \subsubsection*{Duality}
 When you have a problem in one direction you can turn it around and get a
