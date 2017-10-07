@@ -8,6 +8,7 @@
 \usepackage{inconsolata} % mono spaced font
 \usepackage{amssymb,amsthm,amsmath}
 \usepackage{fdsymbol}
+\usepackage{framed}
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{microtype}
@@ -66,8 +67,8 @@ L108: Category Theory, Type Theory, and Logic.
 Marcelo Fiore, FE15, mpf23.
 
 \section{How to think Categorically}
-Introduction to Category Theory and application to Logic and Type Theory. (Not a
-spectator sport.)
+Introduction to Category Theory and application to Logic and Type Theory.
+\emph{Not a spectator sport.}
 
 Approach: Find an understanding somewhere between the concrete (examples) and
 the abstract ("nonsense").
@@ -90,19 +91,20 @@ Given a set $S$, consider
     \end{tikzcd}
 $$
 
-Diagrams such as these implicitly assumes that compositions commute:
-Function $h : S_1 \rightarrow S_2$ such that $h(x_1) = x_2$ and $\forall x \in S
-. h(f_1(x)) = f_2(x)$.
+\begin{framed}
+Diagrams such as these implicitly assume that compositions commute:
+function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and $\forall x
+\in S .\; h(f_1(x)) = f_2(x)$.
 
-So we can express the above using more concisely as: $h \circ f_1 = f_2$.
-% functional extensionality
+So we can express the above using more concisely as $h \circ f_1 = f_2$.
 
-% TODO: Dhruv - put in a box
 $$
 \begin{tikzcd}
     A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
 \end{tikzcd}
 $$
+
+\end{framed}
 
 \subsubsection*{Initial (Universal) Solution}
 Initial: Any other solution can be mapped to from this solution. Note that the
@@ -133,7 +135,7 @@ $$
 $$
 
 Where the disjoint union $\cupplus$ is defined as $\{\ast\} \cup \{ \lbrack
-x\rbrack | x \in S \}$, and the square bracket tag the elements from $S$.
+x\rbrack | x \in S \}$, and the square brackets tag the elements from $S$.
 
 And defining $h$ as
 \begin{equation*}
@@ -153,14 +155,14 @@ solution.
 
 $$
     \begin{tikzcd}
-        S \arrow[r, "\forall g"]
-          \arrow[dr, swap, "f"]
+        S \arrow[r, "f"]
+          \arrow[dr, swap, "\forall g"]
           & 
-        \mathcal{U} \ni u
+        T \ni t
           \\
         {}
           &
-        T \ni t
+        \mathcal{U} \ni u
           \arrow[u, swap, "h"]
     \end{tikzcd}
 $$
@@ -196,8 +198,8 @@ $$
 \end{tikzcd}
 $$
 
-Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes. (i.e. $h \circ f_1 = f_2$
-and $h \circ g_1 = g_2$.)
+Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes (i.e. $h \circ f_1 = f_2$
+and $h \circ g_1 = g_2$).
 
 \begin{exercise}
     Find the initial solution.
@@ -229,8 +231,8 @@ $$
 \end{tikzcd}
 $$
 
-Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes. (i.e. $h \circ f_2 = f_1$
-and $h \circ g_2 = g_1$.)
+Such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it commutes (i.e. $h \circ f_2 = f_1$
+and $h \circ g_2 = g_1$).
 
 \begin{exercise}
     Find the final solution.
@@ -253,14 +255,14 @@ element, and $\ast$ is a binary operation. Where $e$ and $\ast$ obey:
 
 \subsubsection*{Monoid homomorphism}
 A monoid homomorphism is a function between two monoids that preserves the
-monoid structure (i.e. preserves the rules). Formally, $h : (M_1, e_1, \ast_1)
+monoid structure. Formally, $h : (M_1, e_1, \ast_1)
 \rightarrow (M_2, e_2, \ast_2)$ such that $h(e_1) = e_2$ and $\forall x, y \in
 M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
 
 Given a set $S$, and where $M, M_1, M_2$ are monoids.
 
 \textbf{data:}
-$$S \overset{f}{\rightarrow}M$$
+$$S \overset{f_1}{\rightarrow}M_1$$
 
 \textbf{criteria:}
 $$
@@ -269,6 +271,8 @@ $$
     {} & M_2
 \end{tikzcd}
 $$
+
+where $h$ is a monoid homomorphism.
 
 \begin{exercise}
     Solve for the initial.
