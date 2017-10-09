@@ -1,6 +1,9 @@
 # acs-category-theory-notes-2017
 Cambridge ACS Category Theory, Type Theory, and Logic - lecture notes 2017.
 
+## Download
+[Latest version](https://github.com/technicalguy/acs-category-theory-notes-2017/releases/latest)
+
 ## Building
 Prerequisites: pdflatex, latexmk, make, git, and some common latex packages.
 
