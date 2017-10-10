@@ -1,16 +1,5 @@
 \documentclass[a4paper, 12pt]{article}
 \usepackage{a4wide}
-
-\title{ACS L108\\
-  Category Theory, Type Theory, and Logic\\
-  Lecture Notes\\[4mm]
-  \Large Marcelo Fiore}
-
-\author{\mbox{}\\[-8mm]Dhruv Makwana\\ 
-  Shaun Steenkamp}
-
-\date{Michaelmas Term 2017-18}
-
 \usepackage{nth}
 \usepackage{fourier} % Better font
 \usepackage{inconsolata} % mono spaced font
@@ -20,6 +9,19 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{microtype}
+\usepackage[utf8]{inputenc}
+
+\title{ACS L108\\
+  Category Theory, Type Theory, and Logic\\
+  Lecture Notes\\[4mm]
+  \Large Marcelo Fiore}
+
+\author{\mbox{}\\[-8mm]Dhruv Makwana\\ 
+  Shaun Steenkamp\\
+  Andrej Ivašković\\
+  Oliver Richardson}
+
+\date{Michaelmas Term 2017--18}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -73,10 +75,12 @@
 \newcommand{\comp}{\circ} % composition
 \newcommand{\icomp}{\,} % implicit composition
 
-\newcommand{\setof}[1]{ \{ #1 \} } 
-\newcommand{\bigsetof}[1]{ \big\{ #1 \big\} } 
+\newcommand{\setof}[1]{ \{ #1 \} }
+\newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
 \newcommand{\suchthat}{\mid}
 \newcommand{\union}{\cup}
+
+\newcommand{\nelem}[1]{ \mathbf{ #1 } }
 
 \begin{document}
 
@@ -100,6 +104,7 @@ the abstract (``nonsense'').
 Looking at \textbf{Universal Properties} through example problems.
 
 \subsection{Adding an element to a set}
+\label{add-element-set}
 
 Given a set $S$, consider
 
@@ -324,9 +329,110 @@ $$
     Solve for the initial.
 \end{exercise}
 
-\section{Lecture 2 (October 10): More universal problems}
+\section{Lecture 2 (October 10): More on universal problems}
 \vspace*{-5mm}\hspace*{7.75mm}
-  \ldots
+M Fiore, A Ivašković, O Richardson 
 \bigskip
+
+Now we will focus on the exercises from Lecture 1 and aim to motivate some of
+the choices and provide some sort of intuition. Recall that there is no general
+method for finding universal initial and final solutions.
+
+\subsection{Adding two sets}
+
+Given two sets $A$ and $B$, we wish to find the universal initial solution:
+$$
+\begin{tikzcd}
+    {} & S \arrow[dd, dashed, "\exists! u"] & {} \\
+    A \arrow[ru, "\alpha"] \arrow[rd, swap, "f"]
+    & {}
+    &
+    B \arrow[lu, swap, "\beta"] \arrow[ld, "g"]
+    \\
+    {} & C & {}
+\end{tikzcd}
+$$
+for all valid choices of $C$, $f$, $g$.
+
+When dealing with a problem we do not know immediately how to solve, it might be
+useful to somehow `simplify' it in order to get some insight. -- but not so much
+that we lose all structural information.
+
+Consider a special instance of this problem, where $B$ is a singleton set
+$\setof{\ast}$:
+$$
+\begin{tikzcd}
+    {} & S & {} \\
+    A \arrow[ru]
+    & {}
+    &
+    \setof{\ast} \arrow[lu]
+\end{tikzcd}
+$$
+
+But $\setof{\ast} \to S$ is mapping $\ast$ to some element in $S$, and overall
+this represents the problem of adding an element to $A$
+(subsection~\ref{add-element-set}). So now we are dealing with:
+$$
+\begin{tikzcd}
+    {} & S \arrow[dd, dashed, "\exists!"] & {} \\
+    A \arrow[ru] \arrow[rd]
+    & {}
+    &
+    \setof{\ast} \arrow[lu] \arrow[ld]
+    \\
+    {} & C & {}
+\end{tikzcd}
+$$
+Here $S$ has to preserve the structure of $A$ and be augmented with an
+additional element in some way. The elements of $A$ have to be mapped to
+something that $\ast$ is not mapped to by $\setof{\ast} \to S$. This is
+the following map: $a \mapsto [a]$ for $a \in A$. Compare this to the previous
+problem, where we considered $A \to A_\ast = \setof{\ast} \union \setof{[x]
+\suchthat x \in A}$.
+
+Taking this `tagging' idea further and generalising, we may consider the set:
+$$
+A \uplus B = \setof{(0, a) \suchthat a \in A} \union
+\setof{(1, b) \suchthat b \in B}
+$$
+We claim that $S$ should be $A \uplus B$, and that $\alpha: a \mapsto (0, a)$,
+$\beta: b \mapsto (1, b)$ should be the maps for the initial solution.
+
+\begin{exercise}
+Show that this is indeed an initial solution.
+\end{exercise}
+
+\subsection{The dual problem}
+
+We were interested in the final solution for the dual problem:
+$$
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} & C \arrow[uu, dashed, "\exists!"] \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
+\end{tikzcd}
+$$
+
+This is a more involved problem than adding two sets, and simplifications might
+not immediately reveal or give insight about what needs to be done.
+
+For example, consider $B = \setof{\ast} = \nelem{1}$ and then the problem
+becomes:\footnote{\textbf{Notation.} $\nelem{1}$ is a one element set.}
+$$
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    \nelem{1}
+    \\
+    {} & C \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
+\end{tikzcd}
+$$
 
 \end{document}
