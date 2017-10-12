@@ -13,7 +13,7 @@
 % package) so that we're not all working on a single monolithic document that
 % takes a long time to compile.
 
-\documentclass[a4paper, 12pt, oneside]{book}
+\documentclass[a4paper, 11pt, oneside]{book}
 
 \usepackage{a4wide}
 \usepackage{nth}
@@ -120,7 +120,7 @@
 
 \begin{document}
 
-\begin{center} {\huge \sc
+\begin{center} {\LARGE \sc
 Category Theory, Type Theory, and Logic\\
   Lecture Notes\\[4mm]}
   \Large Marcelo Fiore
@@ -211,7 +211,7 @@ appropriate $S \overset{f}{\rightarrow} T \ni t$ such that
   h \circ f = f'
 \end{equation*}
 
-We now diagram our solution:
+We present our solution:
 \begin{center}
     \begin{tikzcd}
         S \arrow[r, "\iota"]
@@ -244,17 +244,17 @@ Define $h$, for $z\in S_\ast$, as
 \end{equation*}
 
 For universality we must also prove that this is a unique solution.
-Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$, and 
+Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and 
 $k(\ast) = t$. Then, we are required to prove (RTP):
 $k(z) = h(z)\ \forall z \in S_\ast$.
 
 \subsubsection*{Final solution}
 
 There is a second kind of universal property, callled a final solution: any
-other solution admits a map to the final one, again examining the case of adding
-an element to a set, our criteria now is inverted. As we are looking for a final
-solution, any $U\ni u$ must admit a map to our solution $T\ni t$, as shown 
-below.
+other solution admits a unique map to the final one, again examining the case
+of adding an element to a set, our criteria now is inverted. As we are looking
+for a final solution, any $U\ni u$ must admit a unique map to our solution
+$T\ni t$, as shown below.
 \begin{center}
     \begin{tikzcd}
         S \arrow[r, "f"]
@@ -298,8 +298,8 @@ Given $A$ and $B$ sets.
     \end{tikzcd}
 \end{align*}
 
-That is, such that (1) $h\ :\ C_1 \rightarrow C_2$ and (2) it 
-commutes~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
 
 \begin{exercise}
     Find the initial solution. \label{ex:addsets}
@@ -308,8 +308,8 @@ commutes~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
 \subsection{Duality}
 
 When you have a problem in ``one direction'' you can turn it around and get a
-problem in ``the other direction''. This involves flipping the directions of the
-arrows in the commutative diagrams and inverting certain properties.
+problem in ``the other direction''. This involves flipping the directions of
+the arrows in the commutative diagrams.
 
 \subsubsection*{Example: Dual form of adding two sets}
 
@@ -328,8 +328,8 @@ Given two sets $A$ and $B$.
 
 
 
-That is, such that (1)~$h\ :\ C_1 \rightarrow C_2$ and (2)~it 
-commutes~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
 
 \begin{exercise}
     Find the final solution. \label{ex:dual}
@@ -455,12 +455,12 @@ additional element in some way. The image of elements of $A$ in $S$ have to be
 distinct from the image of $\ast$, since otherwise there would not be a unique
 way of representing the two in $C$. This is a map $a \mapsto [a]$ for $a \in A$.
 Compare this to the previous problem, where we considered
-$A \to A_\ast = \setof{\ast} \union \setof{[x] \suchthat x \in A}$.
+$A \to A_\ast = \setof{\ast} \union \bigsetof{[x] \suchthat x \in A}$.
 
 Taking this `tagging' idea further and generalising, we may consider the set:
 \begin{equation*}
-A \uplus B = \setof{(0, a) \suchthat a \in A} \union
-\setof{(1, b) \suchthat b \in B}
+A \uplus B = \bigsetof{(0, a) \suchthat a \in A} \union
+\bigsetof{(1, b) \suchthat b \in B}
 \end{equation*}
 
 We claim that $S$ should be $A \uplus B$, and that $\alpha: a \mapsto (0, a)$,
@@ -529,7 +529,7 @@ $$
 
 In general let's say $S$ is of the form $A \circledast B$ for some
 construction $\circledast$, where for $B = \nelem{1}$ we can take 
-$A \circledast B$ to be $A$ \ie~the structure matches that of of $A$.
+$A \circledast B$ to be $A$ (\ie~the structure matches that of of $A$).
 
 What if $B = \emptyset$?
 $$
@@ -567,7 +567,7 @@ operation.
 
 \item $S \to S^\ast$, where $S^\ast$ is the set of all strings/words on $S$.
 This is a monoid if the neutral element is $\epsilon$ (the empty word) and the
-operation is string concatenation $\cdot$.
+operation is string concatenation $\cdot$\,.
 
 \item For $n \in \nats$ define $S_n$ in the following way:
 \[
@@ -599,7 +599,7 @@ now we can still prove that two initial solutions of the kind we've been
 dealing with are isomorphic, \ie~that they are in structural bijective
 correspondence.
 
-Given two initial solutions $M$ and $Y$, diagrammatically:
+Given two initial solutions $M$~(Mine) and $Y$~(Yours), diagrammatically:
 $$
 \begin{tikzcd}
     S \arrow[r, "m"] \arrow[rd, swap, "y"]
@@ -635,8 +635,8 @@ $$
 From this we conclude that \textit{any two initial solutions are isormorphic}:
 $$
 \begin{tikzcd}
-    M \arrow[r, bend left = 20] \arrow[loop left, "\id{M}"] & 
-    Y \arrow[l, bend left = 20] \arrow[loop right, "\id{Y}"]
+    M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] & 
+    Y \arrow[l, bend left = 20, "v"] \arrow[loop right, "\id{Y}"]
 \end{tikzcd}
 $$
 
@@ -648,8 +648,9 @@ underlying implementation (it doesn't matter whether we're dealing with
 strings, lists, \etc).
 
 \begin{exercise}
-From a set $S$ generate a \textit{commutative} monoid $M$ \ie~one that satisfies
-$x \cdot y = y \cdot x$ for all $x, y \in M$ --- find the initial solution.
+From a set $S$ generate a \textit{commutative} monoid $M$, \ie~one that
+satisfies $x \cdot y = y \cdot x$ for all $x, y \in M$ --- find the initial
+solution.
 \end{exercise}
 
 \begin{exercise}
@@ -678,10 +679,10 @@ There is standard terminology for binary relations subject to such axioms.
 
 \begin{definition} Partial orders and preorders
 \begin{itemize}[noitemsep,topsep=0pt]
-\item $(P, \leq)$ is a \emph{preorder}, or \emph{quasiorder}, if $\leq$ is
+\item $(P, \leq)$ is a \emph{preorder} (or \emph{quasiorder}) if $\leq$ is
 reflexive and transitive
-\item $(P, \leq)$ is a \emph{partial order} if is a preorder (reflexive and
-transitive) and $\leq$ is also antisymmetric
+\item $(P, \leq)$ is a \emph{partial order} if is a preorder ($\leq$ is
+  reflexive and transitive) and $\leq$ is also antisymmetric
 \end{itemize}
 \end{definition}
 
@@ -691,49 +692,62 @@ idempotent binary operation $\lor$, typically referred to as \emph{join} (or
 \emph{sup}), that satisfies $x \leq y \iff x \vee y = x$ is a \emph{join (or
 sup) semilattice}.
 
-(It may also have a least (bottom) element $\bot \in L$ satisfying
+(It may also have a least (or bottom) element $\bot \in L$ satisfying
 $\forall x \in L,~\bot\lor x = \bot$.)
 \end{definition}
 
 \subsection{Exercises}
 
 We can now consider the problem of generating a join semilattice.  For a set
-$S$, we want to freely construct a join semilatice as follows:
+$S$, we want to freely construct a join 
+semilatice~$(\widetilde S,\vee_{\widetilde S})$ as follows:
 % Create an example environment?
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f_2"] \& 
+        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
         \tilde{S}
-        \arrow[d, "\exists ! h"] 
-        \& (\tilde{S},\lor_{\tilde{S}}) 
-        \arrow[d, "\text{$h$ a homomorphism}"] 
+        \arrow[d, "\exists ! f^\#"] 
+        \& (\widetilde{S},\lor_{\widetilde{S}}) 
+        \arrow[d, "\text{$f^\#$ a homomorphism}"] 
         \& \text{a universal initial join semilatice}
         \\
         {}  
         \& L \& (L,\lor_L) \& \text{any join semilatice}
     \end{tikzcd}\\[2mm]
-    \text{where $h$ must preserve structure, \ie~$h(x\lor_{\tilde{S}} y) = h(x)
-    \lor_L h(y)$}
+    \text{where $h$ must preserve structure, 
+      \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
 \end{center}
 The exercise is to find the initial solution here, but we will start with some
 intuition. The join semilatice generated from $S$ must contain each element
-$x\in S$. Similarly, for any two, three, or more generally any finite numbers
-of distinct elements of $S$, it must contain the join or union of all of them.
-Since the operator is commutative, the order doesn't matter, and since it's
-idempotent, only one copy of each element of $S$ can exist. The picture looks
-something like this:
+$x\in S$. Similarly, for any two, three, or, more generally, any finite
+number of distinct elements of $S$, it must contain the join or union of all
+of them.  Since the operator is commutative, the order doesn't matter, and
+since it's idempotent, only one copy of each element of $S$ can exist. The
+picture looks something like this:
 \begin{align*}
-x  &\qquad\leftrightarrow\qquad \setof{x} \subseteq S \\
-x \lor y &\qquad\leftrightarrow\qquad \setof{x,y} \subseteq S \\
-x \lor y \lor z &\qquad\leftrightarrow\qquad \setof {x,y,z} \subseteq S \\
- &\enspace\qquad\,\vdots \\
-x_1 \lor \cdots \lor x_n &\qquad\leftrightarrow\qquad \setof{x_1, \ldots, x_n}
+& 
+&
+x  & \quad\leftrightarrow\quad \setof{x} \subseteq S 
+\\
+& x\not= y 
+& x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S 
+\\
+& x\not= y \not= z \not= x 
+&
+x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S 
+\\
+& & 
+& \,\enspace\quad\vdots &
+\\
+&
+x_i \not= x_j\ \forall i,j
+& x_1 \lor \cdots \lor x_n & \quad\leftrightarrow\quad \setof{x_1, \ldots, x_n}
 \subseteq S
 \end{align*}
 
-Thus, we might guess that the universal initial solution $\tilde{S}$ is the
-collection of finite subsets of $S$:
-$\mathcal{P}_{\mathrm{fin}}(S) = \setof{X \suchthat
+Thus, we might guess that the universal initial solution $\widetilde{S}$ is
+the collection of finite subsets of $S$: $\mathcal{P}_{\mathrm{fin}}(S) =
+\setof{X \suchthat
 X \subseteq_\mathrm{fin} S}$, with the join operator $X \lor Y = X \cup Y$.
 This is close, but not entirely correct.
 
