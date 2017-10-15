@@ -890,19 +890,30 @@
     
         \begin{center}
             \begin{tikzcd}[ampersand replacement=\&]
-                S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
-                \tilde{S}
-                \arrow[d, "\exists ! f^\#"] 
-                \& (\widetilde{S},\lor_{\widetilde{S}}) 
-                \arrow[d, "\text{$f^\#$ a homomorphism}"] 
-                \& \text{a universal initial join semilatice}
+                S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
+                \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"] 
+                \& (\mathcal{P}_{\mathrm{fin}}(S), \cup) 
+                \arrow[d, "\text{$h$homomorphism}"] 
+                \&
                 \\
                 {}  
-                \& L \& (L,\lor_L) \& \text{any join semilatice}
+                \& L \& (L, \vee) \& 
             \end{tikzcd}\\[2mm]
-            \text{where $h$ must preserve structure, 
-              \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
         \end{center}
+        Since this diagram commutes
+        \begin{align*}
+            h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n) \\
+            \intertext{Since:}
+            \{x_1, x_2 ..., x_n \} = \bigcup_i \{x_i\}
+            \intertext{And:}
+            h\big(\bigcup_i \{x_i\}\big) = \bigvee_i h(\{x_i\})
+            \intertext{We get that:}
+            f(x_i) = h(\{x_i\})
+        \end{align*}
+
+        Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be $\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
+
+
     
     \end{section}
     \end{document}
