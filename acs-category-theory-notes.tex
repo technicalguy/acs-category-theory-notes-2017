@@ -128,7 +128,9 @@ Category Theory, Type Theory, and Logic\\
 Dhruv Makwana\\ 
 Shaun Steenkamp\\
 Andrej Ivašković\\
-Oliver Richardson
+Oliver Richardson\\
+Razvan Kusztos\\
+Sebastian Borgeaud\\
 \end{multicols}
 \clearpage
 
@@ -763,15 +765,15 @@ derive more interesting such universal properties.
 We begin by further analysing the definitions of joins and meets.
 
 \begin{section}{Joins and Meets}
-Consider $(P \leq)$ to be a preorder. For any subset $S \subset P$ we can define 
+Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can define 
 $\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or \emph{lub} 
 (least upper bound) of the subset $S$, as well as $\bigwedge S$, the meet of the subset $S$.
 \begin{definition}\label{defjoins}{Joins.} 
-    For a subset $S \subset P$, if it exists, $\bigvee S \in P$ is the join of S if
+    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of S if
     it satisfies the universal properties:
         \begin{enumerate}
             \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
-            \item $\forall u \in P$ such that $(\forall x \in S, x \leq u) \Rightarrow \bigvee S \leq u$
+            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u) \Rightarrow \bigvee S \leq u$
         \end{enumerate}
 \end{definition}
 
@@ -779,11 +781,11 @@ The concept of a meet is dual to that of a join, so the definition is obtained
 by reversing the comparison operators.
 
 \begin{definition}\label{defmeets}{Meets.}
-    For a subset $S \subset P$, if it exists, $\bigwedge S \in P$ is the meet of S if 
+    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet of S if 
     it satisfies the universal properties:
         \begin{enumerate} 
             \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
-            \item $\forall l \in P$ such that $(\forall x \in S, l \leq x)$, $ \Rightarrow l \leq \bigwedge S$    
+            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, $ \Rightarrow l \leq \bigwedge S$    
         \end{enumerate}
 \end{definition}
 For a better understanding of these universal properties, we can consider some 
@@ -793,7 +795,7 @@ special cases:
         and, analogously $\bigwedge S = a \wedge b$
     \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
         join exist, s.t. $\bigvee S = \bigwedge S = a$
-    \item $S = \emptyset$. Considering the definition of joins \ref{defjoins},
+    \item $S = \emptyset$. Considering the definition of joins,
         the first property becomes true due to the inability to pick an $x \in S$. With the same reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee S \leq u$.
         Therefore the solution is $\bigvee S = \bot$, the bottom element in P.
         Analogously, $\bigwedge S = \top$, the top element of P.
@@ -804,7 +806,7 @@ examples by analysing them categorically.
 
 For $S = \{a, b\}$, we can write the universal property as a commutative diagram 
 
-\begin{align*}
+\begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         {} \& a \vee b \arrow[dd, dashed, "\exists ! "] \& {} \\
         a \arrow[ru, "\leq"] \arrow[rd, swap]
@@ -814,12 +816,12 @@ For $S = \{a, b\}$, we can write the universal property as a commutative diagram
         \\
         {} \& c \& {}
     \end{tikzcd}
-\end{align*}
+\end{center}
 
 If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram in
 in the set and function world, obtaining the properties of the disjoint union of sets.
 
-\begin{align*}
+\begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         {} \& A \uplus B \arrow[dd, dashed, "\exists ! "] \& {} \\
         A \arrow[ru] \arrow[rd, swap]
@@ -829,25 +831,26 @@ in the set and function world, obtaining the properties of the disjoint union of
         \\
         {} \& C \& {}
     \end{tikzcd}
-\end{align*}
+\end{center}
 
 Since we picked an arbitrary subset of P, we can apply this reasonining to
 the world of function, by introducting an universal initial solution for 
 the sum of families problem.
 
-\begin{definition} A family of sets indexed by a finite set of indeces I   
-to be the set of sets $\{ A_i \suchthat i \in I \}$
+\subsection{Families of sets}
+\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces $i \in I$ is the set of sets given by $\{ A_i \suchthat i \in I \}$
 \end{definition}
 For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
-\begin{align*}
+\begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
         A_k \arrow[ru, "in_k"] \arrow[rd, swap, "f_k"]
         \& {}
         \\
         {} \& C \& {}
-    \end{tikzcd}
-\end{align*}
+    \end{tikzcd} \\[3mm]
+    \text{for arbitrary $f_k$ and $C$}
+\end{center}
 
 An example initial solution is given by:
 \[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
@@ -876,21 +879,22 @@ unique in the corresponding diagrams.
 
 \begin{exercise}
     Construct the bijections from the universal properties. \\
-    Hint: For the first property: 
+    Hint: For the first property, recall that
     \begin{align*}
         A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
     \end{align*}
-    we can find the bijections: 
+    Thus we can define the bijections: 
     \begin{align*}
-        (0, a) &\rightarrow (1, a)  \\ 
-        (1, b) &\rightarrow (0, b)  
+        (0, a) &\mapsto (1, a)  \\ 
+        (1, b) &\mapsto (0, b)  
     \end{align*}
 \end{exercise}
 
-Solution for Exercise \ref{ex:bug}
+\subsection{Solution for Exercise \ref{ex:bug}}
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
+<<<<<<< HEAD
         S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
         \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"] 
         \& (\mathcal{P}_{\mathrm{fin}}(S), \cup) 
@@ -901,6 +905,22 @@ Solution for Exercise \ref{ex:bug}
         \& L \& (L, \vee) \& 
     \end{tikzcd}\\[2mm]
 \end{center}
+=======
+        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
+        \tilde{S}
+        \arrow[d, "\exists ! f^\#"] 
+        \& (\widetilde{S},\lor_{\widetilde{S}}) 
+        \arrow[d, "\text{$f^\#$ a homomorphism}"] 
+        \& \text{a universal initial join semilatice}
+        \\
+        {}  
+        \& L \& (L,\lor_L) \& \text{any join semilatice}
+    \end{tikzcd}\\[2mm]
+    \text{where $h$ must preserve structure, 
+      \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
+\end{center}
+
+>>>>>>> ad6c2e99e9e1714979c2e6b47da037ffb0a5e874
 Since this diagram commutes
 \begin{align*}
     h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n) \\
