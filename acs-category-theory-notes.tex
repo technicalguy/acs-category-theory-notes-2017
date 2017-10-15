@@ -765,15 +765,18 @@ derive more interesting such universal properties.
 We begin by further analysing the definitions of joins and meets.
 
 \begin{section}{Joins and Meets}
-Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can define 
-$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or \emph{lub} 
-(least upper bound) of the subset $S$, as well as $\bigwedge S$, the meet of the subset $S$.
+Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can 
+define$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or 
+\emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$, 
+the meet of the subset $S$.
+
 \begin{definition}\label{defjoins}{Joins.} 
-    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of S if
-    it satisfies the universal properties:
+    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of 
+    S if it satisfies the universal properties:
         \begin{enumerate}
             \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
-            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u) \Rightarrow \bigvee S \leq u$
+            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u) 
+                \Rightarrow \bigvee S \leq u$
         \end{enumerate}
 \end{definition}
 
@@ -781,11 +784,12 @@ The concept of a meet is dual to that of a join, so the definition is obtained
 by reversing the comparison operators.
 
 \begin{definition}\label{defmeets}{Meets.}
-    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet of S if 
-    it satisfies the universal properties:
+    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet 
+    of S if it satisfies the universal properties:
         \begin{enumerate} 
             \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
-            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, $ \Rightarrow l \leq \bigwedge S$    
+            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, 
+                $ \Rightarrow l \leq \bigwedge S$    
         \end{enumerate}
 \end{definition}
 For a better understanding of these universal properties, we can consider some 
@@ -796,9 +800,11 @@ special cases:
     \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
         join exist, s.t. $\bigvee S = \bigwedge S = a$
     \item $S = \emptyset$. Considering the definition of joins,
-        the first property becomes true due to the inability to pick an $x \in S$. With the same reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee S \leq u$.
-        Therefore the solution is $\bigvee S = \bot$, the bottom element in P.
-        Analogously, $\bigwedge S = \top$, the top element of P.
+        the first property becomes true due to the inability to pick an $x \in S$. 
+        With the same reasoning, the second property reduces to $\forall u \in P 
+        \Rightarrow \bigvee S \leq u$. Therefore the solution is $\bigvee S = \bot$, 
+        the bottom element in P. Analogously, $\bigwedge S = \top$, the top element 
+        of P.
 \end{itemize} 
 
 We can relate the case where S has two elements, $S = \{a, b\}$ to previous
@@ -818,8 +824,9 @@ For $S = \{a, b\}$, we can write the universal property as a commutative diagram
     \end{tikzcd}
 \end{center}
 
-If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram in
-in the set and function world, obtaining the properties of the disjoint union of sets.
+If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram 
+in the set and function world, obtaining the properties of the disjoint union of 
+sets.
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -838,7 +845,8 @@ the world of function, by introducting an universal initial solution for
 the sum of families problem.
 
 \subsection{Families of sets}
-\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces $i \in I$ is the set of sets given by $\{ A_i \suchthat i \in I \}$
+\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces 
+    $i \in I$ is the set of sets given by $\{ A_i \suchthat i \in I \}$
 \end{definition}
 For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
 \begin{center}
@@ -915,11 +923,14 @@ Since this diagram commutes
     f(x_i) = h(\{x_i\})
 \end{align*}
 
-Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be $\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
+Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be 
+$\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
 
 \section{Suplattice}
 \begin{definition}
-A suplattice is a poset $(L, \le)$ with the additional property that $\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every subset $S \subseteq L$.
+A suplattice is a poset $(L, \le)$ with the additional property that 
+$\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every 
+subset $S \subseteq L$.
 \end{definition}
 
 Note, that as $\emptyset \subseteq L$, a suplattice always has a least element.
@@ -944,7 +955,8 @@ Consider the following problem,
 \end{center}
 
 \begin{exercise}
-	Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial solution.
+    Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial 
+    solution.
 \end{exercise}
 
 \section{Two more problems on sets}
@@ -957,7 +969,8 @@ For $S$ a set, consider
     \end{tikzcd} \\[3mm]
 \end{center}
 
-How can we compare two such gadgets $(s_1, S_1, \sigma_1)$ and $(s_2, S_2, \sigma_2)$? We need a function $f: S_1 \to S_2$ such that
+How can we compare two such gadgets $(s_1, S_1, \sigma_1)$ and $(s_2, S_2, \sigma_2)$?
+We need a function $f: S_1 \to S_2$ such that
 \begin{enumerate}
 	\item $f(s_1) = s_2$
 	\item $\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))$
@@ -980,13 +993,14 @@ Which is the following condition, but represented as a diagram
 
 \subsubsection{Similarity to the problem on monoids}
 Note that this problem is not too different from problem \ref{section_generate_monoid} 
-for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral element 
-$e \in M$ and a binary operation $\star: M \to M$. The criteria are functions 
-$h: M_1 \to M_2$ such that
+for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral 
+element $e \in M$ and a binary operation $\star: M \to M$. The criteria are 
+functions $h: M_1 \to M_2$ such that
     \[ h(e_1) = e_2 \]
 and 
     \[ h(x \star_1 y) = h(x) \star_2 h(y) \]
-Rewriting the second condition in a diagram, the connection between the two problems arises:
+Rewriting the second condition in a diagram, the connection between the two 
+problems arises:
 \begin{center}
 	\begin{tikzcd}[ampersand replacement=\&]
         M_1 \times M_1 \arrow[r, "h \times h"] \arrow [d, "\star_1"] \&
@@ -1017,12 +1031,15 @@ This structure suggests a connection to the natural numbers $\nats$.
 	        \nats \&
 	    \end{tikzcd} \\[3mm]
 	\end{center} 
-	is the initial solution. That is the natural numbers with 0 and the successor function, \ie $(0, \nats, \textrm{succ})$, where $\textrm{succ}(x) = x + 1$.
+    is the initial solution. That is the natural numbers with 0 and the successor 
+    function, \ie $(0, \nats, \textrm{succ})$, where $\textrm{succ}(x) = x + 1$.
 \end{exercise}
 
 
 \subsubsection{Relation to automata theory}
-This problem can be seen from an automata point of view, $s$ being the start state and $\sigma$ the transition function. Due to time constraints, we will not be exploring this relation further in this course.
+This problem can be seen from an automata point of view, $s$ being the start 
+state and $\sigma$ the transition function. Due to time constraints, we will not 
+be exploring this relation further in this course.
 
 \subsection{Problem 2}
 Consider the following gadget for $S$ a set
@@ -1035,7 +1052,8 @@ Consider the following gadget for $S$ a set
         S
     \end{tikzcd} \\[3mm]
 \end{center} 
-We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$ with the function $h: S_1 \to S_2$ such that
+We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$ 
+with the function $h: S_1 \to S_2$ such that
 \begin{enumerate}
 	\item $\theta_2 \circ h = \theta_1$
 	\item $\sigma_2 \circ h = \sigma_1$
@@ -1060,10 +1078,15 @@ Diagrammatically, this is equivalent to
 \end{center} 
 
 \subsubsection{Relation to automata theory}
-Again, we can view this problem from an automata point of view. As before, $S$ is the set of states and $\sigma$ is the transition function. Additionally, we have $\theta$ which acts as an observing function that rejects a state $s \in S$ if $\theta(s) = 1$ and rejects it otherwise.
+Again, we can view this problem from an automata point of view. As before, $S$ 
+is the set of states and $\sigma$ is the transition function. Additionally, we 
+have $\theta$ which acts as an observing function that rejects a state $s \in S$ 
+if $\theta(s) = 1$ and rejects it otherwise.
+
 The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$. 
 \begin{exercise}
-	Find the final solution. Intuition: we need to find a set $S$ with the following structure:
+    Find the final solution. Intuition: we need to find a set $S$ with the 
+    following structure:
 	\begin{center}
 	    \begin{tikzcd}[ampersand replacement=\&]
 	    	\&
@@ -1072,10 +1095,15 @@ The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 	    	0/1 \&
 	    	\dots \&
 	    	\\
-	    	s \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
-	    	\sigma(s) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
-			\sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
-			\sigma(\sigma(\sigma(s))) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
+            s \in S \arrow[ur, mapsto, "\theta"] 
+                    \arrow[r, mapsto, "\sigma"]\&
+            \sigma(s) \in S \arrow[ur, mapsto, "\theta"] 
+                            \arrow[r, mapsto, "\sigma"]\&
+            \sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"] 
+                                     \arrow[r, mapsto, "\sigma"]\&
+            \sigma(\sigma(\sigma(s))) \in S 
+                                    \arrow[ur, mapsto, "\theta"] 
+                                    \arrow[r, mapsto, "\sigma"]\&
 			\dots \&
 	    \end{tikzcd}
 	\end{center}
