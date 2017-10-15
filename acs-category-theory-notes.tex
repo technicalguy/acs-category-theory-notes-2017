@@ -14,7 +14,7 @@
 % takes a long time to compile.
 
 \documentclass[a4paper, 11pt, oneside]{book}
-    
+
 \usepackage{a4wide}
 \usepackage{nth}
 \usepackage{amsthm,amsmath}
@@ -29,7 +29,7 @@
 
 \usepackage[utf8]{inputenc}
 
-% Don't put formatting in the Title; this will show up in other places once 
+% Don't put formatting in the Title; this will show up in other places once
 % we add headers. Instead, do the formatting manually
 
 \title{ACS L108 Lecture Notes: Category Theory, Type Theory, and Logic}
@@ -41,7 +41,7 @@
     \vspace*{-10mm}\hspace*{7.75mm}
     \parbox{0.7\textwidth} {
         #2\\
-        \textit{#1} 
+        \textit{#1}
     }
     \vspace{10mm}
 }
@@ -125,7 +125,7 @@ Category Theory, Type Theory, and Logic\\
 
 
 \begin{multicols}{3}[\section*{Contributors}]
-Dhruv Makwana\\ 
+Dhruv Makwana\\
 Shaun Steenkamp\\
 Andrej Ivašković\\
 Oliver Richardson\\
@@ -147,7 +147,7 @@ Introduction to Category Theory with applications to Logic and Type Theory.
 
 The approach is to find an understanding somewhere between the concrete
 (examples) and the abstract (``nonsense''). The heart of category theory are
-universal properties, `initial' and `final'. 
+universal properties, `initial' and `final'.
 Rather than giving a definition of a category straight away, we will first
 explore \emph{Universal Properties} through example problems; this will
 constitute the first few lectures.
@@ -163,7 +163,7 @@ Given a set $S$, consider
 
 \begin{align*}
     \textbf{data:}&\qquad S \overset{f}{\rightarrow} S^\prime \ni x \\
-    \textbf{criteria:}& \qquad 
+    \textbf{criteria:}& \qquad
     \begin{tikzcd}[ampersand replacement=\&]
         S \arrow[r, "f_1"]
           \arrow[dr, swap, "f_2"]
@@ -175,7 +175,7 @@ Given a set $S$, consider
     \end{tikzcd}
 \end{align*}
 
-The function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and 
+The function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and
 $\forall x \in S .\; h(f_1(x)) = f_2(x)$.
 
 \begin{framed}
@@ -187,7 +187,7 @@ $h\comp f_1 = f_2$
 \quad or \quad
 $h\icomp f_1 = f_2$
 \end{center}
-where 
+where
 $$
 \begin{tikzcd}
     A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
@@ -204,7 +204,7 @@ element to a set, the problem can be specified in terms of finding an
 appropriate $S \overset{f}{\rightarrow} T \ni t$ such that
 
 \begin{equation*}
-  \forall S \overset{f'}{\rightarrow} S' \ni x \ .\ 
+  \forall S \overset{f'}{\rightarrow} S' \ni x \ .\
   \exists!\ h : T \rightarrow S' \text{ such that }
   h(t) = x \text{ and }
   h \circ f = f'
@@ -215,8 +215,8 @@ We present our solution:
     \begin{tikzcd}
         S \arrow[r, "\iota"]
           \arrow[dr, swap, "f"]
-          & 
-        S_{\ast} 
+          &
+        S_{\ast}
         \arrow[d, "h"]
         & \ni & \ast
         \arrow[d, mapsto]
@@ -227,9 +227,9 @@ We present our solution:
     \end{tikzcd}
 \end{center}
 
-where $S_\ast$ is defined as 
+where $S_\ast$ is defined as
 $\setof{ \ast } \union \bigsetof{ \lbrack x\rbrack \suchthat x \in S }$
-and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.  
+and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.
 %
 (The set $S_\ast$ is an \emph{implementation} of the disjoint union of
 $\setof{*}$ and $S$; the square brackets tag the elements from $S$.)
@@ -238,12 +238,12 @@ Define $h$, for $z\in S_\ast$, as
 \begin{equation*}
     h(z) = \begin{cases}
         t & \text{if } z = \ast\\
-        f(x) & \text{if } z = \lbrack x \rbrack 
+        f(x) & \text{if } z = \lbrack x \rbrack
     \end{cases}
 \end{equation*}
 
 For universality we must also prove that this is a unique solution.
-Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and 
+Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and
 $k(\ast) = t$. Then, we are required to prove (RTP):
 $k(z) = h(z)\ \forall z \in S_\ast$.
 
@@ -258,12 +258,12 @@ $T\ni t$, as shown below.
     \begin{tikzcd}
         S \arrow[r, "f"]
           \arrow[dr, swap, "\forall g"]
-          & 
+          &
         T & \ni & t
           \\
         {}
           &
-          U 
+          U
           \arrow[u, swap, "\exists! h"]
           & \ni & u
           \arrow[u, swap, mapsto]
@@ -347,10 +347,10 @@ A \emph{monoid} is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a
 neutral element, and $\ast$ is a binary operation on $M$; where $e$ and $\ast$
 obey:
 \begin{align*}
-    & \forall x \in M\ .\ 
+    & \forall x \in M\ .\
     e \ast x = x \text{ and } x \ast e = x && \text{(neutral
     element)} \\
-    & \forall x,y,z \in M\ .\ 
+    & \forall x,y,z \in M\ .\
     (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
 \end{align*}
 
@@ -370,14 +370,14 @@ been using, we can present it as follows:
     \textbf{data:}\qquad& S \overset{f_1}{\longrightarrow}M
     \qquad \text{$(M,e,\ast)$ a monoid}\\
     \textbf{criteria:}\qquad& \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] \& 
-        M_1 
-        \arrow[d, "h"] 
-        \& (M_1,e_1,\ast_1) 
-        \arrow[d, "\text{$h$ an homomorphism}"] 
+        S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] \&
+        M_1
+        \arrow[d, "h"]
+        \& (M_1,e_1,\ast_1)
+        \arrow[d, "\text{$h$ an homomorphism}"]
         \& \text{a monoid}
         \\
-        {}  
+        {}
         \& M_2 \& (M_2,e_2,\ast_2) \& \text{a monoid}
     \end{tikzcd}
 \end{align*}
@@ -492,7 +492,7 @@ different structures for $B$ to gain some intuition.
 
 First, consider $B$ to be a singleton set, $B = \nelem{1}$, where one
 typically writes $\nelem{1}$ for a generic singleton set.  Then the problem
-becomes: 
+becomes:
 \begin{center}
 \begin{tikzcd}
     {} & S \arrow[ld] \arrow[rd] & {} \\
@@ -507,13 +507,13 @@ becomes:
 
 There is only one function $X \to \nelem{1}$ and only one function $S \to
 \nelem{1}$ (they both map everything to the only element of $\nelem 1$), so
-the problem is reduced to: 
+the problem is reduced to:
 \begin{center}
 \begin{tikzcd}
     {} & S \arrow[ld] \\
     A
     & {} \\
-    {} & X \arrow[uu, dashed] \arrow[lu] 
+    {} & X \arrow[uu, dashed] \arrow[lu]
 \end{tikzcd}
 \end{center}
 
@@ -528,7 +528,7 @@ $$
 $$
 
 In general let's say $S$ is of the form $A \circledast B$ for some
-construction $\circledast$, where for $B = \nelem{1}$ we can take 
+construction $\circledast$, where for $B = \nelem{1}$ we can take
 $A \circledast B$ to be $A$ (\ie~the structure matches that of of $A$).
 
 What if $B = \emptyset$?
@@ -575,17 +575,17 @@ S_0 = \bigsetof{ \big(0, ()\big) }
 \]
 and for $n > 0$:
 \[
-S_n 
+S_n
 = \bigsetof{\big(n, (s_1, \ldots, s_n)\big) \suchthat s_1, \ldots, s_n \in S}
 \]
 
 Then $\bigcup_{n\in\nats} S_n$ is a monoid with the operation $\cdot$ defined
-as: 
+as:
 \[
-\big(l, s_1, \ldots, s_l)\big) 
-\cdot 
-\big(k, (s_1^\prime, \ldots, s_k^\prime)\big) 
-= 
+\big(l, s_1, \ldots, s_l)\big)
+\cdot
+\big(k, (s_1^\prime, \ldots, s_k^\prime)\big)
+=
 \big(l + k, (s_1, \ldots, s_l, s_1^\prime, \ldots, s_k^\prime)\big)
 \]
 and with $\big(0, ()\big)$ being the neutral element.
@@ -603,7 +603,7 @@ Given two initial solutions $M$~(Mine) and $Y$~(Yours), diagrammatically:
 $$
 \begin{tikzcd}
     S \arrow[r, "m"] \arrow[rd, swap, "y"]
-    \arrow[rdd, swap, bend right = 20, "m"] & 
+    \arrow[rdd, swap, bend right = 20, "m"] &
     M \arrow[d, dashed, "\exists! u"] \\
     {} & Y \arrow[d, dashed, "\exists! v"] \\
     {} & M
@@ -613,7 +613,7 @@ $$
 Note that we have also:
 $$
 \begin{tikzcd}
-    S \arrow[r, "m"] \arrow[rd, swap, "m"] & 
+    S \arrow[r, "m"] \arrow[rd, swap, "m"] &
     M \arrow[d, dashed, "\exists! \id{M}"] \\
     {} & M
 \end{tikzcd}
@@ -624,7 +624,7 @@ because:
 $$
 \begin{tikzcd}
     S \arrow[r, "y"] \arrow[rd, swap, "m"]
-    \arrow[rdd, swap, bend right = 20, "y"] & 
+    \arrow[rdd, swap, bend right = 20, "y"] &
     Y \arrow[d, dashed, "\exists! v"]
     \arrow[dd, dashed, bend left = 80, "\exists! \id{Y}"] \\
     {} & M \arrow[d, dashed, "\exists! u"] \\
@@ -635,7 +635,7 @@ $$
 From this we conclude that \textit{any two initial solutions are isormorphic}:
 $$
 \begin{tikzcd}
-    M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] & 
+    M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] &
     Y \arrow[l, bend left = 20, "v"] \arrow[loop right, "\id{Y}"]
 \end{tikzcd}
 $$
@@ -699,22 +699,22 @@ $\forall x \in L,~\bot\lor x = \bot$.)
 \subsection{Exercises}
 
 We can now consider the problem of generating a join semilattice.  For a set
-$S$, we want to freely construct a join 
+$S$, we want to freely construct a join
 semilatice~$(\widetilde S,\vee_{\widetilde S})$ as follows:
 % Create an example environment?
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
+        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \&
         \tilde{S}
-        \arrow[d, "\exists ! f^\#"] 
-        \& (\widetilde{S},\lor_{\widetilde{S}}) 
-        \arrow[d, "\text{$f^\#$ a homomorphism}"] 
+        \arrow[d, "\exists ! f^\#"]
+        \& (\widetilde{S},\lor_{\widetilde{S}})
+        \arrow[d, "\text{$f^\#$ a homomorphism}"]
         \& \text{a universal initial join semilatice}
         \\
-        {}  
+        {}
         \& L \& (L,\lor_L) \& \text{any join semilatice}
     \end{tikzcd}\\[2mm]
-    \text{where $h$ must preserve structure, 
+    \text{where $h$ must preserve structure,
       \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
 \end{center}
 The exercise is to find the initial solution here, but we will start with some
@@ -725,18 +725,18 @@ of them.  Since the operator is commutative, the order doesn't matter, and
 since it's idempotent, only one copy of each element of $S$ can exist. The
 picture looks something like this:
 \begin{align*}
-& 
 &
-x  & \quad\leftrightarrow\quad \setof{x} \subseteq S 
-\\
-& x\not= y 
-& x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S 
-\\
-& x\not= y \not= z \not= x 
 &
-x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S 
+x  & \quad\leftrightarrow\quad \setof{x} \subseteq S
 \\
-& & 
+& x\not= y
+& x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S
+\\
+& x\not= y \not= z \not= x
+&
+x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S
+\\
+& &
 & \,\enspace\quad\vdots &
 \\
 &
@@ -753,29 +753,29 @@ This is close, but not entirely correct.
 
 \begin{exercise}
 There is a `bug' in the above proposed solution. Find the actual initial
-solution.\label{ex:bug}  
+solution.\label{ex:bug}
 \end{exercise}
 
 \chapter{Even more universal problems}
 \lecturedetails{October 12}{M Fiore, R Kusztos, S Borgeaud}
 
-In this lecture we introduce more mathematical terminology in order to 
+In this lecture we introduce more mathematical terminology in order to
 derive more interesting such universal properties.
 
 We begin by further analysing the definitions of joins and meets.
 
 \begin{section}{Joins and Meets}
-Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can 
-define$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or 
-\emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$, 
+Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can
+define$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or
+\emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$,
 the meet of the subset $S$.
 
-\begin{definition}\label{defjoins}{Joins.} 
-    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of 
+\begin{definition}\label{defjoins}{Joins.}
+    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of
     S if it satisfies the universal properties:
         \begin{enumerate}
-            \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
-            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u) 
+            \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$
+            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u)
                 \Rightarrow \bigvee S \leq u$
         \end{enumerate}
 \end{definition}
@@ -784,33 +784,33 @@ The concept of a meet is dual to that of a join, so the definition is obtained
 by reversing the comparison operators.
 
 \begin{definition}\label{defmeets}{Meets.}
-    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet 
+    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet
     of S if it satisfies the universal properties:
-        \begin{enumerate} 
+        \begin{enumerate}
             \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
-            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, 
-                $ \Rightarrow l \leq \bigwedge S$    
+            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$,
+                $ \Rightarrow l \leq \bigwedge S$
         \end{enumerate}
 \end{definition}
-For a better understanding of these universal properties, we can consider some 
+For a better understanding of these universal properties, we can consider some
 special cases:
 \begin{itemize}
-    \item $S = \{a, b\}$, we can use the notations $\bigvee S = a \vee b$ 
+    \item $S = \{a, b\}$, we can use the notations $\bigvee S = a \vee b$
         and, analogously $\bigwedge S = a \wedge b$
-    \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
+    \item $S = \{a\}$. In this case, we are guaranteed that the meet and
         join exist, s.t. $\bigvee S = \bigwedge S = a$
     \item $S = \emptyset$. Considering the definition of joins,
-        the first property becomes true due to the inability to pick an $x \in S$. 
-        With the same reasoning, the second property reduces to $\forall u \in P 
-        \Rightarrow \bigvee S \leq u$. Therefore the solution is $\bigvee S = \bot$, 
-        the bottom element in P. Analogously, $\bigwedge S = \top$, the top element 
+        the first property becomes true due to the inability to pick an $x \in S$.
+        With the same reasoning, the second property reduces to $\forall u \in P
+        \Rightarrow \bigvee S \leq u$. Therefore the solution is $\bigvee S = \bot$,
+        the bottom element in P. Analogously, $\bigwedge S = \top$, the top element
         of P.
-\end{itemize} 
+\end{itemize}
 
 We can relate the case where S has two elements, $S = \{a, b\}$ to previous
 examples by analysing them categorically.
 
-For $S = \{a, b\}$, we can write the universal property as a commutative diagram 
+For $S = \{a, b\}$, we can write the universal property as a commutative diagram
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -824,8 +824,8 @@ For $S = \{a, b\}$, we can write the universal property as a commutative diagram
     \end{tikzcd}
 \end{center}
 
-If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram 
-in the set and function world, obtaining the properties of the disjoint union of 
+If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram
+in the set and function world, obtaining the properties of the disjoint union of
 sets.
 
 \begin{center}
@@ -841,11 +841,11 @@ sets.
 \end{center}
 
 Since we picked an arbitrary subset of P, we can apply this reasonining to
-the world of function, by introducting an universal initial solution for 
+the world of function, by introducting an universal initial solution for
 the sum of families problem.
 
 \subsection{Families of sets}
-\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces 
+\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces
     $i \in I$ is the set of sets given by $\{ A_i \suchthat i \in I \}$
 \end{definition}
 For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
@@ -873,13 +873,13 @@ the properties of a poset: $\forall a, b, c \in P \ldotp$
     (a \vee b) \vee c &= a \vee (b \vee c) \\
 \end{align*}
 
-We can rewrite this set of equations in the world of functions, by replacing 
+We can rewrite this set of equations in the world of functions, by replacing
 $\vee$ with $\uplus$ and equality with $\cong$
 
 \begin{align*}
     A \uplus B &\cong B \uplus A  \\
-    A \uplus A &\ncong A \\ 
-    (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\ 
+    A \uplus A &\ncong A \\
+    (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\
 \end{align*}
 
 The second property is particular to posets since the choice of \emph{c} is
@@ -891,10 +891,10 @@ unique in the corresponding diagrams.
     \begin{align*}
         A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
     \end{align*}
-    Thus we can define the bijections: 
+    Thus we can define the bijections:
     \begin{align*}
-        (0, a) &\mapsto (1, a)  \\ 
-        (1, b) &\mapsto (0, b)  
+        (0, a) &\mapsto (1, a)  \\
+        (1, b) &\mapsto (0, b)
     \end{align*}
 \end{exercise}
 
@@ -902,14 +902,14 @@ unique in the corresponding diagrams.
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
-        \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"] 
-        \& (\mathcal{P}_{\mathrm{fin}}(S), \cup) 
-        \arrow[d, "\text{$h$homomorphism}"] 
+        S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \&
+        \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"]
+        \& (\mathcal{P}_{\mathrm{fin}}(S), \cup)
+        \arrow[d, "\text{$h$homomorphism}"]
         \&
         \\
-        {}  
-        \& L \& (L, \vee) \& 
+        {}
+        \& L \& (L, \vee) \&
     \end{tikzcd}\\[2mm]
 \end{center}
 Since this diagram commutes
@@ -923,13 +923,13 @@ Since this diagram commutes
     f(x_i) = h(\{x_i\})
 \end{align*}
 
-Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be 
-$\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
+Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be
+$\mathcal{P}_{\mathrm{fin}}^{+}(S)$
 
 \section{Suplattice}
 \begin{definition}
-A suplattice is a poset $(L, \le)$ with the additional property that 
-$\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every 
+A suplattice is a poset $(L, \le)$ with the additional property that
+$\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every
 subset $S \subseteq L$.
 \end{definition}
 
@@ -938,24 +938,24 @@ Note, that as $\emptyset \subseteq L$, a suplattice always has a least element.
 Consider the following problem,
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "L"] \arrow[dr, swap, "\forall\ f"] \& 
+        S \arrow[r, "L"] \arrow[dr, swap, "\forall\ f"] \&
         \tilde{S} \arrow[d, "\exists ! h"] \&
-        (\tilde{S},\vee_{\tilde{S}}) \arrow[d, "h"] \& 
+        (\tilde{S},\vee_{\tilde{S}}) \arrow[d, "h"] \&
         \text{a suplattice}
         \\
         \&
-        L \& 
-        (L,\vee_L) \& 
+        L \&
+        (L,\vee_L) \&
         \text{a suplattice}
     \end{tikzcd} \\[3mm]
     \text{where $h$ must preserve structure, \ie}
       \[
-      	\forall X \subseteq S\ldotp h(\vee_{\tilde{S}}X) = \vee_L\{h(x) | x \in X\}
+          \forall X \subseteq S\ldotp h(\vee_{\tilde{S}}X) = \vee_L\{h(x) | x \in X\}
       \]
 \end{center}
 
 \begin{exercise}
-    Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial 
+    Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial
     solution.
 \end{exercise}
 
@@ -964,7 +964,7 @@ Consider the following problem,
 For $S$ a set, consider
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        s \in S \arrow[r, "\sigma"] \& 
+        s \in S \arrow[r, "\sigma"] \&
         S \&
     \end{tikzcd} \\[3mm]
 \end{center}
@@ -972,18 +972,18 @@ For $S$ a set, consider
 How can we compare two such gadgets $(s_1, S_1, \sigma_1)$ and $(s_2, S_2, \sigma_2)$?
 We need a function $f: S_1 \to S_2$ such that
 \begin{enumerate}
-	\item $f(s_1) = s_2$
-	\item $\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))$
+    \item $f(s_1) = s_2$
+    \item $\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))$
 \end{enumerate}
 We can express the second condition in the usual diagrammatic notation as
-	\begin{center}
-		\begin{tikzcd}[ampersand replacement=\&]
-	        S_1 \arrow[r, "f"] \arrow [d, "\sigma_1"] \&
-	        S_2 \arrow[d, "\sigma_2"] \&
-	   		\\
-			S_1 \arrow[r, "f"] \&
-			S_2 \&
-	    \end{tikzcd} \\[3mm]
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            S_1 \arrow[r, "f"] \arrow [d, "\sigma_1"] \&
+            S_2 \arrow[d, "\sigma_2"] \&
+               \\
+            S_1 \arrow[r, "f"] \&
+            S_2 \&
+        \end{tikzcd} \\[3mm]
     \end{center}
 Which is the following condition, but represented as a diagram
     \[
@@ -992,25 +992,25 @@ Which is the following condition, but represented as a diagram
     \[ f(s_1) = s_2 \]
 
 \subsubsection{Similarity to the problem on monoids}
-Note that this problem is not too different from problem \ref{section_generate_monoid} 
-for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral 
-element $e \in M$ and a binary operation $\star: M \to M$. The criteria are 
+Note that this problem is not too different from problem \ref{section_generate_monoid}
+for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral
+element $e \in M$ and a binary operation $\star: M \to M$. The criteria are
 functions $h: M_1 \to M_2$ such that
     \[ h(e_1) = e_2 \]
-and 
+and
     \[ h(x \star_1 y) = h(x) \star_2 h(y) \]
-Rewriting the second condition in a diagram, the connection between the two 
+Rewriting the second condition in a diagram, the connection between the two
 problems arises:
 \begin{center}
-	\begin{tikzcd}[ampersand replacement=\&]
+    \begin{tikzcd}[ampersand replacement=\&]
         M_1 \times M_1 \arrow[r, "h \times h"] \arrow [d, "\star_1"] \&
         M_2 \times M_2 \arrow[d, "\star_2"] \&
-   		\\
-		M_1 \arrow[r, "h"] \&
-		S_2 \&
+           \\
+        M_1 \arrow[r, "h"] \&
+        S_2 \&
     \end{tikzcd} \\[3mm]
 \end{center}
-where 
+where
 \[(h \times h)(x,y) = (h(x), h(y))\]
 
 \subsubsection{Intuition}
@@ -1024,41 +1024,41 @@ and similarly, we need to add the following elements
 \[\vdots\]
 This structure suggests a connection to the natural numbers $\nats$.
 \begin{exercise}
-	Show that 
-	\begin{center}
-	    \begin{tikzcd}[ampersand replacement=\&]
-	        0 \in \nats \arrow[r, "\textrm{succ}"] \& 
-	        \nats \&
-	    \end{tikzcd} \\[3mm]
-	\end{center} 
-    is the initial solution. That is the natural numbers with 0 and the successor 
+    Show that
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            0 \in \nats \arrow[r, "\textrm{succ}"] \&
+            \nats \&
+        \end{tikzcd} \\[3mm]
+    \end{center}
+    is the initial solution. That is the natural numbers with 0 and the successor
     function, \ie $(0, \nats, \textrm{succ})$, where $\textrm{succ}(x) = x + 1$.
 \end{exercise}
 
 
 \subsubsection{Relation to automata theory}
-This problem can be seen from an automata point of view, $s$ being the start 
-state and $\sigma$ the transition function. Due to time constraints, we will not 
+This problem can be seen from an automata point of view, $s$ being the start
+state and $\sigma$ the transition function. Due to time constraints, we will not
 be exploring this relation further in this course.
 
 \subsection{Problem 2}
 Consider the following gadget for $S$ a set
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        \& 
+        \&
         \{0,1\} \&
         \\
         S \arrow[ur, "\theta"] \arrow[r, "\sigma"]\&
         S
     \end{tikzcd} \\[3mm]
-\end{center} 
-We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$ 
+\end{center}
+We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$
 with the function $h: S_1 \to S_2$ such that
 \begin{enumerate}
-	\item $\theta_2 \circ h = \theta_1$
-	\item $\sigma_2 \circ h = \sigma_1$
+    \item $\theta_2 \circ h = \theta_1$
+    \item $\sigma_2 \circ h = \sigma_1$
 \end{enumerate}
-Diagrammatically, this is equivalent to 
+Diagrammatically, this is equivalent to
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         \&
@@ -1075,39 +1075,39 @@ Diagrammatically, this is equivalent to
         \&
         S_2 \&
     \end{tikzcd} \\[3mm]
-\end{center} 
+\end{center}
 
 \subsubsection{Relation to automata theory}
-Again, we can view this problem from an automata point of view. As before, $S$ 
-is the set of states and $\sigma$ is the transition function. Additionally, we 
-have $\theta$ which acts as an observing function that rejects a state $s \in S$ 
+Again, we can view this problem from an automata point of view. As before, $S$
+is the set of states and $\sigma$ is the transition function. Additionally, we
+have $\theta$ which acts as an observing function that rejects a state $s \in S$
 if $\theta(s) = 1$ and rejects it otherwise.
 
-The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$. 
+The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 \begin{exercise}
-    Find the final solution. Intuition: we need to find a set $S$ with the 
+    Find the final solution. Intuition: we need to find a set $S$ with the
     following structure:
-	\begin{center}
-	    \begin{tikzcd}[ampersand replacement=\&]
-	    	\&
-	    	0/1 \&
-	    	0/1 \&
-	    	0/1 \&
-	    	\dots \&
-	    	\\
-            s \in S \arrow[ur, mapsto, "\theta"] 
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \&
+            0/1 \&
+            0/1 \&
+            0/1 \&
+            \dots \&
+            \\
+            s \in S \arrow[ur, mapsto, "\theta"]
                     \arrow[r, mapsto, "\sigma"]\&
-            \sigma(s) \in S \arrow[ur, mapsto, "\theta"] 
+            \sigma(s) \in S \arrow[ur, mapsto, "\theta"]
                             \arrow[r, mapsto, "\sigma"]\&
-            \sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"] 
+            \sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"]
                                      \arrow[r, mapsto, "\sigma"]\&
-            \sigma(\sigma(\sigma(s))) \in S 
-                                    \arrow[ur, mapsto, "\theta"] 
+            \sigma(\sigma(\sigma(s))) \in S
+                                    \arrow[ur, mapsto, "\theta"]
                                     \arrow[r, mapsto, "\sigma"]\&
-			\dots \&
-	    \end{tikzcd}
-	\end{center}
+            \dots \&
+        \end{tikzcd}
+    \end{center}
 \end{exercise}
 
 \end{section}
-\end{document}    
+\end{document}
