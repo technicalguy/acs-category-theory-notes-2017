@@ -15,690 +15,880 @@
 
 \documentclass[a4paper, 11pt, oneside]{book}
     
-    \usepackage{a4wide}
-    \usepackage{nth}
-    \usepackage{amsthm,amsmath}
-    \usepackage[charter]{mathdesign} % displays nicely on computer monitors
-    \usepackage{framed}
-    \usepackage{tikz}
-    \usepackage{tikz-cd}
-    \usepackage{microtype}
-    
-    \usepackage{multicol}
-    \usepackage{enumitem}
-    
-    \usepackage[utf8]{inputenc}
-    
-    % Don't put formatting in the Title; this will show up in other places once 
-    % we add headers. Instead, do the formatting manually
-    
-    \title{ACS L108 Lecture Notes: Category Theory, Type Theory, and Logic}
-    \author{Marcelo Fiore}
-    \date{Michaelmas Term 2017--18}
-    
-    %%%% Environment for Labeling Chapters
-    \newcommand{\lecturedetails}[2]{
-        \vspace*{-10mm}\hspace*{7.75mm}
-        \parbox{0.7\textwidth} {
-            #2\\
-            \textit{#1} 
-        }
-        \vspace{10mm}
+\usepackage{a4wide}
+\usepackage{nth}
+\usepackage{amsthm,amsmath}
+\usepackage[charter]{mathdesign} % displays nicely on computer monitors
+\usepackage{framed}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{microtype}
+
+\usepackage{multicol}
+\usepackage{enumitem}
+
+\usepackage[utf8]{inputenc}
+
+% Don't put formatting in the Title; this will show up in other places once 
+% we add headers. Instead, do the formatting manually
+
+\title{ACS L108 Lecture Notes: Category Theory, Type Theory, and Logic}
+\author{Marcelo Fiore}
+\date{Michaelmas Term 2017--18}
+
+%%%% Environment for Labeling Chapters
+\newcommand{\lecturedetails}[2]{
+    \vspace*{-10mm}\hspace*{7.75mm}
+    \parbox{0.7\textwidth} {
+        #2\\
+        \textit{#1} 
     }
-    
-    % make sure that chapters are called lectures
-    \makeatletter
-    \renewcommand{\@chapapp}{Lecture}
-    \makeatother
-    
-    %%%%%
-    
-    \theoremstyle{definition}
-    \newtheorem{definition}{Definition}
-    \newtheorem{lemma}{Lemma}
-    \newtheorem{theorem}{Theorem}
-    \newtheorem{exercise}{Exercise}
-    
-    %%%% Stylistic
-    \setlength\parindent{0pt}
-    \setlength\parskip{0.7em}
-    
-    %%%% Category Theory Macros
-    \newcommand {\cat}{%
-        \mathbf%
-    }
-    \newcommand {\domain}[1] {%
-        \mathrm{dom}(#1)%
-    }
-    \newcommand {\codomain}[1] {%
-        \mathrm{cod}(#1)%
-    }
-    \newcommand {\idarrow}[1][] {%
-        \mathbf{1}{#1}%
-    }
-    %%%% Macros for specific categories
-    \newcommand {\Cat}{%
-        \cat {Cat}%
-    }
-    \newcommand {\Mon}{%
-        \cat {Mon}%
-    }
-    \newcommand {\Poset}{%
-        \cat {Poset}%
-    }
-    \newcommand {\Rel}{%
-        \cat {Rel}%
-    }
-    \newcommand {\Sets}{%
-        \cat {Sets}%
-    }
-    \newcommand {\Groups}{%
-        \cat {Groups}%
-    }
-    \newcommand {\Graphs}{%
-        \cat {Graphs}%
-    }
-    
-    \newcommand{\ie}{\emph{i.e.}}
-    \newcommand{\etc}{\emph{etc.}}
-    
-    \newcommand{\eqdef}{\stackrel{\text{def}}{=}} % composition
-    \newcommand{\comp}{\circ} % composition
-    \newcommand{\icomp}{\,} % implicit composition
-    
-    \newcommand{\setof}[1]{ \{ #1 \} }
-    \newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
-    \newcommand{\suchthat}{\mid}
-    \newcommand{\union}{\cup}
-    
-    \newcommand{\nelem}[1]{ \mathbf{ #1 } }
-    \newcommand{\id}[1]{ \mathrm{id}_{ #1 } }
-    \newcommand{\nats}{\mathbb{N}}
-    
-    \begin{document}
-    
-    \begin{center} {\LARGE \sc
-    Category Theory, Type Theory, and Logic\\
-      Lecture Notes\\[4mm]}
-      \Large Marcelo Fiore
-    \end{center}
-    
-    
-    \begin{multicols}{3}[\section*{Contributors}]
-    Dhruv Makwana\\ 
-    Shaun Steenkamp\\
-    Andrej Ivašković\\
-    Oliver Richardson
-    \end{multicols}
-    \clearpage
-    
-    
-    \tableofcontents
-    
-    \newpage
-    \chapter{How to think Categorically}
-    \lecturedetails{5 October 2017}{M Fiore, D Makwana, S Steenkamp, O Richardson}
-    
-    Introduction to Category Theory with applications to Logic and Type Theory.
-    
-    \emph{Not a spectator sport.}
-    
-    The approach is to find an understanding somewhere between the concrete
-    (examples) and the abstract (``nonsense''). The heart of category theory are
-    universal properties, `initial' and `final'. 
-    Rather than giving a definition of a category straight away, we will first
-    explore \emph{Universal Properties} through example problems; this will
-    constitute the first few lectures.
-    
-    \section{Examples}
-    We will begin with known mathematical constructions, viewed from a universal,
-    categorical point of view.
-    
-    \subsection{Adding an element to a set}
-    \label{add-element-set}
-    
-    Given a set $S$, consider
-    
-    \begin{align*}
-        \textbf{data:}&\qquad S \overset{f}{\rightarrow} S^\prime \ni x \\
-        \textbf{criteria:}& \qquad 
-        \begin{tikzcd}[ampersand replacement=\&]
-            S \arrow[r, "f_1"]
-              \arrow[dr, swap, "f_2"]
-              \&
-            S_1 \arrow[d, "h"] \& \ni \& x_1 \arrow[d, mapsto]
-              \\
-              {}\&
-            S_2 \& \ni \& x_2
-        \end{tikzcd}
-    \end{align*}
-    
-    The function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and 
-    $\forall x \in S .\; h(f_1(x)) = f_2(x)$.
-    
-    \begin{framed}
-    Diagrams such as the above implicitly assume that compositions commute (that's
-    why they're called commutative diagrams). We can express the above more
-    concisely as:
-    \begin{center}
-    $h\comp f_1 = f_2$
-    \quad or \quad
-    $h\icomp f_1 = f_2$
-    \end{center}
-    where 
-    $$
-    \begin{tikzcd}
-        A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
+    \vspace{10mm}
+}
+
+% make sure that chapters are called lectures
+\makeatletter
+\renewcommand{\@chapapp}{Lecture}
+\makeatother
+
+%%%%%
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{exercise}{Exercise}
+
+%%%% Stylistic
+\setlength\parindent{0pt}
+\setlength\parskip{0.7em}
+
+%%%% Category Theory Macros
+\newcommand {\cat}{%
+    \mathbf%
+}
+\newcommand {\domain}[1] {%
+    \mathrm{dom}(#1)%
+}
+\newcommand {\codomain}[1] {%
+    \mathrm{cod}(#1)%
+}
+\newcommand {\idarrow}[1][] {%
+    \mathbf{1}{#1}%
+}
+%%%% Macros for specific categories
+\newcommand {\Cat}{%
+    \cat {Cat}%
+}
+\newcommand {\Mon}{%
+    \cat {Mon}%
+}
+\newcommand {\Poset}{%
+    \cat {Poset}%
+}
+\newcommand {\Rel}{%
+    \cat {Rel}%
+}
+\newcommand {\Sets}{%
+    \cat {Sets}%
+}
+\newcommand {\Groups}{%
+    \cat {Groups}%
+}
+\newcommand {\Graphs}{%
+    \cat {Graphs}%
+}
+
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\etc}{\emph{etc.}}
+
+\newcommand{\eqdef}{\stackrel{\text{def}}{=}} % composition
+\newcommand{\comp}{\circ} % composition
+\newcommand{\icomp}{\,} % implicit composition
+
+\newcommand{\setof}[1]{ \{ #1 \} }
+\newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
+\newcommand{\suchthat}{\mid}
+\newcommand{\union}{\cup}
+
+\newcommand{\nelem}[1]{ \mathbf{ #1 } }
+\newcommand{\id}[1]{ \mathrm{id}_{ #1 } }
+\newcommand{\nats}{\mathbb{N}}
+
+\begin{document}
+
+\begin{center} {\LARGE \sc
+Category Theory, Type Theory, and Logic\\
+  Lecture Notes\\[4mm]}
+  \Large Marcelo Fiore
+\end{center}
+
+
+\begin{multicols}{3}[\section*{Contributors}]
+Dhruv Makwana\\ 
+Shaun Steenkamp\\
+Andrej Ivašković\\
+Oliver Richardson
+\end{multicols}
+\clearpage
+
+
+\tableofcontents
+
+\newpage
+\chapter{How to think Categorically}
+\lecturedetails{5 October 2017}{M Fiore, D Makwana, S Steenkamp, O Richardson}
+
+Introduction to Category Theory with applications to Logic and Type Theory.
+
+\emph{Not a spectator sport.}
+
+The approach is to find an understanding somewhere between the concrete
+(examples) and the abstract (``nonsense''). The heart of category theory are
+universal properties, `initial' and `final'. 
+Rather than giving a definition of a category straight away, we will first
+explore \emph{Universal Properties} through example problems; this will
+constitute the first few lectures.
+
+\section{Examples}
+We will begin with known mathematical constructions, viewed from a universal,
+categorical point of view.
+
+\subsection{Adding an element to a set}
+\label{add-element-set}
+
+Given a set $S$, consider
+
+\begin{align*}
+    \textbf{data:}&\qquad S \overset{f}{\rightarrow} S^\prime \ni x \\
+    \textbf{criteria:}& \qquad 
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "f_1"]
+          \arrow[dr, swap, "f_2"]
+          \&
+        S_1 \arrow[d, "h"] \& \ni \& x_1 \arrow[d, mapsto]
+          \\
+          {}\&
+        S_2 \& \ni \& x_2
     \end{tikzcd}
-    $$
-    with $(g\comp f)(a)\eqdef g(f(a))$ for all $a\in A$.
-    \end{framed}
-    
-    \subsubsection*{Initial (Universal) Solution}
-    
-    An \emph{initial} solution is one that uniquely maps to any other solution.
-    Note that such a solution doesn't always exist. In the case of adding a single
-    element to a set, the problem can be specified in terms of finding an
-    appropriate $S \overset{f}{\rightarrow} T \ni t$ such that
-    
-    \begin{equation*}
-      \forall S \overset{f'}{\rightarrow} S' \ni x \ .\ 
-      \exists!\ h : T \rightarrow S' \text{ such that }
-      h(t) = x \text{ and }
-      h \circ f = f'
-    \end{equation*}
-    
-    We present our solution:
-    \begin{center}
-        \begin{tikzcd}
-            S \arrow[r, "\iota"]
-              \arrow[dr, swap, "f"]
-              & 
-            S_{\ast} 
-            \arrow[d, "h"]
-            & \ni & \ast
-            \arrow[d, mapsto]
-              \\
-            {}
-              &
-            T & \ni & t
-        \end{tikzcd}
-    \end{center}
-    
-    where $S_\ast$ is defined as 
-    $\setof{ \ast } \union \bigsetof{ \lbrack x\rbrack \suchthat x \in S }$
-    and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.  
-    %
-    (The set $S_\ast$ is an \emph{implementation} of the disjoint union of
-    $\setof{*}$ and $S$; the square brackets tag the elements from $S$.)
-    
-    Define $h$, for $z\in S_\ast$, as
-    \begin{equation*}
-        h(z) = \begin{cases}
-            t & \text{if } z = \ast\\
-            f(x) & \text{if } z = \lbrack x \rbrack 
-        \end{cases}
-    \end{equation*}
-    
-    For universality we must also prove that this is a unique solution.
-    Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and 
-    $k(\ast) = t$. Then, we are required to prove (RTP):
-    $k(z) = h(z)\ \forall z \in S_\ast$.
-    
-    \subsubsection*{Final solution}
-    
-    There is a second kind of universal property, callled a final solution: any
-    other solution admits a unique map to the final one, again examining the case
-    of adding an element to a set, our criteria now is inverted. As we are looking
-    for a final solution, any $U\ni u$ must admit a unique map to our solution
-    $T\ni t$, as shown below.
-    \begin{center}
-        \begin{tikzcd}
-            S \arrow[r, "f"]
-              \arrow[dr, swap, "\forall g"]
-              & 
-            T & \ni & t
-              \\
-            {}
-              &
-              U 
-              \arrow[u, swap, "\exists! h"]
-              & \ni & u
-              \arrow[u, swap, mapsto]
-        \end{tikzcd}
-    \end{center}
-    
-    For a set $A$, let $!_A$ be the unique function $A\to \setof{\ast}$ given by
-    the constantly $\ast$ function, that is, $!_A(a) = \ast$ for all $a\in A$.
-    
-    Then, $T=\setof{\ast}$, $t=\ast$, and $f=\ !_S$ is a final solution.
-    
-    (Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{():unit}
-    in most functional programming languages.)
-    
-    \subsection{Adding two sets}
-    
-    Given $A$ and $B$ sets.
-    
+\end{align*}
+
+The function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and 
+$\forall x \in S .\; h(f_1(x)) = f_2(x)$.
+
+\begin{framed}
+Diagrams such as the above implicitly assume that compositions commute (that's
+why they're called commutative diagrams). We can express the above more
+concisely as:
+\begin{center}
+$h\comp f_1 = f_2$
+\quad or \quad
+$h\icomp f_1 = f_2$
+\end{center}
+where 
+$$
+\begin{tikzcd}
+    A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
+\end{tikzcd}
+$$
+with $(g\comp f)(a)\eqdef g(f(a))$ for all $a\in A$.
+\end{framed}
+
+\subsubsection*{Initial (Universal) Solution}
+
+An \emph{initial} solution is one that uniquely maps to any other solution.
+Note that such a solution doesn't always exist. In the case of adding a single
+element to a set, the problem can be specified in terms of finding an
+appropriate $S \overset{f}{\rightarrow} T \ni t$ such that
+
+\begin{equation*}
+  \forall S \overset{f'}{\rightarrow} S' \ni x \ .\ 
+  \exists!\ h : T \rightarrow S' \text{ such that }
+  h(t) = x \text{ and }
+  h \circ f = f'
+\end{equation*}
+
+We present our solution:
+\begin{center}
+    \begin{tikzcd}
+        S \arrow[r, "\iota"]
+          \arrow[dr, swap, "f"]
+          & 
+        S_{\ast} 
+        \arrow[d, "h"]
+        & \ni & \ast
+        \arrow[d, mapsto]
+          \\
+        {}
+          &
+        T & \ni & t
+    \end{tikzcd}
+\end{center}
+
+where $S_\ast$ is defined as 
+$\setof{ \ast } \union \bigsetof{ \lbrack x\rbrack \suchthat x \in S }$
+and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.  
+%
+(The set $S_\ast$ is an \emph{implementation} of the disjoint union of
+$\setof{*}$ and $S$; the square brackets tag the elements from $S$.)
+
+Define $h$, for $z\in S_\ast$, as
+\begin{equation*}
+    h(z) = \begin{cases}
+        t & \text{if } z = \ast\\
+        f(x) & \text{if } z = \lbrack x \rbrack 
+    \end{cases}
+\end{equation*}
+
+For universality we must also prove that this is a unique solution.
+Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and 
+$k(\ast) = t$. Then, we are required to prove (RTP):
+$k(z) = h(z)\ \forall z \in S_\ast$.
+
+\subsubsection*{Final solution}
+
+There is a second kind of universal property, callled a final solution: any
+other solution admits a unique map to the final one, again examining the case
+of adding an element to a set, our criteria now is inverted. As we are looking
+for a final solution, any $U\ni u$ must admit a unique map to our solution
+$T\ni t$, as shown below.
+\begin{center}
+    \begin{tikzcd}
+        S \arrow[r, "f"]
+          \arrow[dr, swap, "\forall g"]
+          & 
+        T & \ni & t
+          \\
+        {}
+          &
+          U 
+          \arrow[u, swap, "\exists! h"]
+          & \ni & u
+          \arrow[u, swap, mapsto]
+    \end{tikzcd}
+\end{center}
+
+For a set $A$, let $!_A$ be the unique function $A\to \setof{\ast}$ given by
+the constantly $\ast$ function, that is, $!_A(a) = \ast$ for all $a\in A$.
+
+Then, $T=\setof{\ast}$, $t=\ast$, and $f=\ !_S$ is a final solution.
+
+(Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{():unit}
+in most functional programming languages.)
+
+\subsection{Adding two sets}
+
+Given $A$ and $B$ sets.
+
+\begin{align*}
+    \textbf{data:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
+            A \arrow[r, "f"] \& C \& B \arrow[l, swap, "g"]
+        \end{tikzcd}\\
+    \textbf{criteria:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
+        {} \& C_1 \arrow[dd, "h"] \& {} \\
+        A \arrow[ru, "f_1"] \arrow[rd, swap, "f_2"]
+        \& {}
+        \&
+        B \arrow[lu, swap, "g_1"] \arrow[ld, "g_2"]
+        \\
+        {} \& C_2 \& {}
+    \end{tikzcd}
+\end{align*}
+
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
+
+\begin{exercise}
+    Find the initial solution. \label{ex:addsets}
+\end{exercise}
+
+\subsection{Duality}
+
+When you have a problem in ``one direction'' you can turn it around and get a
+problem in ``the other direction''. This involves flipping the directions of
+the arrows in the commutative diagrams.
+
+\subsubsection*{Example: Dual form of adding two sets}
+
+Given two sets $A$ and $B$.
+
+\begin{align*}
+     \textbf{data:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
+            A \& C \arrow[l, swap, "f"] \arrow[r, "g"] \& B
+        \end{tikzcd} \\
+    \textbf{criteria:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
+          {} \& C_1 \arrow[dd, "h"] \arrow[ld, swap, "f_1"] \arrow[rd, "g_1"]
+          \& {} \\ A \& {} \& B \\
+          {} \& C_2 \arrow[lu, "f_2"] \arrow[ru, swap, "g_2"] \& {}
+      \end{tikzcd}
+\end{align*}
+
+
+
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
+
+\begin{exercise}
+    Find the final solution. \label{ex:dual}
+\end{exercise}
+
+%%% MF ???
+%It is worth noting that a dual solution can be easier to solve and allow
+%insight into the original problem, or vice versa.
+
+\subsection{Generating a monoid}
+\label{section_generate_monoid}
+
+\subsubsection*{Background on Monoids}
+
+A \emph{monoid} is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a
+neutral element, and $\ast$ is a binary operation on $M$; where $e$ and $\ast$
+obey:
+\begin{align*}
+    & \forall x \in M\ .\ 
+    e \ast x = x \text{ and } x \ast e = x && \text{(neutral
+    element)} \\
+    & \forall x,y,z \in M\ .\ 
+    (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
+\end{align*}
+
+\subsubsection*{Monoid homomorphism}
+
+A monoid homomorphism is a function between (the underlying sets of) two
+monoids that preserves the unit and the multiplication. Formally,
+$h : (M_1, e_1, \ast_1) \rightarrow (M_2, e_2, \ast_2)$ is a function
+$h: M_1\to M_2$ such that $h(e_1) = e_2$ and
+$\forall x, y \in M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
+
+Our next exercise will deal with the \emph{free monoid} on a set.
+Given a set $S$, we would like to construct a monoid. In the language we've
+been using, we can present it as follows:
+
+\begin{align*}
+    \textbf{data:}\qquad& S \overset{f_1}{\longrightarrow}M
+    \qquad \text{$(M,e,\ast)$ a monoid}\\
+    \textbf{criteria:}\qquad& \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] \& 
+        M_1 
+        \arrow[d, "h"] 
+        \& (M_1,e_1,\ast_1) 
+        \arrow[d, "\text{$h$ an homomorphism}"] 
+        \& \text{a monoid}
+        \\
+        {}  
+        \& M_2 \& (M_2,e_2,\ast_2) \& \text{a monoid}
+    \end{tikzcd}
+\end{align*}
+
+\begin{exercise}
+    Find the initial solution in this case.
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{More universal problems}
+\lecturedetails{October 10}{M Fiore, A Ivašković, O Richardson }
+
+The start of this lecture will provide some hints for the exercises from
+Lecture 1.  We continue with a few more examples aimed at providing
+mathematical background and building intuition.  Forming intuition is
+important because there is no general method for finding universal initial and
+final solutions.
+
+\section{Hints To Exercises}
+
+\subsection{Adding two sets}
+
+Recall that in Exercise~\ref{ex:addsets}, we were looking for a universal
+initial solution to adding sets $A$ and $B$:
+\begin{center}
+  \begin{tikzcd}
+      {} & S \arrow[dd, dashed, "\exists! u"] & {} \\
+      A \arrow[ru, "\alpha"] \arrow[rd, swap, "f"]
+      & {}
+      &
+      B \arrow[lu, swap, "\beta"] \arrow[ld, "g"]
+      \\
+      {} & C & {}
+  \end{tikzcd}
+\end{center}
+for all sets $C$, and functions $f$ and $g$.
+
+When dealing with a problem we do not know immediately how to solve, it might be
+useful to somehow `simplify' it in order to get some insight --- but not so much
+that we lose all structural information.
+
+Consider a special instance of this problem, where $B$ is a singleton set
+$\setof{\ast}$:
+
+\begin{center}
+  \begin{tikzcd}
+      {} & S & {} \\
+      A \arrow[ru]
+      & {}
+      &
+      \setof{\ast} \arrow[lu]
+  \end{tikzcd}
+\end{center}
+
+Note that $\setof{\ast} \to S$ is mapping $\ast$ to some element in $S$, and
+overall this represents the problem of adding an element to $A$
+(Subsection~\ref{add-element-set}). We want to make sure that there is a unique
+mapping to any other solution $C$, as illustrated below.
+
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[dd, dashed, "\exists!"] & {} \\
+    A \arrow[ru] \arrow[rd]
+    & {}
+    &
+    \setof{\ast} \arrow[lu] \arrow[ld]
+    \\
+    {} & C & {}
+\end{tikzcd}
+\end{center}
+
+Here $S$ has to preserve the structure of $A$ and be augmented with an
+additional element in some way. The image of elements of $A$ in $S$ have to be
+distinct from the image of $\ast$, since otherwise there would not be a unique
+way of representing the two in $C$. This is a map $a \mapsto [a]$ for $a \in A$.
+Compare this to the previous problem, where we considered
+$A \to A_\ast = \setof{\ast} \union \bigsetof{[x] \suchthat x \in A}$.
+
+Taking this `tagging' idea further and generalising, we may consider the set:
+\begin{equation*}
+A \uplus B = \bigsetof{(0, a) \suchthat a \in A} \union
+\bigsetof{(1, b) \suchthat b \in B}
+\end{equation*}
+
+We claim that $S$ should be $A \uplus B$, and that $\alpha: a \mapsto (0, a)$,
+$\beta: b \mapsto (1, b)$ should be the maps for the initial solution.
+
+\begin{exercise}
+Show that this is indeed an initial solution.
+\end{exercise}
+
+\subsection{The dual problem}
+
+In Exercise~\ref{ex:dual}, we were asked to find the dual solution to that
+described previously:
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} & C \arrow[uu, dashed, "\exists!"] \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
+\end{tikzcd}
+\end{center}
+
+This is a more involved problem than adding two sets, and simplifications might
+not immediately reveal what needs to be done. Even so, to give hints, we will test
+different structures for $B$ to gain some intuition.
+
+First, consider $B$ to be a singleton set, $B = \nelem{1}$, where one
+typically writes $\nelem{1}$ for a generic singleton set.  Then the problem
+becomes: 
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    \nelem{1}
+    \\
+    {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
+\end{tikzcd}
+\end{center}
+
+There is only one function $X \to \nelem{1}$ and only one function $S \to
+\nelem{1}$ (they both map everything to the only element of $\nelem 1$), so
+the problem is reduced to: 
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \\
+    A
+    & {} \\
+    {} & X \arrow[uu, dashed] \arrow[lu] 
+\end{tikzcd}
+\end{center}
+
+and the final solution to this is clear:
+$$
+\begin{tikzcd}
+    {} & A \arrow[ld, swap, "\id{A}"] \\
+    A
+    & {} \\
+    {} & X \arrow[uu, dashed, "\exists! f"] \arrow[lu, "\forall f"]
+\end{tikzcd}
+$$
+
+In general let's say $S$ is of the form $A \circledast B$ for some
+construction $\circledast$, where for $B = \nelem{1}$ we can take 
+$A \circledast B$ to be $A$ (\ie~the structure matches that of of $A$).
+
+What if $B = \emptyset$?
+$$
+\begin{tikzcd}
+    {} & A \circledast \emptyset \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    \emptyset
+    \\
+    {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
+\end{tikzcd}
+$$
+This is only possible and valid when $A \circledast \emptyset = \emptyset$
+because there are no functions from a nonempty set into an empty set. Also
+recall that there is only one function from $\emptyset$ to any other set --
+namely the empty function (the function with the empty graph).
+
+Now, what if $B = \setof{0, 1} = \nelem{2}$ --- namely, what should $A
+\circledast \nelem{2}$ be? This step gives some insight into the general
+solution.
+
+\section{Isomorphism of initial solutions}
+
+Recall that in our initial solution to the problem of generating a monoid
+from a set, we actually found a number of different solutions, all of which
+seemed somehow structurally similar:
+
+\begin{enumerate}
+
+\item $S \to \mathrm{List}(S)$, where $\mathrm{List}(S)$ is the monoid of lists
+whose items have values drawn from $S$, with the empty list $[]$ being the
+neutral element and the append operator \texttt{@} being the binary
+operation.
+
+\item $S \to S^\ast$, where $S^\ast$ is the set of all strings/words on $S$.
+This is a monoid if the neutral element is $\epsilon$ (the empty word) and the
+operation is string concatenation $\cdot$\,.
+
+\item For $n \in \nats$ define $S_n$ in the following way:
+\[
+S_0 = \bigsetof{ \big(0, ()\big) }
+\]
+and for $n > 0$:
+\[
+S_n 
+= \bigsetof{\big(n, (s_1, \ldots, s_n)\big) \suchthat s_1, \ldots, s_n \in S}
+\]
+
+Then $\bigcup_{n\in\nats} S_n$ is a monoid with the operation $\cdot$ defined
+as: 
+\[
+\big(l, s_1, \ldots, s_l)\big) 
+\cdot 
+\big(k, (s_1^\prime, \ldots, s_k^\prime)\big) 
+= 
+\big(l + k, (s_1, \ldots, s_l, s_1^\prime, \ldots, s_k^\prime)\big)
+\]
+and with $\big(0, ()\big)$ being the neutral element.
+
+\end{enumerate}
+
+Each of these solutions are indeed `essentially the same' and this is a
+fundamental property of universal solutions. This concept (isomorphism)
+will be defined properly once we start dealing with category theory, but for
+now we can still prove that two initial solutions of the kind we've been
+dealing with are isomorphic, \ie~that they are in structural bijective
+correspondence.
+
+Given two initial solutions $M$~(Mine) and $Y$~(Yours), diagrammatically:
+$$
+\begin{tikzcd}
+    S \arrow[r, "m"] \arrow[rd, swap, "y"]
+    \arrow[rdd, swap, bend right = 20, "m"] & 
+    M \arrow[d, dashed, "\exists! u"] \\
+    {} & Y \arrow[d, dashed, "\exists! v"] \\
+    {} & M
+\end{tikzcd}
+$$
+
+Note that we have also:
+$$
+\begin{tikzcd}
+    S \arrow[r, "m"] \arrow[rd, swap, "m"] & 
+    M \arrow[d, dashed, "\exists! \id{M}"] \\
+    {} & M
+\end{tikzcd}
+$$
+
+Thus $v \comp u = \id{M}$. Analogously we conclude that $u \comp v = \id{Y}$
+because:
+$$
+\begin{tikzcd}
+    S \arrow[r, "y"] \arrow[rd, swap, "m"]
+    \arrow[rdd, swap, bend right = 20, "y"] & 
+    Y \arrow[d, dashed, "\exists! v"]
+    \arrow[dd, dashed, bend left = 80, "\exists! \id{Y}"] \\
+    {} & M \arrow[d, dashed, "\exists! u"] \\
+    {} & Y
+\end{tikzcd}
+$$
+
+From this we conclude that \textit{any two initial solutions are isormorphic}:
+$$
+\begin{tikzcd}
+    M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] & 
+    Y \arrow[l, bend left = 20, "v"] \arrow[loop right, "\id{Y}"]
+\end{tikzcd}
+$$
+
+From the perspective of computer science, one may think of universal problems
+as implementation-independent specifications for which concrete solutions
+provide actual implementations, all of which have to necessarily be
+essentially the same --- structure should be preserved regardless of the
+underlying implementation (it doesn't matter whether we're dealing with
+strings, lists, \etc).
+
+\begin{exercise}
+From a set $S$ generate a \textit{commutative} monoid $M$, \ie~one that
+satisfies $x \cdot y = y \cdot x$ for all $x, y \in M$ --- find the initial
+solution.
+\end{exercise}
+
+\begin{exercise}
+From a set $S$ generate a commutative and \textit{idempotent} monoid $M$ \ie~one
+that also satisfies $x \cdot x = x$ for all $x \in M$ --- find the initial
+solution.
+\end{exercise}
+
+\section{Orders and lattices}
+
+For a set $P$ and $\leq\ \subseteq P \times P$ a binary relation, we will
+consider the following properties.
+
+\begin{definition}
+Reflexivity, transitivity, antisymmetry
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item $\leq$ is \textit{reflexive} if $\forall a \in P.\quad a \leq a$
+    \item $\leq$ is \textit{transitive} if
+      $\forall a,b,c \in P. \quad a \leq b \wedge b \leq c \Rightarrow a \leq c$
+    \item $\leq$ is \textit{antisymmetric} if $\forall a,b \in P. \quad
+      a \leq b \wedge b \leq a \Rightarrow a = b$
+\end{itemize}
+\end{definition}
+
+There is standard terminology for binary relations subject to such axioms.
+
+\begin{definition} Partial orders and preorders
+\begin{itemize}[noitemsep,topsep=0pt]
+\item $(P, \leq)$ is a \emph{preorder} (or \emph{quasiorder}) if $\leq$ is
+reflexive and transitive
+\item $(P, \leq)$ is a \emph{partial order} if is a preorder ($\leq$ is
+  reflexive and transitive) and $\leq$ is also antisymmetric
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+A partial order $(P, \leq)$ equipped with an associative, commutative, and
+idempotent binary operation $\lor$, typically referred to as \emph{join} (or
+\emph{sup}), that satisfies $x \leq y \iff x \vee y = x$ is a \emph{join (or
+sup) semilattice}.
+
+(It may also have a least (or bottom) element $\bot \in L$ satisfying
+$\forall x \in L,~\bot\lor x = \bot$.)
+\end{definition}
+
+\subsection{Exercises}
+
+We can now consider the problem of generating a join semilattice.  For a set
+$S$, we want to freely construct a join 
+semilatice~$(\widetilde S,\vee_{\widetilde S})$ as follows:
+% Create an example environment?
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
+        \tilde{S}
+        \arrow[d, "\exists ! f^\#"] 
+        \& (\widetilde{S},\lor_{\widetilde{S}}) 
+        \arrow[d, "\text{$f^\#$ a homomorphism}"] 
+        \& \text{a universal initial join semilatice}
+        \\
+        {}  
+        \& L \& (L,\lor_L) \& \text{any join semilatice}
+    \end{tikzcd}\\[2mm]
+    \text{where $h$ must preserve structure, 
+      \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
+\end{center}
+The exercise is to find the initial solution here, but we will start with some
+intuition. The join semilatice generated from $S$ must contain each element
+$x\in S$. Similarly, for any two, three, or, more generally, any finite
+number of distinct elements of $S$, it must contain the join or union of all
+of them.  Since the operator is commutative, the order doesn't matter, and
+since it's idempotent, only one copy of each element of $S$ can exist. The
+picture looks something like this:
+\begin{align*}
+& 
+&
+x  & \quad\leftrightarrow\quad \setof{x} \subseteq S 
+\\
+& x\not= y 
+& x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S 
+\\
+& x\not= y \not= z \not= x 
+&
+x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S 
+\\
+& & 
+& \,\enspace\quad\vdots &
+\\
+&
+x_i \not= x_j\ \forall i,j
+& x_1 \lor \cdots \lor x_n & \quad\leftrightarrow\quad \setof{x_1, \ldots, x_n}
+\subseteq S
+\end{align*}
+
+Thus, we might guess that the universal initial solution $\widetilde{S}$ is
+the collection of finite subsets of $S$: $\mathcal{P}_{\mathrm{fin}}(S) =
+\setof{X \suchthat
+X \subseteq_\mathrm{fin} S}$, with the join operator $X \lor Y = X \cup Y$.
+This is close, but not entirely correct.
+
+\begin{exercise}
+There is a `bug' in the above proposed solution. Find the actual initial
+solution.\label{ex:bug}  
+\end{exercise}
+
+\chapter{Even more universal problems}
+\lecturedetails{October 12}{M Fiore,  \ldots}
+
+In this lecture we introduce more mathematical terminology in order to 
+derive more interesting such universal properties.
+
+We begin by further analysing the definitions of joins and meets.
+
+\begin{section}{Joins and Meets}
+    Consider $(P \leq)$ to be a preorder. For any subset $S \subset P$ we can define 
+    $\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or \emph{lub} 
+    (least upper bound) of the subset $S$, as well as $\bigwedge S$, the meet of the subset $S$.
+    \begin{definition}\label{defjoins}{Joins.} 
+        For a subset $S \subset P$, if it exists, $\bigvee S \in P$ is the join of S if
+        it satisfies the universal properties:
+            \begin{enumerate}
+                \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
+                \item $\forall u \in P$ such that $(\forall x \in S, x \leq u) \Rightarrow \bigvee S \leq u$
+            \end{enumerate}
+    \end{definition}
+
+    The concept of a meet is dual to that of a join, so the definition is obtained
+    by reversing the comparison operators.
+
+    \begin{definition}\label{defmeets}{Meets.}
+        For a subset $S \subset P$, if it exists, $\bigwedge S \in P$ is the meet of S if 
+        it satisfies the universal properties:
+            \begin{enumerate} 
+                \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
+                \item $\forall l \in P$ such that $(\forall x \in S, l \leq x)$, $ \Rightarrow l \leq \bigwedge S$    
+            \end{enumerate}
+    \end{definition}
+    For a better understanding of these universal properties, we can consider some 
+    special cases:
+    \begin{itemize}
+        \item $S = \{a, b\}$, we can use the notations $\bigvee S = a \vee b$ 
+            and, analogously $\bigwedge S = a \wedge b$
+        \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
+            join exist, s.t. $\bigvee S = \bigwedge S = a$
+        \item $S = \emptyset$. Considering the definition of joins \ref{defjoins},
+            the first property becomes true due to the inability to pick an $x \in S$. With the same reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee S \leq u$.
+            Therefore the solution is $\bigvee S = \bot$, the bottom element in P.
+            Analogously, $\bigwedge S = \top$, the top element of P.
+    \end{itemize} 
+
+    We can relate the case where S has two elements, $S = \{a, b\}$ to previous
+    examples by analysing them categorically.
+
+    For $S = \{a, b\}$, we can write the universal property as a commutative diagram 
+
     \begin{align*}
-        \textbf{data:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
-                A \arrow[r, "f"] \& C \& B \arrow[l, swap, "g"]
-            \end{tikzcd}\\
-        \textbf{criteria:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
-            {} \& C_1 \arrow[dd, "h"] \& {} \\
-            A \arrow[ru, "f_1"] \arrow[rd, swap, "f_2"]
+        \begin{tikzcd}[ampersand replacement=\&]
+            {} \& a \vee b \arrow[dd, dashed, "\exists ! "] \& {} \\
+            a \arrow[ru, "\leq"] \arrow[rd, swap]
             \& {}
             \&
-            B \arrow[lu, swap, "g_1"] \arrow[ld, "g_2"]
+            b \arrow[lu, swap, "\leq"] \arrow[ld]
             \\
-            {} \& C_2 \& {}
+            {} \& c \& {}
         \end{tikzcd}
     \end{align*}
-    
-    That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
-    makes the diagram commute~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
-    
-    \begin{exercise}
-        Find the initial solution. \label{ex:addsets}
-    \end{exercise}
-    
-    \subsection{Duality}
-    
-    When you have a problem in ``one direction'' you can turn it around and get a
-    problem in ``the other direction''. This involves flipping the directions of
-    the arrows in the commutative diagrams.
-    
-    \subsubsection*{Example: Dual form of adding two sets}
-    
-    Given two sets $A$ and $B$.
-    
+
+    If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram in
+    in the set and function world, obtaining the properties of the disjoint union of sets.
+
     \begin{align*}
-         \textbf{data:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
-                A \& C \arrow[l, swap, "f"] \arrow[r, "g"] \& B
-            \end{tikzcd} \\
-        \textbf{criteria:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
-              {} \& C_1 \arrow[dd, "h"] \arrow[ld, swap, "f_1"] \arrow[rd, "g_1"]
-              \& {} \\ A \& {} \& B \\
-              {} \& C_2 \arrow[lu, "f_2"] \arrow[ru, swap, "g_2"] \& {}
-          \end{tikzcd}
-    \end{align*}
-    
-    
-    
-    That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
-    makes the diagram commute~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
-    
-    \begin{exercise}
-        Find the final solution. \label{ex:dual}
-    \end{exercise}
-    
-    %%% MF ???
-    %It is worth noting that a dual solution can be easier to solve and allow
-    %insight into the original problem, or vice versa.
-    
-    \subsection{Generating a monoid}
-    
-    \subsubsection*{Background on Monoids}
-    
-    A \emph{monoid} is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a
-    neutral element, and $\ast$ is a binary operation on $M$; where $e$ and $\ast$
-    obey:
-    \begin{align*}
-        & \forall x \in M\ .\ 
-        e \ast x = x \text{ and } x \ast e = x && \text{(neutral
-        element)} \\
-        & \forall x,y,z \in M\ .\ 
-        (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
-    \end{align*}
-    
-    \subsubsection*{Monoid homomorphism}
-    
-    A monoid homomorphism is a function between (the underlying sets of) two
-    monoids that preserves the unit and the multiplication. Formally,
-    $h : (M_1, e_1, \ast_1) \rightarrow (M_2, e_2, \ast_2)$ is a function
-    $h: M_1\to M_2$ such that $h(e_1) = e_2$ and
-    $\forall x, y \in M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
-    
-    Our next exercise will deal with the \emph{free monoid} on a set.
-    Given a set $S$, we would like to construct a monoid. In the language we've
-    been using, we can present it as follows:
-    
-    \begin{align*}
-        \textbf{data:}\qquad& S \overset{f_1}{\longrightarrow}M
-        \qquad \text{$(M,e,\ast)$ a monoid}\\
-        \textbf{criteria:}\qquad& \begin{tikzcd}[ampersand replacement=\&]
-            S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] \& 
-            M_1 
-            \arrow[d, "h"] 
-            \& (M_1,e_1,\ast_1) 
-            \arrow[d, "\text{$h$ an homomorphism}"] 
-            \& \text{a monoid}
+        \begin{tikzcd}[ampersand replacement=\&]
+            {} \& A \uplus B \arrow[dd, dashed, "\exists ! "] \& {} \\
+            A \arrow[ru] \arrow[rd, swap]
+            \& {}
+            \&
+            B \arrow[lu, swap] \arrow[ld]
             \\
-            {}  
-            \& M_2 \& (M_2,e_2,\ast_2) \& \text{a monoid}
+            {} \& C \& {}
         \end{tikzcd}
     \end{align*}
-    
-    \begin{exercise}
-        Find the initial solution in this case.
-    \end{exercise}
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    \chapter{More universal problems}
-    \lecturedetails{October 10}{M Fiore, A Ivašković, O Richardson }
-    
-    The start of this lecture will provide some hints for the exercises from
-    Lecture 1.  We continue with a few more examples aimed at providing
-    mathematical background and building intuition.  Forming intuition is
-    important because there is no general method for finding universal initial and
-    final solutions.
-    
-    \section{Hints To Exercises}
-    
-    \subsection{Adding two sets}
-    
-    Recall that in Exercise~\ref{ex:addsets}, we were looking for a universal
-    initial solution to adding sets $A$ and $B$:
-    \begin{center}
-      \begin{tikzcd}
-          {} & S \arrow[dd, dashed, "\exists! u"] & {} \\
-          A \arrow[ru, "\alpha"] \arrow[rd, swap, "f"]
-          & {}
-          &
-          B \arrow[lu, swap, "\beta"] \arrow[ld, "g"]
-          \\
-          {} & C & {}
-      \end{tikzcd}
-    \end{center}
-    for all sets $C$, and functions $f$ and $g$.
-    
-    When dealing with a problem we do not know immediately how to solve, it might be
-    useful to somehow `simplify' it in order to get some insight --- but not so much
-    that we lose all structural information.
-    
-    Consider a special instance of this problem, where $B$ is a singleton set
-    $\setof{\ast}$:
-    
-    \begin{center}
-      \begin{tikzcd}
-          {} & S & {} \\
-          A \arrow[ru]
-          & {}
-          &
-          \setof{\ast} \arrow[lu]
-      \end{tikzcd}
-    \end{center}
-    
-    Note that $\setof{\ast} \to S$ is mapping $\ast$ to some element in $S$, and
-    overall this represents the problem of adding an element to $A$
-    (Subsection~\ref{add-element-set}). We want to make sure that there is a unique
-    mapping to any other solution $C$, as illustrated below.
-    
-    \begin{center}
-    \begin{tikzcd}
-        {} & S \arrow[dd, dashed, "\exists!"] & {} \\
-        A \arrow[ru] \arrow[rd]
-        & {}
-        &
-        \setof{\ast} \arrow[lu] \arrow[ld]
-        \\
-        {} & C & {}
-    \end{tikzcd}
-    \end{center}
-    
-    Here $S$ has to preserve the structure of $A$ and be augmented with an
-    additional element in some way. The image of elements of $A$ in $S$ have to be
-    distinct from the image of $\ast$, since otherwise there would not be a unique
-    way of representing the two in $C$. This is a map $a \mapsto [a]$ for $a \in A$.
-    Compare this to the previous problem, where we considered
-    $A \to A_\ast = \setof{\ast} \union \bigsetof{[x] \suchthat x \in A}$.
-    
-    Taking this `tagging' idea further and generalising, we may consider the set:
-    \begin{equation*}
-    A \uplus B = \bigsetof{(0, a) \suchthat a \in A} \union
-    \bigsetof{(1, b) \suchthat b \in B}
-    \end{equation*}
-    
-    We claim that $S$ should be $A \uplus B$, and that $\alpha: a \mapsto (0, a)$,
-    $\beta: b \mapsto (1, b)$ should be the maps for the initial solution.
-    
-    \begin{exercise}
-    Show that this is indeed an initial solution.
-    \end{exercise}
-    
-    \subsection{The dual problem}
-    
-    In Exercise~\ref{ex:dual}, we were asked to find the dual solution to that
-    described previously:
-    \begin{center}
-    \begin{tikzcd}
-        {} & S \arrow[ld] \arrow[rd] & {} \\
-        A
-        & {}
-        &
-        B
-        \\
-        {} & C \arrow[uu, dashed, "\exists!"] \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
-    \end{tikzcd}
-    \end{center}
-    
-    This is a more involved problem than adding two sets, and simplifications might
-    not immediately reveal what needs to be done. Even so, to give hints, we will test
-    different structures for $B$ to gain some intuition.
-    
-    First, consider $B$ to be a singleton set, $B = \nelem{1}$, where one
-    typically writes $\nelem{1}$ for a generic singleton set.  Then the problem
-    becomes: 
-    \begin{center}
-    \begin{tikzcd}
-        {} & S \arrow[ld] \arrow[rd] & {} \\
-        A
-        & {}
-        &
-        \nelem{1}
-        \\
-        {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
-    \end{tikzcd}
-    \end{center}
-    
-    There is only one function $X \to \nelem{1}$ and only one function $S \to
-    \nelem{1}$ (they both map everything to the only element of $\nelem 1$), so
-    the problem is reduced to: 
-    \begin{center}
-    \begin{tikzcd}
-        {} & S \arrow[ld] \\
-        A
-        & {} \\
-        {} & X \arrow[uu, dashed] \arrow[lu] 
-    \end{tikzcd}
-    \end{center}
-    
-    and the final solution to this is clear:
-    $$
-    \begin{tikzcd}
-        {} & A \arrow[ld, swap, "\id{A}"] \\
-        A
-        & {} \\
-        {} & X \arrow[uu, dashed, "\exists! f"] \arrow[lu, "\forall f"]
-    \end{tikzcd}
-    $$
-    
-    In general let's say $S$ is of the form $A \circledast B$ for some
-    construction $\circledast$, where for $B = \nelem{1}$ we can take 
-    $A \circledast B$ to be $A$ (\ie~the structure matches that of of $A$).
-    
-    What if $B = \emptyset$?
-    $$
-    \begin{tikzcd}
-        {} & A \circledast \emptyset \arrow[ld] \arrow[rd] & {} \\
-        A
-        & {}
-        &
-        \emptyset
-        \\
-        {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
-    \end{tikzcd}
-    $$
-    This is only possible and valid when $A \circledast \emptyset = \emptyset$
-    because there are no functions from a nonempty set into an empty set. Also
-    recall that there is only one function from $\emptyset$ to any other set --
-    namely the empty function (the function with the empty graph).
-    
-    Now, what if $B = \setof{0, 1} = \nelem{2}$ --- namely, what should $A
-    \circledast \nelem{2}$ be? This step gives some insight into the general
-    solution.
-    
-    \section{Isomorphism of initial solutions}
-    
-    Recall that in our initial solution to the problem of generating a monoid
-    from a set, we actually found a number of different solutions, all of which
-    seemed somehow structurally similar:
-    
-    \begin{enumerate}
-    
-    \item $S \to \mathrm{List}(S)$, where $\mathrm{List}(S)$ is the monoid of lists
-    whose items have values drawn from $S$, with the empty list $[]$ being the
-    neutral element and the append operator \texttt{@} being the binary
-    operation.
-    
-    \item $S \to S^\ast$, where $S^\ast$ is the set of all strings/words on $S$.
-    This is a monoid if the neutral element is $\epsilon$ (the empty word) and the
-    operation is string concatenation $\cdot$\,.
-    
-    \item For $n \in \nats$ define $S_n$ in the following way:
-    \[
-    S_0 = \bigsetof{ \big(0, ()\big) }
-    \]
-    and for $n > 0$:
-    \[
-    S_n 
-    = \bigsetof{\big(n, (s_1, \ldots, s_n)\big) \suchthat s_1, \ldots, s_n \in S}
-    \]
-    
-    Then $\bigcup_{n\in\nats} S_n$ is a monoid with the operation $\cdot$ defined
-    as: 
-    \[
-    \big(l, s_1, \ldots, s_l)\big) 
-    \cdot 
-    \big(k, (s_1^\prime, \ldots, s_k^\prime)\big) 
-    = 
-    \big(l + k, (s_1, \ldots, s_l, s_1^\prime, \ldots, s_k^\prime)\big)
-    \]
-    and with $\big(0, ()\big)$ being the neutral element.
-    
-    \end{enumerate}
-    
-    Each of these solutions are indeed `essentially the same' and this is a
-    fundamental property of universal solutions. This concept (isomorphism)
-    will be defined properly once we start dealing with category theory, but for
-    now we can still prove that two initial solutions of the kind we've been
-    dealing with are isomorphic, \ie~that they are in structural bijective
-    correspondence.
-    
-    Given two initial solutions $M$~(Mine) and $Y$~(Yours), diagrammatically:
-    $$
-    \begin{tikzcd}
-        S \arrow[r, "m"] \arrow[rd, swap, "y"]
-        \arrow[rdd, swap, bend right = 20, "m"] & 
-        M \arrow[d, dashed, "\exists! u"] \\
-        {} & Y \arrow[d, dashed, "\exists! v"] \\
-        {} & M
-    \end{tikzcd}
-    $$
-    
-    Note that we have also:
-    $$
-    \begin{tikzcd}
-        S \arrow[r, "m"] \arrow[rd, swap, "m"] & 
-        M \arrow[d, dashed, "\exists! \id{M}"] \\
-        {} & M
-    \end{tikzcd}
-    $$
-    
-    Thus $v \comp u = \id{M}$. Analogously we conclude that $u \comp v = \id{Y}$
-    because:
-    $$
-    \begin{tikzcd}
-        S \arrow[r, "y"] \arrow[rd, swap, "m"]
-        \arrow[rdd, swap, bend right = 20, "y"] & 
-        Y \arrow[d, dashed, "\exists! v"]
-        \arrow[dd, dashed, bend left = 80, "\exists! \id{Y}"] \\
-        {} & M \arrow[d, dashed, "\exists! u"] \\
-        {} & Y
-    \end{tikzcd}
-    $$
-    
-    From this we conclude that \textit{any two initial solutions are isormorphic}:
-    $$
-    \begin{tikzcd}
-        M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] & 
-        Y \arrow[l, bend left = 20, "v"] \arrow[loop right, "\id{Y}"]
-    \end{tikzcd}
-    $$
-    
-    From the perspective of computer science, one may think of universal problems
-    as implementation-independent specifications for which concrete solutions
-    provide actual implementations, all of which have to necessarily be
-    essentially the same --- structure should be preserved regardless of the
-    underlying implementation (it doesn't matter whether we're dealing with
-    strings, lists, \etc).
-    
-    \begin{exercise}
-    From a set $S$ generate a \textit{commutative} monoid $M$, \ie~one that
-    satisfies $x \cdot y = y \cdot x$ for all $x, y \in M$ --- find the initial
-    solution.
-    \end{exercise}
-    
-    \begin{exercise}
-    From a set $S$ generate a commutative and \textit{idempotent} monoid $M$ \ie~one
-    that also satisfies $x \cdot x = x$ for all $x \in M$ --- find the initial
-    solution.
-    \end{exercise}
-    
-    \section{Orders and lattices}
-    
-    For a set $P$ and $\leq\ \subseteq P \times P$ a binary relation, we will
-    consider the following properties.
-    
-    \begin{definition}
-    Reflexivity, transitivity, antisymmetry
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item $\leq$ is \textit{reflexive} if $\forall a \in P.\quad a \leq a$
-        \item $\leq$ is \textit{transitive} if
-          $\forall a,b,c \in P. \quad a \leq b \wedge b \leq c \Rightarrow a \leq c$
-        \item $\leq$ is \textit{antisymmetric} if $\forall a,b \in P. \quad
-          a \leq b \wedge b \leq a \Rightarrow a = b$
-    \end{itemize}
+
+    Since we picked an arbitrary subset of P, we can apply this reasonining to
+    the world of function, by introducting an universal initial solution for 
+    the sum of families problem.
+
+    \begin{definition} A family of sets indexed by a finite set of indeces I   
+    to be the set of sets $\{ A_i \suchthat i \in I \}$
     \end{definition}
+    For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
+    \begin{align*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
+            A_k \arrow[ru, "in_k"] \arrow[rd, swap, "f_k"]
+            \& {}
+            \\
+            {} \& C \& {}
+        \end{tikzcd}
+    \end{align*}
+
+    An example initial solution is given by:
+    \[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
+    In which case the functions $in_k$ are given by:
+    \[ in_k(x) = (k, x)\]
+
+    We can try to find further analogies in the case where P is a poset. Consider
+    the properties of a poset: $\forall a, b, c \in P$,
+    \begin{align*}
+        a \vee b &= b \vee a \\
+        a \vee a &= a \\
+        (a \vee b) \vee c &= a \vee (b \vee c) \\
+    \end{align*}
+
+    We can rewrite this set of equations in the world of functions, by replacing 
+    $\vee$ with $\uplus$ and equality with $\cong$
+
+    \begin{align*}
+        A \uplus B &\cong B \uplus A  \\
+        A \uplus A &\ncong A \\ 
+        (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\ 
+    \end{align*}
     
-    There is standard terminology for binary relations subject to such axioms.
-    
-    \begin{definition} Partial orders and preorders
-    \begin{itemize}[noitemsep,topsep=0pt]
-    \item $(P, \leq)$ is a \emph{preorder} (or \emph{quasiorder}) if $\leq$ is
-    reflexive and transitive
-    \item $(P, \leq)$ is a \emph{partial order} if is a preorder ($\leq$ is
-      reflexive and transitive) and $\leq$ is also antisymmetric
-    \end{itemize}
-    \end{definition}
-    
-    \begin{definition}
-    A partial order $(P, \leq)$ equipped with an associative, commutative, and
-    idempotent binary operation $\lor$, typically referred to as \emph{join} (or
-    \emph{sup}), that satisfies $x \leq y \iff x \vee y = x$ is a \emph{join (or
-    sup) semilattice}.
-    
-    (It may also have a least (or bottom) element $\bot \in L$ satisfying
-    $\forall x \in L,~\bot\lor x = \bot$.)
-    \end{definition}
-    
-    \subsection{Exercises}
-    
-    We can now consider the problem of generating a join semilattice.  For a set
-    $S$, we want to freely construct a join 
-    semilatice~$(\widetilde S,\vee_{\widetilde S})$ as follows:
-    % Create an example environment?
+    The second property is particular to posets since the choice of \emph{c} is
+    unique in the corresponding diagrams.
+
+    \begin{exercise}
+        Construct the bijections from the universal properties. \\
+        Hint: For the first property: 
+        \begin{align*}
+            A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
+        \end{align*}
+        we can find the bijections: 
+        \begin{align*}
+            (0, a) &\rightarrow (1, a)  \\ 
+            (1, b) &\rightarrow (0, b)  
+        \end{align*}
+    \end{exercise}
+
+    Solution for Exercise \ref{ex:bug}
+
     \begin{center}
         \begin{tikzcd}[ampersand replacement=\&]
             S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
@@ -714,196 +904,167 @@
         \text{where $h$ must preserve structure, 
           \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
     \end{center}
-    The exercise is to find the initial solution here, but we will start with some
-    intuition. The join semilatice generated from $S$ must contain each element
-    $x\in S$. Similarly, for any two, three, or, more generally, any finite
-    number of distinct elements of $S$, it must contain the join or union of all
-    of them.  Since the operator is commutative, the order doesn't matter, and
-    since it's idempotent, only one copy of each element of $S$ can exist. The
-    picture looks something like this:
-    \begin{align*}
-    & 
-    &
-    x  & \quad\leftrightarrow\quad \setof{x} \subseteq S 
-    \\
-    & x\not= y 
-    & x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S 
-    \\
-    & x\not= y \not= z \not= x 
-    &
-    x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S 
-    \\
-    & & 
-    & \,\enspace\quad\vdots &
-    \\
-    &
-    x_i \not= x_j\ \forall i,j
-    & x_1 \lor \cdots \lor x_n & \quad\leftrightarrow\quad \setof{x_1, \ldots, x_n}
-    \subseteq S
-    \end{align*}
     
-    Thus, we might guess that the universal initial solution $\widetilde{S}$ is
-    the collection of finite subsets of $S$: $\mathcal{P}_{\mathrm{fin}}(S) =
-    \setof{X \suchthat
-    X \subseteq_\mathrm{fin} S}$, with the join operator $X \lor Y = X \cup Y$.
-    This is close, but not entirely correct.
     
-    \begin{exercise}
-    There is a `bug' in the above proposed solution. Find the actual initial
-    solution.\label{ex:bug}  
-    \end{exercise}
-    
-    \chapter{Even more universal problems}
-    \lecturedetails{October 12}{M Fiore,  \ldots}
-    
-    In this lecture we introduce more mathematical terminology in order to 
-    derive more interesting such universal properties.
-    
-    We begin by further analysing the definitions of joins and meets.
-    
-    \begin{section}{Joins and Meets}
-        Consider $(P \leq)$ to be a preorder. For any subset $S \subset P$ we can define 
-        $\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or \emph{lub} 
-        (least upper bound) of the subset $S$, as well as $\bigwedge S$, the meet of the subset $S$.
-        \begin{definition}\label{defjoins}{Joins.} 
-            For a subset $S \subset P$, if it exists, $\bigvee S \in P$ is the join of S if
-            it satisfies the universal properties:
-                \begin{enumerate}
-                    \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
-                    \item $\forall u \in P$ such that $(\forall x \in S, x \leq u) \Rightarrow \bigvee S \leq u$
-                \end{enumerate}
-        \end{definition}
-    
-        The concept of a meet is dual to that of a join, so the definition is obtained
-        by reversing the comparison operators.
-    
-        \begin{definition}\label{defmeets}{Meets.}
-            For a subset $S \subset P$, if it exists, $\bigwedge S \in P$ is the meet of S if 
-            it satisfies the universal properties:
-                \begin{enumerate} 
-                    \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
-                    \item $\forall l \in P$ such that $(\forall x \in S, l \leq x)$, $ \Rightarrow l \leq \bigwedge S$    
-                \end{enumerate}
-        \end{definition}
-        For a better understanding of these universal properties, we can consider some 
-        special cases:
-        \begin{itemize}
-            \item $S = \{a, b\}$, we can use the notations $\bigvee S = a \vee b$ 
-                and, analogously $\bigwedge S = a \wedge b$
-            \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
-                join exist, s.t. $\bigvee S = \bigwedge S = a$
-            \item $S = \emptyset$. Considering the definition of joins \ref{defjoins},
-                the first property becomes true due to the inability to pick an $x \in S$. With the same reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee S \leq u$.
-                Therefore the solution is $\bigvee S = \bot$, the bottom element in P.
-                Analogously, $\bigwedge S = \top$, the top element of P.
-        \end{itemize} 
-    
-        We can relate the case where S has two elements, $S = \{a, b\}$ to previous
-        examples by analysing them categorically.
-    
-        For $S = \{a, b\}$, we can write the universal property as a commutative diagram 
-    
-        \begin{align*}
-            \begin{tikzcd}[ampersand replacement=\&]
-                {} \& a \vee b \arrow[dd, dashed, "\exists ! "] \& {} \\
-                a \arrow[ru, "\leq"] \arrow[rd, swap]
-                \& {}
-                \&
-                b \arrow[lu, swap, "\leq"] \arrow[ld]
-                \\
-                {} \& c \& {}
-            \end{tikzcd}
-        \end{align*}
-    
-        If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram in
-        in the set and function world, obtaining the properties of the disjoint union of sets.
-    
-        \begin{align*}
-            \begin{tikzcd}[ampersand replacement=\&]
-                {} \& A \uplus B \arrow[dd, dashed, "\exists ! "] \& {} \\
-                A \arrow[ru] \arrow[rd, swap]
-                \& {}
-                \&
-                B \arrow[lu, swap] \arrow[ld]
-                \\
-                {} \& C \& {}
-            \end{tikzcd}
-        \end{align*}
-    
-        Since we picked an arbitrary subset of P, we can apply this reasonining to
-        the world of function, by introducting an universal initial solution for 
-        the sum of families problem.
-    
-        \begin{definition} A family of sets indexed by a finite set of indeces I   
-        to be the set of sets $\{ A_i \suchthat i \in I \}$
-        \end{definition}
-        For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
-        \begin{align*}
-            \begin{tikzcd}[ampersand replacement=\&]
-                {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
-                A_k \arrow[ru, "in_k"] \arrow[rd, swap, "f_k"]
-                \& {}
-                \\
-                {} \& C \& {}
-            \end{tikzcd}
-        \end{align*}
-    
-        An example initial solution is given by:
-        \[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
-        In which case the functions $in_k$ are given by:
-        \[ in_k(x) = (k, x)\]
-    
-        We can try to find further analogies in the case where P is a poset. Consider
-        the properties of a poset: $\forall a, b, c \in P$,
-        \begin{align*}
-            a \vee b &= b \vee a \\
-            a \vee a &= a \\
-            (a \vee b) \vee c &= a \vee (b \vee c) \\
-        \end{align*}
-    
-        We can rewrite this set of equations in the world of functions, by replacing 
-        $\vee$ with $\uplus$ and equality with $\cong$
-    
-        \begin{align*}
-            A \uplus B &\cong B \uplus A  \\
-            A \uplus A &\ncong A \\ 
-            (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\ 
-        \end{align*}
-        
-        The second property is particular to posets since the choice of \emph{c} is
-        unique in the corresponding diagrams.
-    
-        \begin{exercise}
-            Construct the bijections from the universal properties. \\
-            Hint: For the first property: 
-            \begin{align*}
-                A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
-            \end{align*}
-            we can find the bijections: 
-            \begin{align*}
-                (0, a) &\rightarrow (1, a)  \\ 
-                (1, b) &\rightarrow (0, b)  
-            \end{align*}
-        \end{exercise}
-    
-        Solution for Exercise \ref{ex:bug}
-    
-        \begin{center}
-            \begin{tikzcd}[ampersand replacement=\&]
-                S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
-                \tilde{S}
-                \arrow[d, "\exists ! f^\#"] 
-                \& (\widetilde{S},\lor_{\widetilde{S}}) 
-                \arrow[d, "\text{$f^\#$ a homomorphism}"] 
-                \& \text{a universal initial join semilatice}
-                \\
-                {}  
-                \& L \& (L,\lor_L) \& \text{any join semilatice}
-            \end{tikzcd}\\[2mm]
-            \text{where $h$ must preserve structure, 
-              \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
-        \end{center}
-    
-    \end{section}
-    \end{document}
+\section{Suplattice}
+\begin{definition}
+A suplattice is a poset $(L, \le)$ with the additional property that $\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every subset $S \subseteq L$.
+\end{definition}
+
+Note, that as $\emptyset \subseteq L$, a suplattice always has a least element.
+
+Consider the following problem,
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "L"] \arrow[dr, swap, "\forall\ f"] \& 
+        \tilde{S} \arrow[d, "\exists ! h"] \&
+        (\tilde{S},\vee_{\tilde{S}}) \arrow[d, "h"] \& 
+        \text{a suplattice}
+        \\
+        \&
+        L \& 
+        (L,\vee_L) \& 
+        \text{a suplattice}
+    \end{tikzcd} \\[3mm]
+    \text{where $h$ must preserve structure, \ie}
+      \[
+      	\forall X \subseteq S\ldotp h(\vee_{\tilde{S}}X) = \vee_L\{h(x) | x \in X\}
+      \]
+\end{center}
+
+\begin{exercise}
+	Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial solution.
+\end{exercise}
+
+\section{Two more problems on sets}
+\subsection{Problem 1}
+For $S$ a set, consider
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        s \in S \arrow[r, "\sigma"] \& 
+        S \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+How can we compare two such gadgets $(s_1, S_1, \sigma_1)$ and $(s_2, S_2, \sigma_2)$? We need a function $f: S_1 \to S_2$ such that
+\begin{enumerate}
+	\item $f(s_1) = s_2$
+	\item $\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))$
+\end{enumerate}
+We can express the second condition in the usual diagrammatic notation as
+	\begin{center}
+		\begin{tikzcd}[ampersand replacement=\&]
+	        S_1 \arrow[r, "f"] \arrow [d, "\sigma_1"] \&
+	        S_2 \arrow[d, "\sigma_2"] \&
+	   		\\
+			S_1 \arrow[r, "f"] \&
+			S_2 \&
+	    \end{tikzcd} \\[3mm]
+	    \text{Which is the following condition, but represent diagrammatically} 
+	    \[
+	    	\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))
+		\]
+	\end{center}
+\[ f(s_1) = s_2 \]
+
+\subsubsection{Similarity to the problem on monoids}
+Note that this problem is not too different from problem \ref{section_generate_monoid} for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral element $e \in M$ and a binary operation $\star: M \to M$. The criteria is a function $h: M_1 \to M_2$ such that
+\[ h(e_1) = e_2 \]
+and 
+\[ h(x \star_1 y) = h(x) \star_2 h(y) \]
+Rewriting the second condition in a diagram, the connection between the two problems arrises:
+\begin{center}
+	\begin{tikzcd}[ampersand replacement=\&]
+        M_1 \times M_1 \arrow[r, "h \times h"] \arrow [d, "\star_1"] \&
+        M_2 \times M_2 \arrow[d, "\star_2"] \&
+   		\\
+		M_1 \arrow[r, "h"] \&
+		S_2 \&
+    \end{tikzcd} \\[3mm]
+    \text{where} $(h \times h)(x,y) = (h(x), h(y))$
+\end{center}
+
+\subsubsection{Intuition}
+For the intial solution of the posed problem on sets, we need the following
+\[s \in S \]
+\[\sigma(s) \in S \]
+Thus, as $\sigma(s) \in S$, we need to add
+\[\sigma(\sigma(s)) \in S\]
+and similarly, we need to add the following elements
+\[\sigma(\sigma(\sigma(s))) \in S\]
+\[\vdots\]
+This structure suggests a connection to the natural numbers $\nats$.
+\begin{exercise}
+	Show that 
+	\begin{center}
+	    \begin{tikzcd}[ampersand replacement=\&]
+	        0 \in \nats \arrow[r, "\textrm{succ}"] \& 
+	        \nats \&
+	    \end{tikzcd} \\[3mm]
+	\end{center} 
+	is the initial solution. That is the natural numbers with 0 and the successor function, \ie $(0, \nats, \textrm{succ})$, where $\textrm{succ}(x) = x + 1$.
+\end{exercise}
+
+\subsubsection{Relation to automata theory}
+This problem can be seen from an automata point of view, $s$ being the start state and $\sigma$ the transition function. Due to time constraints, we will not be exploring this relation further in this course.
+
+\subsection{Problem 2}
+Consider the following gadget for $S$ a set
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \& 
+        \{0,1\} \&
+        \\
+        S \arrow[ur, "\theta"] \arrow[r, "\sigma"]\&
+        S
+    \end{tikzcd} \\[3mm]
+\end{center} 
+We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$ with the function $h: S_1 \to S_2$ such that
+\begin{enumerate}
+	\item $\theta_2 \circ h = \theta_1$
+	\item $\sigma_2 \circ h = \sigma_1$
+\end{enumerate}
+Diagrammatically, this is equivalent to 
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \&
+        \{0,1\} \&
+        \&
+        \{0,1\} \&
+        \\
+        S_1 \arrow[ur, "\theta_1"] \arrow[dr, swap, "\sigma_1"] \arrow[rr, "h"]\&
+        \&
+        S_2 \arrow[ur, "\theta_2"] \arrow[dr, "\sigma_2"]\&
+        \\
+        \&
+        S_1 \&
+        \&
+        S_2 \&
+    \end{tikzcd} \\[3mm]
+\end{center} 
+
+\begin{exercise}
+	Find the final solution.
+\end{exercise}
+
+\subsubsection{Intuition}
+We need to find a set $S$ with the following structure:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+    	\&
+    	0/1 \&
+    	0/1 \&
+    	0/1 \&
+    	\dots \&
+    	\\
+    	s \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
+    	\sigma(s) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
+		\sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
+		\sigma(\sigma(\sigma(s))) \in S \arrow[ur, mapsto, "\theta"] \arrow[r, mapsto, "\sigma"]\&
+		\dots \&
+    \end{tikzcd}
+\end{center}
+
+\end{section}
+\end{document}
     
