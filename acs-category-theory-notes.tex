@@ -971,19 +971,22 @@ We can express the second condition in the usual diagrammatic notation as
 			S_1 \arrow[r, "f"] \&
 			S_2 \&
 	    \end{tikzcd} \\[3mm]
-	    \text{Which is the following condition, but represent diagrammatically} 
-	    \[
-	    	\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))
-		\]
-	\end{center}
-\[ f(s_1) = s_2 \]
+    \end{center}
+Which is the following condition, but represented as a diagram
+    \[
+        \forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))
+    \]
+    \[ f(s_1) = s_2 \]
 
 \subsubsection{Similarity to the problem on monoids}
-Note that this problem is not too different from problem \ref{section_generate_monoid} for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral element $e \in M$ and a binary operation $\star: M \to M$. The criteria is a function $h: M_1 \to M_2$ such that
-\[ h(e_1) = e_2 \]
+Note that this problem is not too different from problem \ref{section_generate_monoid} 
+for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral element 
+$e \in M$ and a binary operation $\star: M \to M$. The criteria are functions 
+$h: M_1 \to M_2$ such that
+    \[ h(e_1) = e_2 \]
 and 
-\[ h(x \star_1 y) = h(x) \star_2 h(y) \]
-Rewriting the second condition in a diagram, the connection between the two problems arrises:
+    \[ h(x \star_1 y) = h(x) \star_2 h(y) \]
+Rewriting the second condition in a diagram, the connection between the two problems arises:
 \begin{center}
 	\begin{tikzcd}[ampersand replacement=\&]
         M_1 \times M_1 \arrow[r, "h \times h"] \arrow [d, "\star_1"] \&
@@ -992,8 +995,9 @@ Rewriting the second condition in a diagram, the connection between the two prob
 		M_1 \arrow[r, "h"] \&
 		S_2 \&
     \end{tikzcd} \\[3mm]
-    \text{where} $(h \times h)(x,y) = (h(x), h(y))$
 \end{center}
+where 
+\[(h \times h)(x,y) = (h(x), h(y))\]
 
 \subsubsection{Intuition}
 For the intial solution of the posed problem on sets, we need the following
@@ -1017,7 +1021,7 @@ This structure suggests a connection to the natural numbers $\nats$.
 \end{exercise}
 
 
-\subsubsection{Relation to autoturism theory}
+\subsubsection{Relation to automata theory}
 This problem can be seen from an automata point of view, $s$ being the start state and $\sigma$ the transition function. Due to time constraints, we will not be exploring this relation further in this course.
 
 \subsection{Problem 2}
