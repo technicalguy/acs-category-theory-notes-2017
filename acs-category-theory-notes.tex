@@ -891,108 +891,6 @@ Solution for Exercise \ref{ex:bug}
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \& 
-        \tilde{S}
-        \arrow[d, "\exists ! f^\#"] 
-        \& (\widetilde{S},\lor_{\widetilde{S}}) 
-        \arrow[d, "\text{$f^\#$ a homomorphism}"] 
-        \& \text{a universal initial join semilatice}
-        \\
-        {}  
-        \& L \& (L,\lor_L) \& \text{any join semilatice}
-    \end{tikzcd}\\[2mm]
-    \text{where $h$ must preserve structure, 
-      \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
-\end{center}
-
-
-\begin{align*}
-    \begin{tikzcd}[ampersand replacement=\&]
-        {} \& a \vee b \arrow[dd, dashed, "\exists ! "] \& {} \\
-        a \arrow[ru, "\leq"] \arrow[rd, swap]
-        \& {}
-        \&
-        b \arrow[lu, swap, "\leq"] \arrow[ld]
-        \\
-        {} \& c \& {}
-    \end{tikzcd}
-\end{align*}
-
-If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram in
-in the set and function world, obtaining the properties of the disjoint union of sets.
-
-\begin{align*}
-    \begin{tikzcd}[ampersand replacement=\&]
-        {} \& A \uplus B \arrow[dd, dashed, "\exists ! "] \& {} \\
-        A \arrow[ru] \arrow[rd, swap]
-        \& {}
-        \&
-        B \arrow[lu, swap] \arrow[ld]
-        \\
-        {} \& C \& {}
-    \end{tikzcd}
-\end{align*}
-
-Since we picked an arbitrary subset of P, we can apply this reasonining to
-the world of function, by introducting an universal initial solution for 
-the sum of families problem.
-
-\begin{definition} A family of sets indexed by a finite set of indeces I   
-to be the set of sets $\{ A_i \suchthat i \in I \}$
-\end{definition}
-For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
-\begin{align*}
-    \begin{tikzcd}[ampersand replacement=\&]
-        {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
-        A_k \arrow[ru, "in_k"] \arrow[rd, swap, "f_k"]
-        \& {}
-        \\
-        {} \& C \& {}
-    \end{tikzcd}
-\end{align*}
-
-An example initial solution is given by:
-\[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
-In which case the functions $in_k$ are given by:
-\[ in_k(x) = (k, x)\]
-
-We can try to find further analogies in the case where P is a poset. Consider
-the properties of a poset: $\forall a, b, c \in P$,
-\begin{align*}
-    a \vee b &= b \vee a \\
-    a \vee a &= a \\
-    (a \vee b) \vee c &= a \vee (b \vee c) \\
-\end{align*}
-
-We can rewrite this set of equations in the world of functions, by replacing 
-$\vee$ with $\uplus$ and equality with $\cong$
-
-\begin{align*}
-    A \uplus B &\cong B \uplus A  \\
-    A \uplus A &\ncong A \\ 
-    (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\ 
-\end{align*}
-
-The second property is particular to posets since the choice of \emph{c} is
-unique in the corresponding diagrams.
-
-\begin{exercise}
-    Construct the bijections from the universal properties. \\
-    Hint: For the first property: 
-    \begin{align*}
-        A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
-    \end{align*}
-    we can find the bijections: 
-    \begin{align*}
-        (0, a) &\rightarrow (1, a)  \\ 
-        (1, b) &\rightarrow (0, b)  
-    \end{align*}
-\end{exercise}
-
-Solution for Exercise \ref{ex:bug}
-
-\begin{center}
-    \begin{tikzcd}[ampersand replacement=\&]
         S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
         \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"] 
         \& (\mathcal{P}_{\mathrm{fin}}(S), \cup) 
@@ -1153,7 +1051,7 @@ Diagrammatically, this is equivalent to
     \end{tikzcd} \\[3mm]
 \end{center} 
 
-\subsubsection{Relation to automate theory}
+\subsubsection{Relation to automata theory}
 Again, we can view this problem from an automata point of view. As before, $S$ is the set of states and $\sigma$ is the transition function. Additionally, we have $\theta$ which acts as an observing function that rejects a state $s \in S$ if $\theta(s) = 1$ and rejects it otherwise.
 The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$. 
 \begin{exercise}
