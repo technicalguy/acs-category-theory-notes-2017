@@ -852,13 +852,13 @@ For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
     \text{for arbitrary $f_k$ and $C$}
 \end{center}
 
-An example initial solution is given by:
+An example initial solution is given by
 \[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
-In which case the functions $in_k$ are given by:
+In which case the functions $in_k$ are given by
 \[ in_k(x) = (k, x)\]
 
 We can try to find further analogies in the case where P is a poset. Consider
-the properties of a poset: $\forall a, b, c \in P$,
+the properties of a poset: $\forall a, b, c \in P \ldotp$
 \begin{align*}
     a \vee b &= b \vee a \\
     a \vee a &= a \\
@@ -890,7 +890,7 @@ unique in the corresponding diagrams.
     \end{align*}
 \end{exercise}
 
-\subsection{Solution for Exercise \ref{ex:bug}}
+\section{Solution for Exercise \ref{ex:bug}}
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -911,11 +911,11 @@ unique in the corresponding diagrams.
 Since this diagram commutes
 \begin{align*}
     h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n) \\
-    \intertext{Since:}
+    \intertext{Since}
     \{x_1, x_2 ..., x_n \} = \bigcup_i \{x_i\}
-    \intertext{And:}
+    \intertext{And}
     h\big(\bigcup_i \{x_i\}\big) = \bigvee_i h(\{x_i\})
-    \intertext{We get that:}
+    \intertext{We get that}
     f(x_i) = h(\{x_i\})
 \end{align*}
 
