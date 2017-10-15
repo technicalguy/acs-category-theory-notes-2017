@@ -759,20 +759,22 @@ solution.\label{ex:bug}
 \chapter{Even more universal problems}
 \lecturedetails{October 12}{M Fiore, R Kusztos, S Borgeaud}
 
-In this lecture we introduce more mathematical terminology in order to 
-derive more interesting such universal properties.
+In this lecture we introduce mathematical terminology and concepts to then
+consider more interesting universal properties.
 
 We begin by further analysing the definitions of joins and meets.
 
 \begin{section}{Joins and Meets}
 Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can 
-define$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum) or 
-\emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$, 
-the meet of the subset $S$.
+define$\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum),
+or \emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$,
+the \emph{meet}, \emph{inf} (infimum) or \emph{glb} (greatest lower bound)  of
+the subset $S$.
 
-\begin{definition}\label{defjoins}{Joins.} 
-    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join of 
-    S if it satisfies the universal properties:
+\begin{definition}[Joins] 
+\label{defjoins}
+    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join
+    of S if it satisfies the universal properties:
         \begin{enumerate}
             \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$ 
             \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u) 
@@ -781,9 +783,10 @@ the meet of the subset $S$.
 \end{definition}
 
 The concept of a meet is dual to that of a join, so the definition is obtained
-by reversing the comparison operators.
+by reversing the preorder.
 
-\begin{definition}\label{defmeets}{Meets.}
+\begin{definition}[Meets]
+\label{defmeets}
     For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet 
     of S if it satisfies the universal properties:
         \begin{enumerate} 
@@ -795,10 +798,10 @@ by reversing the comparison operators.
 For a better understanding of these universal properties, we can consider some 
 special cases:
 \begin{itemize}
-    \item $S = \{a, b\}$, we can use the notations $\bigvee S = a \vee b$ 
-        and, analogously $\bigwedge S = a \wedge b$
+    \item $S = \{a, b\}$, we can use the notations $\bigvee S = (a \vee b)$ 
+        and, analogously $\bigwedge S = (a \wedge b)$
     \item $S = \{a\}$. In this case, we are guaranteed that the meet and 
-        join exist, s.t. $\bigvee S = \bigwedge S = a$
+        join exist: $\bigvee S = \bigwedge S = a$
     \item $S = \emptyset$. Considering the definition of joins,
         the first property becomes true due to the inability to pick an $x \in S$. 
         With the same reasoning, the second property reduces to $\forall u \in P 
@@ -824,9 +827,9 @@ For $S = \{a, b\}$, we can write the universal property as a commutative diagram
     \end{tikzcd}
 \end{center}
 
-If instead of $\leq$ we would write $\rightarrow$, we can interepret the diagram 
-in the set and function world, obtaining the properties of the disjoint union of 
-sets.
+If instead of $\leq$ we would write $\rightarrow$, we can interepret the
+diagram in the world of sets and functions, obtaining the properties of the
+disjoint union of sets.
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -840,15 +843,23 @@ sets.
     \end{tikzcd}
 \end{center}
 
-Since we picked an arbitrary subset of P, we can apply this reasonining to
-the world of function, by introducting an universal initial solution for 
-the sum of families problem.
+Since we picked an arbitrary subset of P, we can apply this reasoning to
+the world of sets and functions, by introducing a universal initial solution
+for the problem of adding a family of sets.
 
-\subsection{Families of sets}
-\begin{definition} A family of sets $A_i$ indexed by a finite set of indeces 
-    $i \in I$ is the set of sets given by $\{ A_i \suchthat i \in I \}$
-\end{definition}
-For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
+\subsection{Adding families of sets}
+
+Given a family of sets $\setof{A_i}_{i\in I}$ \big(also denoted as 
+$\setof{ A_i \suchthat i \in I }$ or $(A_i\suchthat i\in I)$\big) indexed by a
+set $I$, we seek: 
+\begin{itemize}
+\item 
+  a set $\biguplus_{i \in I} A_i$ and a family of functions 
+  $\setof{ in_k: A_k\to \biguplus_{i \in I} A_i }_{k\in I}$ such that, 
+\item 
+  for every set $C$ and family of functions 
+  $\setof{ f_k: A_k\to C }_{k\in I}$, there is a unique $u$ such that the
+  diagram below commutes for all $k\in I$:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
@@ -856,34 +867,41 @@ For all $k \in I$, we can find a unique $u$ such that the diagram commutes.
         \& {}
         \\
         {} \& C \& {}
-    \end{tikzcd} \\[3mm]
-    \text{for arbitrary $f_k$ and $C$}
+    \end{tikzcd} 
 \end{center}
+\end{itemize}
 
-An example initial solution is given by
-\[ \biguplus_{i \in I} A_i = \bigcup_{i \in I} \{i\} \times A_i \]
+An example of such initial universal solution is given by
+\[ \biguplus_{i \in I} A_i \,=\, \bigcup_{i \in I}\ \{i\} \times A_i \]
 In which case the functions $in_k$ are given by
 \[ in_k(x) = (k, x)\]
 
 We can try to find further analogies in the case where P is a poset. Consider
-the properties of a poset: $\forall a, b, c \in P \ldotp$
+the following properties of joins in a poset: $\forall a, b, c \in P \ldotp$
 \begin{align*}
     a \vee b &= b \vee a \\
-    a \vee a &= a \\
     (a \vee b) \vee c &= a \vee (b \vee c) \\
+    a \vee a &= a \\
 \end{align*}
 
-We can rewrite this set of equations in the world of functions, by replacing 
-$\vee$ with $\uplus$ and equality with $\cong$
-
+We can try to reinterpret these equations in the world of sets and functions,
+by replacing $\vee$ (join) with $\uplus$~(sum) and equality with $\cong$
+(isomorphism).  We obtain:
 \begin{align*}
     A \uplus B &\cong B \uplus A  \\
-    A \uplus A &\ncong A \\ 
     (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\ 
+    A \uplus A &\ncong A \\ 
 \end{align*}
 
-The second property is particular to posets since the choice of \emph{c} is
-unique in the corresponding diagrams.
+Note that \emph{idempotency} is a property particular to posets, because the
+arrows~(\ie, the $\leq$ relation) between elements of a poset is unique.
+However, we always have:
+\begin{center}
+  $A \to A\uplus A$
+  \quad and \quad
+  $A\uplus A \to A$
+  \enspace.
+\end{center}
 
 \begin{exercise}
     Construct the bijections from the universal properties. \\
@@ -900,9 +918,10 @@ unique in the corresponding diagrams.
 
 \section{Solution for Exercise \ref{ex:bug}}
 
+Consider whether the following holds:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "x \to \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
+        S \arrow[r, "x \mapsto \{x\}"] \arrow[dr, swap, "\forall\ f"] \& 
         \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"] 
         \& (\mathcal{P}_{\mathrm{fin}}(S), \cup) 
         \arrow[d, "\text{$h$homomorphism}"] 
@@ -914,49 +933,54 @@ unique in the corresponding diagrams.
 \end{center}
 Since this diagram commutes
 \begin{align*}
-    h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n) \\
-    \intertext{Since}
+    h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n) 
+    \qquad (n\in\nats)
+\\
+\intertext{Since}
     \{x_1, x_2 ..., x_n \} = \bigcup_i \{x_i\}
-    \intertext{And}
+\intertext{and}
     h\big(\bigcup_i \{x_i\}\big) = \bigvee_i h(\{x_i\})
-    \intertext{We get that}
+\intertext{we get that}
     f(x_i) = h(\{x_i\})
 \end{align*}
 
-Since this is not defined for the empty set, we restrict our $\tilde{S}$ to be 
-$\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
+Since this is not defined for the empty set, we need restrict our $\tilde{S}$
+to be $\mathcal{P}_{\mathrm{fin}}^{+}(S)$ 
 
 \section{Suplattice}
+
 \begin{definition}
-A suplattice is a poset $(L, \le)$ with the additional property that 
-$\forall S \subseteq L. {\vee}S$. That is, there exists a disjoin for every 
-subset $S \subseteq L$.
+A suplattice is a poset $(L, \le)$ with the property that there exists a join
+${\bigvee}S$ for every subset $S \subseteq L$.
 \end{definition}
 
-Note, that as $\emptyset \subseteq L$, a suplattice always has a least element.
+Note, that as $\emptyset \subseteq L$, a suplattice always has a least
+element.
 
 Consider the following problem,
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        S \arrow[r, "L"] \arrow[dr, swap, "\forall\ f"] \& 
+        S \arrow[r] \arrow[dr, swap, "\forall\ f"] \& 
         \tilde{S} \arrow[d, "\exists ! h"] \&
-        (\tilde{S},\vee_{\tilde{S}}) \arrow[d, "h"] \& 
+        (\tilde{S},\bigvee_{\tilde{S}}) \arrow[d, "h"] \& 
         \text{a suplattice}
         \\
         \&
         L \& 
-        (L,\vee_L) \& 
+        (L,\bigvee_L) \& 
         \text{a suplattice}
     \end{tikzcd} \\[3mm]
     \text{where $h$ must preserve structure, \ie}
       \[
-      	\forall X \subseteq S\ldotp h(\vee_{\tilde{S}}X) = \vee_L\{h(x) | x \in X\}
+        \forall X \subseteq S\ldotp 
+          h(\bigvee_{\tilde{S}}X) = \bigvee_L \setof{h(x) \suchthat x \in X} 
       \]
 \end{center}
 
 \begin{exercise}
-    Show that $\tilde{S} = \mathcal{P}(S)$ with $\vee_{\tilde{S}}$ is an initial 
-    solution.
+    Show that for $\widetilde{S} = \mathcal{P}(S)$ with
+    $\bigvee_{\widetilde{S}}=\bigcup$ the function 
+    $S \to \widetilde{S}: x \mapsto \setof{ x }$ is an initial solution.
 \end{exercise}
 
 \section{Two more problems on sets}
@@ -985,21 +1009,18 @@ We can express the second condition in the usual diagrammatic notation as
 			S_2 \&
 	    \end{tikzcd} \\[3mm]
     \end{center}
-Which is the following condition, but represented as a diagram
-    \[
-        \forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))
-    \]
-    \[ f(s_1) = s_2 \]
 
 \subsubsection{Similarity to the problem on monoids}
-Note that this problem is not too different from problem \ref{section_generate_monoid} 
-for monoids. Recall, a monoid $(M, e, \star)$ consists of a set $M$, a neutral 
-element $e \in M$ and a binary operation $\star: M \to M$. The criteria are 
-functions $h: M_1 \to M_2$ such that
-    \[ h(e_1) = e_2 \]
+
+Note that this problem is not too different from problem
+\ref{section_generate_monoid} for monoids. Recall, a monoid $(M, e, \star)$
+consists of a set $M$, a neutral 
+element $e \in M$ and a binary operation $\star: M\times M \to M$.
+Homomorphisms between $(M_1,e_1,\star_1)$ and $(M_2,e_2,\star_2)$ are
+functions $h: M_1 \to M_2$ such that \[ h(e_1) = e_2 \]
 and 
     \[ h(x \star_1 y) = h(x) \star_2 h(y) \]
-Rewriting the second condition in a diagram, the connection between the two 
+Rewriting the second condition as a diagram, the connection between the two 
 problems arises:
 \begin{center}
 	\begin{tikzcd}[ampersand replacement=\&]
@@ -1011,7 +1032,7 @@ problems arises:
     \end{tikzcd} \\[3mm]
 \end{center}
 where 
-\[(h \times h)(x,y) = (h(x), h(y))\]
+\[\big(h \times h\big)(x,y) = \big(h(x), h(y)\big)\]
 
 \subsubsection{Intuition}
 For the intial solution of the posed problem on sets, we need the following
@@ -1031,15 +1052,17 @@ This structure suggests a connection to the natural numbers $\nats$.
 	        \nats \&
 	    \end{tikzcd} \\[3mm]
 	\end{center} 
-    is the initial solution. That is the natural numbers with 0 and the successor 
-    function, \ie $(0, \nats, \textrm{succ})$, where $\textrm{succ}(x) = x + 1$.
+    is the initial solution. That is the natural numbers $\nats$ with 0 and
+    the successor function $\textrm{succ} = \lambda x\in\nats.x + 1$.
 \end{exercise}
 
 
 \subsubsection{Relation to automata theory}
-This problem can be seen from an automata point of view, $s$ being the start 
-state and $\sigma$ the transition function. Due to time constraints, we will not 
-be exploring this relation further in this course.
+
+This problem can be seen from an automata-theoretic point of view, $s$ being
+the start state and $\sigma$ the transition function. Unfortunately, due to
+time constraints, we will not be exploring this relation further in the
+course.
 
 \subsection{Problem 2}
 Consider the following gadget for $S$ a set
@@ -1062,31 +1085,40 @@ Diagrammatically, this is equivalent to
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         \&
-        \{0,1\} \&
+        \{0,1\} 
         \&
-        \{0,1\} \&
+        \&
+        \&
         \\
-        S_1 \arrow[ur, "\theta_1"] \arrow[dr, swap, "\sigma_1"] \arrow[rr, "h"]\&
+        S_1 
+        \arrow[ur, "\theta_1"] 
+        \arrow[d, swap, "\sigma_1"] 
+        \arrow[rr, "h"]
         \&
-        S_2 \arrow[ur, "\theta_2"] \arrow[dr, "\sigma_2"]\&
+        \&
+        S_2 
+        \arrow[ul, swap, "\theta_2"] 
+        \arrow[d, "\sigma_2"]\&
         \\
+        S_1 \arrow[rr,"h"]
         \&
-        S_1 \&
         \&
         S_2 \&
     \end{tikzcd} \\[3mm]
 \end{center} 
 
 \subsubsection{Relation to automata theory}
-Again, we can view this problem from an automata point of view. As before, $S$ 
-is the set of states and $\sigma$ is the transition function. Additionally, we 
-have $\theta$ which acts as an observing function that rejects a state $s \in S$ 
-if $\theta(s) = 1$ and rejects it otherwise.
+Again, we can view this problem from an automata point of view. As before, $S$
+is the set of states and $\sigma$ is the transition function. Additionally, we
+have $\theta$ which acts as an observing (or output) function that accepts a
+state $s \in S$ if $\theta(s) = 1$ and rejects it otherwise.
 
-The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$. 
+The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$. 
+
 \begin{exercise}
-    Find the final solution. Intuition: we need to find a set $S$ with the 
-    following structure:
+    Find the final solution. 
+    
+    Intuition: we need to find a set $S$ with the following structure:
 	\begin{center}
 	    \begin{tikzcd}[ampersand replacement=\&]
 	    	\&
