@@ -984,8 +984,10 @@ Consider the following problem,
     $S \to \widetilde{S}: x \mapsto \setof{ x }$ is an initial solution.
 \end{exercise}
 
-\section{Two more problems on sets}
+\section{Two more universal problems}
+
 \subsection{Problem 1}
+
 For $S$ a set, consider
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -1111,7 +1113,6 @@ Diagrammatically, this is equivalent to
 \subsubsection{Relation to automata theory}
 Again, we can view this problem from an automata point of view. As before, $S$
 is the set of states and $\sigma$ is the transition function. Additionally, we
-<<<<<<< HEAD
 have $\theta$ which acts as an observing (or output) function that accepts a
 state $s \in S$ if $\theta(s) = 1$ and rejects it otherwise.
 
@@ -1130,24 +1131,6 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 	    	\dots \&
 	    	\\
             s \in S \arrow[ur, mapsto, "\theta"] 
-=======
-have $\theta$ which acts as an observing function that rejects a state $s \in S$
-if $\theta(s) = 1$ and rejects it otherwise.
-
-The criteria, $h$, tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
-\begin{exercise}
-    Find the final solution. Intuition: we need to find a set $S$ with the
-    following structure:
-    \begin{center}
-        \begin{tikzcd}[ampersand replacement=\&]
-            \&
-            0/1 \&
-            0/1 \&
-            0/1 \&
-            \dots \&
-            \\
-            s \in S \arrow[ur, mapsto, "\theta"]
->>>>>>> c67183600612b5f85f0f774213c6eb45474dd244
                     \arrow[r, mapsto, "\sigma"]\&
             \sigma(s) \in S \arrow[ur, mapsto, "\theta"]
                             \arrow[r, mapsto, "\sigma"]\&
