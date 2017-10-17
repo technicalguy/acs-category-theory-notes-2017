@@ -1250,55 +1250,91 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 \end{exercise}
 \begin{proof}[Solution]
     Consider the set of all functions from natural numbers to $\setof{0,1}$,
-    written as $\nats \to \setof{0, 1}$, and also the functions
-    $\mathrm{hd}: (\nats \to \setof{0, 1}) \to \setof{0, 1}$ and
-    $\mathrm{tl}: (\nats \to \setof{0, 1}) \to (\nats \to \setof{0, 1})$
-    defined in the following way:
-    \[ \mathrm{hd} (f) = f(0) \]
-    \[ \mathrm{tl} (f) = \lambda x \in \nats.\ f (x + 1) \]
-    This is clearly a solution, it remains to show it is the final one.
+    written here as ${[\nats\Rightarrow\setof{0,1}]}$, and also the
+    functions 
+    \[
+      \mathrm{hd}: [\nats\Rightarrow\setof{0,1}] \to \setof{0,1}
+      \enspace,\quad
+      \mathrm{tl}
+      : [\nats\Rightarrow\setof{0,1}] \to [\nats\Rightarrow\setof{0,1}]
+    \]
+    defined by
+    \begin{align*}
+      \mathrm{hd} (f) &= f(0) 
+      \\[1mm]
+      \mathrm{tl} (f) &= \lambda x \in \nats.\ f (x + 1) 
+    \end{align*}
+    This clearly provides data as desired, it remains to show it is a final
+    solution.
 
-    Consider any other solution with set $S$, function $\sigma: S \to S$ and
-    $\theta: S \to \setof{0, 1}$. Let $h: S \to (\nats \to \setof{0, 1})$ be
-    the following function:
-    \[ h (x) = \lambda n \in \nats.\ \theta(\sigma^n (x)) \]
+    Consider any other data with set $S$, and functions 
+    $\theta: S \to \setof{0, 1}$ and $\sigma: S \to S$.
+    Let ${h: S \to [\nats\Rightarrow\setof{0,1}]}$ be the following function:
+    \[ h (x) \eqdef \lambda n \in \nats.\ \theta\big(\sigma^n (x)\big) \]
     It satisfies the required conditions:
 
     \begin{itemize}
     
-    \item $h \comp \sigma = \mathrm{tl} \comp h$ because
-    \[(h \comp \sigma)(x) = h ( \sigma (x)) = \lambda n \in \nats.
-    \ \theta(\sigma^n(\sigma(x))) = \lambda n \in \nats.
-    \ \theta(\sigma^{n+1}(x))\]
-    and
-    \[(\mathrm{tl} \comp h)(x) = \mathrm{tl}(\lambda m \in \nats.
-    \ \theta(\sigma^m (x))) = \lambda n \in \nats.\ \theta(\sigma^{n+1} (x)) \]
+    \item 
+    $\theta = \mathrm{hd} \comp h$ because
+    \[ 
+      \big(\mathrm{hd} \comp h\big)(x) 
+      = \mathrm{hd}
+          \big( \lambda n \in \nats.\ \theta\big(\sigma^n(x)\big) \big) 
+      = \theta\big(\sigma^0(x)\big) 
+      = \theta(x) 
+    \]
 
-    \item $\theta = \mathrm{hd} \comp h$ because
-    \[ (\mathrm{hd} \comp h)(x) =
-    \mathrm{hd} ( \lambda n \in \nats.\ \theta(\sigma^n(x)) ) =
-    \theta(\sigma^0(x)) = \theta(x) \]
+    \item 
+    $h \comp \sigma = \mathrm{tl} \comp h$ because
+    \[
+      \big(h \comp \sigma\big)(x) 
+      = h \big( \sigma (x) \big) 
+      = \lambda n \in \nats.  \, \theta\big(\sigma^n\big(\sigma(x)\big)\big) 
+      = \lambda n \in \nats.  \, \theta\big(\sigma^{n+1}(x)\big)
+    \]
+    and
+    \[
+      \big(\mathrm{tl} \comp h\big)(x) 
+      = \mathrm{tl}
+          \big(\lambda m \in \nats.\, \theta\big(\sigma^m (x)\big)\big) 
+      = \lambda n \in \nats.\, \theta\big(\sigma^{n+1} (x)\big) 
+    \]
 
     \end{itemize}
 
-    This function $h$ is also unique. Let $k$ be any other function such that
-    $k \comp \sigma = \mathrm{tl} \comp k$ and $\theta = \mathrm{hd} \comp k$.
+    This function $h$ is also the unique with the above properties. To see
+    this, let $k: S\to[\nats\Rightarrow\setof{0,1}]$ be any other function
+    such that $\theta = \mathrm{hd} \comp k$ and 
+    $k \comp \sigma = \mathrm{tl} \comp k$.
     Then for any $x \in S$:
-    \[ (\mathrm{hd} \comp k) (x) =  \theta(x) \]
+    \[ 
+      \big(\mathrm{hd} \comp k\big) (x) =  \theta(x) 
+    \]
     which, by definition of $\mathrm{hd}$, implies
     \[ k(x)(0) = \theta(x) \]
-    So $k(x)$ has to map $0 \mapsto \theta(x)$. When $n\geq 0$, then:
-    \[ (\mathrm{tl} \comp k) (x) (n) = \mathrm{tl} (k(x)) (n) = k(x)(n + 1) \]
-    but by assumption
-    \[ (\mathrm{tl} \comp k) (x) (n) = (k \comp \sigma) (x) (n)
-    = k (\sigma (x))(n) \]
+    So $k(x)$ has to map $0$ to $\theta(x)$. 
     
-    Thus we conclude that for all $n \geq 0$, $k(x)(n+1) = k(\sigma(x))(n)$,
-    and also $k(x)(0) = \theta(x)$.
+    Also, for $n\in\nats$, we have:
+    \[ 
+      \big(\mathrm{tl} \comp k\big) (x) (n) 
+      = \mathrm{tl} \big(k(x)\big) (n) 
+      = k(x)(n + 1) 
+    \]
+    and, by assumption, 
+    \[ 
+      \big(\mathrm{tl} \comp k\big) (x) (n) 
+      = \big(k \comp \sigma\big) (x) (n)
+      = k \big(\sigma (x)\big)(n) 
+      \enspace;
+    \]
+    from which we conclude that $k(x)(0) = \theta(x)$ and, for all $n\in\nats$,
+    $k(x)(n+1) = k\big(\sigma(x)\big)(n)$.
 
-    Hence by induction $k(x)(n) = \theta(\sigma^n (x))$.
-
-\end{proof}
+    Finally, one shows by induction, that 
+    $k(x)(n) = \theta(\sigma^n (x))$.  So that $k(x)=h(x)$ for all $x\in S$,
+    and thus $k=h$.  
+  \end{proof}
 
 \chapter{Categories}
 \lecturedetails{17 October 2017}{M Fiore, \ldots}
