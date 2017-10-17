@@ -1186,8 +1186,8 @@ Consider the following gadget for $S$ a set
 We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$
 with the function $h: S_1 \to S_2$ such that
 \begin{enumerate}
-    \item $\theta_2 \circ h = \theta_1$
-    \item $\sigma_2 \circ h = \sigma_1$
+    \item $\theta_2 \comp h = \theta_1$
+    \item $\sigma_2 \comp h = h \comp \sigma_1$
 \end{enumerate}
 Diagrammatically, this is equivalent to
 \begin{center}
@@ -1248,6 +1248,57 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
         \end{tikzcd}
     \end{center}
 \end{exercise}
+\begin{proof}[Solution]
+    Consider the set of all functions from natural numbers to $\setof{0,1}$,
+    written as $\nats \to \setof{0, 1}$, and also the functions
+    $\mathrm{hd}: (\nats \to \setof{0, 1}) \to \setof{0, 1}$ and
+    $\mathrm{tl}: (\nats \to \setof{0, 1}) \to (\nats \to \setof{0, 1})$
+    defined in the following way:
+    \[ \mathrm{hd} (f) = f(0) \]
+    \[ \mathrm{tl} (f) = \lambda x \in \nats.\ f (x + 1) \]
+    This is clearly a solution, it remains to show it is the final one.
+
+    Consider any other solution with set $S$, function $\sigma: S \to S$ and
+    $\theta: S \to \setof{0, 1}$. Let $h: S \to (\nats \to \setof{0, 1})$ be
+    the following function:
+    \[ h (x) = \lambda n \in \nats.\ \theta(\sigma^n (x)) \]
+    It satisfies the required conditions:
+
+    \begin{itemize}
+    
+    \item $h \comp \sigma = \mathrm{tl} \comp h$ because
+    \[(h \comp \sigma)(x) = h ( \sigma (x)) = \lambda n \in \nats.
+    \ \theta(\sigma^n(\sigma(x))) = \lambda n \in \nats.
+    \ \theta(\sigma^{n+1}(x))\]
+    and
+    \[(\mathrm{tl} \comp h)(x) = \mathrm{tl}(\lambda m \in \nats.
+    \ \theta(\sigma^m (x))) = \lambda n \in \nats.\ \theta(\sigma^{n+1} (x)) \]
+
+    \item $\theta = \mathrm{hd} \comp h$ because
+    \[ (\mathrm{hd} \comp h)(x) =
+    \mathrm{hd} ( \lambda n \in \nats.\ \theta(\sigma^n(x)) ) =
+    \theta(\sigma^0(x)) = \theta(x) \]
+
+    \end{itemize}
+
+    This function $h$ is also unique. Let $k$ be any other function such that
+    $k \comp \sigma = \mathrm{tl} \comp k$ and $\theta = \mathrm{hd} \comp k$.
+    Then for any $x \in S$:
+    \[ (\mathrm{hd} \comp k) (x) =  \theta(x) \]
+    which, by definition of $\mathrm{hd}$, implies
+    \[ k(x)(0) = \theta(x) \]
+    So $k(x)$ has to map $0 \mapsto \theta(x)$. When $n\geq 0$, then:
+    \[ (\mathrm{tl} \comp k) (x) (n) = \mathrm{tl} (k(x)) (n) = k(x)(n + 1) \]
+    but by assumption
+    \[ (\mathrm{tl} \comp k) (x) (n) = (k \comp \sigma) (x) (n)
+    = k (\sigma (x))(n) \]
+    
+    Thus we conclude that for all $n \geq 0$, $k(x)(n+1) = k(\sigma(x))(n)$,
+    and also $k(x)(0) = \theta(x)$.
+
+    Hence by induction $k(x)(n) = \theta(\sigma^n (x))$.
+
+\end{proof}
 
 \chapter{Categories}
 \lecturedetails{17 October 2017}{M Fiore, \ldots}
