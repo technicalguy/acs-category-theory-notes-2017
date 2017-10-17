@@ -77,27 +77,18 @@
     \mathbf{1}{#1}%
 }
 %%%% Macros for specific categories
-\newcommand {\Cat}{%
-    \cat {Cat}%
-}
-\newcommand {\Mon}{%
-    \cat {Mon}%
-}
-\newcommand {\Poset}{%
-    \cat {Poset}%
-}
-\newcommand {\Rel}{%
-    \cat {Rel}%
-}
-\newcommand {\Sets}{%
-    \cat {Sets}%
-}
-\newcommand {\Groups}{%
-    \cat {Groups}%
-}
-\newcommand {\Graphs}{%
-    \cat {Graphs}%
-}
+\newcommand{\catcat}{\cat {Cat}}
+\newcommand{\catmon}{\cat {Mon}}
+\newcommand{\catposet}{\cat {Poset}}
+\newcommand{\catrel}{\cat {Rel}}
+\newcommand{\catset}{\cat {Set}}
+\newcommand{\catpfn}{\cat {Set}}
+\newcommand{\catfinset}{\cat {FinSet}}
+\newcommand{\catbij}{\cat {Bij}}
+\newcommand{\catgroup}{\cat {Groups}}
+\newcommand{\catgraph}{\cat {Graphs}}
+\newcommand{\catpreo}{\cat {PreO}}
+\newcommand{\catpred}{\cat {Pred}}
 
 %%%% Objects and morphism sets
 \DeclareMathOperator{\Ob}{\mathbf{Ob}}
@@ -138,6 +129,7 @@ Andrej Ivašković\\
 Oliver Richardson\\
 Razvan Kusztos\\
 Sebastian Borgeaud\\
+Brad Hardy
 \end{multicols}
 \clearpage
 
@@ -1256,7 +1248,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 \end{exercise}
 
 \chapter{Categories}
-\lecturedetails{17 October 2017}{M Fiore, Brad Hardy, \ldots}
+\lecturedetails{17 October 2017}{M Fiore, Brad Hardy}
 
 \section{Definitions}
 
@@ -1325,6 +1317,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
   \begin{itemize}
   \item Composition is associative:
 
+    \begin{center}
     \begin{tikzcd}
       & \mathcal C(C, D) \times \mathcal C(B, C) \times \mathcal C(A, B)
       \arrow[dl, "\circ_{B,C,D} \times \idfunc"] \arrow[dr, "\idfunc \times
@@ -1335,7 +1328,8 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
       \arrow[dl, "\circ_{A,C,D}"] \\
       & \mathcal C(A, D) &
     \end{tikzcd}
-    
+  \end{center}
+  
     NB Here, $\idfunc \eqdef x \mapsto x$ is the standard identity function.
     $\times$ is an operator that essentially runs two functions in parallel.
     Given
@@ -1355,23 +1349,176 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     to express the idea that the identity morphism $\id A$ exists for every $A$.
     Then the right identity law is expressed as:
 
+    \begin{center}
     \begin{tikzcd}
       \mathcal C(A, B) \times \unitset \arrow[rr, "\idfunc \times \id A"]
       \arrow[dr, "\pi_1"] & &
       \mathcal C(A, B) \times \mathcal C(A, A) \arrow[dl, "\circ_{A,A,B}"] \\
       & \mathcal C(A, B)
     \end{tikzcd}
-
+  \end{center}
+  
     and the left identity law is expressed similarly:
 
+    \begin{center}
     \begin{tikzcd}
       \unitset \times \mathcal C(A, B) \arrow[rr, "\id A \times \idfunc"]
       \arrow[dr, "\pi_2"] & &
       \mathcal C(A, A) \times \mathcal C(A, B) \arrow[dl, "\circ_{B,A,A}"] \\
       & \mathcal C(A, B)
     \end{tikzcd}
-  \end{itemize}
+  \end{center}
+\end{itemize}
   
 \end{definition}
+
+\section{Examples}
+
+\subsection{Sets}
+
+$\catset$ is a category whose objects are sets and whose morphisms are standard
+set-theoretic functions. The identity is the standard identity function and
+composition is standard function composition. The set of morphisms can be
+written as
+
+\[\catset(S, T) = \setof{ f \subseteq S \times T \;|\; f \text{ is a function}
+  }\]
+
+\subsection{Monoids}
+
+$\catmon$ is a category whose objects are monoids $(M, 1, *)$ and whose
+morphisms are monoid homomorphisms (\ie functions which preserve monoidal
+structure).
+
+Identity arrows are the usual identity functions and composition is the usual
+function composition.
+
+We can check that composition of monoid homomorphisms always produces a monoid
+homomorphism. Assume we have monoids
+
+\[(M_1, 1_1, *_1)\]
+\[(M_2, 1_2, *_2)\]
+\[(M_3, 1_3, *_3) .\]
+
+Let $f : M_1 \rightarrow M_2$ and $g : M_2 \rightarrow M_3$ be monoid
+homomorphisms (in the monoids given here). Then let $x, y \in M_1$ and consider
+
+\begin{align*}
+  (g \circ f)(x *_1 y)
+  & = g (f (x *_1 y)) & \text{(definition of function composition)}\\
+  & = g (f (x) *_2 f (y)) & \text{($f$ is a monoid homomorphism)}\\
+  & = g(f(x)) *_3 g(f(y)) & \text{($g$ is a monoid homomorphism)}\\
+  & = (g \circ f)(x) *_3 (g \circ f)(y)
+                      & \text{(definition of function composition)}\\
+\end{align*}
+
+\subsection{Preorders}
+
+$\catpreo$ is a category whose objects are preorders $(P, \le_P)$ and whose
+morphisms are monotone functions.
+
+Given
+\[(P, \le_P)\]
+\[(Q, \le_Q)\]
+\[f : P \rightarrow Q\]
+
+we call $f$ monotone when for every $x, y \in P$ $x \le_P y \implies f(x) \le_Q
+f(y)$.
+
+In this category, $\id{}$ and $\circ$ are as in $\catset$.
+
+\subsection{Partial Orders}
+
+$\catposet$ is a category whose objects are partial orders and whose morphisms
+are monotone functions.
+
+Notice that $\catposet$ is a \emph{subcategory} of $\catpreo$.
+
+\begin{framed}
+  \begin{definition} Subcategory
+
+    A subcategory $\mathcal S$ of a category $\mathcal C$ is specified by
+    \begin{itemize}
+    \item $\Ob(\mathcal S) \subseteq \Ob(\mathcal C)$ and
+    \item $\Arr(\mathcal S) \subseteq \Arr(\mathcal C)$ with $\id{}$ and
+      composition in $\mathcal S$ as in $\mathcal C$.
+    \end{itemize}
+  \end{definition}
+\end{framed}
+
+\subsection{Finite Sets}
+
+$\catfinset$ is the subcategory of $\catset$ whose objects are \emph{finite}
+sets.
+
+\subsection{Bijections}
+
+$\catbij$ is the subcategory of $\catfinset$ whose morphisms are all bijections.
+Notice $\catfinset$ cut down objects but kept the morphisms, and $\catbij$ cuts
+down morphisms but keeps the objects.
+
+\subsection{Relations}
+
+$\catrel$ is a category whose objects are sets and whose arrows are relations
+between sets:
+
+\[\catrel(A, B) = \setof{R \;|\; R \subset A \times B}\]
+
+Identity is the identity relation which relates every element to itself:
+
+\[\id A = \setof{(a, a) \;|\; a \in A}\]
+
+and composition is relational composition:
+
+\[R \circ_{A,B,C} S = \setof{(a, c) \;|\; \exists b \in B.\; (a, b) \in S \wedge
+  (b, c) \in R} .\]
+
+Notice that $\catset$ is a subcategory of $\catrel$. In fact, there is an
+intermediate category $\catpfn$ whose morphisms are \emph{partial} functions.
+
+\subsection{Predicates}
+
+$\catpred$ is acategory whose objects are pairs $(S, P)$ of a set $S$ and a
+predicate on $S$, $P \subseteq S$. Its morphisms are functions which respect the
+predicates, \ie
+
+\[(S_1, P_1) \morpharr{f} (S_2, P_2)\]
+
+is a function $f : S_1 \rightarrow S_2$ such that
+
+\[\forall x \in S.\; x \in P_1 \implies f(x) \in P_2 .\]
+
+Identity and composition are as for normal functions.
+
+\section{Exercises}
+
+Recall the following universal property from lecture 1:
+
+\begin{center}
+\begin{tikzcd}
+    {} & P \arrow[ld, swap, "\alpha"] \arrow[rd, "\beta"] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} & C \arrow[uu, dashed, "\exists!"]
+    \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
+\end{tikzcd}
+\end{center}
+
+Before, we stipulated that $P, A, B, C$ were all sets and $\alpha, \beta, f, g$
+were all functions. However, we can relax those assertions and instead work in
+an arbitrary category $\mathcal C$, so that $P, A, B, C \in \Ob(\mathcal C)$ and
+the arrows are morphisms in $\mathcal C$ between their respective objects.
+
+\begin{exercise}
+  In $\catset$, we could take $P = A \times B$, $\alpha = \pi_1$ and $\beta =
+  \pi_2$ as the final solution. What happens for the other categories described
+  in this lecture?
+
+  In particular, you should try $\catmon$, $\catpreo$ and $\catpred$. After
+  that, try $\catrel$. NB in some categories, there will be no solution.
+\end{exercise}
 
 \end{document}
