@@ -99,6 +99,10 @@
     \cat {Graphs}%
 }
 
+%%%% Objects and morphism sets
+\DeclareMathOperator{\Ob}{\mathbf{Ob}}
+\DeclareMathOperator{\Arr}{\mathbf{Arr}}
+
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\etc}{\emph{etc.}}
 
@@ -110,10 +114,13 @@
 \newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
 \newcommand{\suchthat}{\mid}
 \newcommand{\union}{\cup}
+\newcommand{\unitset}{\mathbf 1}
 
 \newcommand{\nelem}[1]{ \mathbf{ #1 } }
 \newcommand{\id}[1]{ \mathrm{id}_{ #1 } }
+\newcommand{\idfunc}{ \mathrm{Id} }
 \newcommand{\nats}{\mathbb{N}}
+\newcommand{\morpharr}[1]{\overset{#1}{\longrightarrow}}
 
 \begin{document}
 
@@ -895,25 +902,24 @@ by reversing the preorder.
 \label{defmeets}
     For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet
     of S if it satisfies the universal properties:
-        \begin{enumerate}
-            \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
-            \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$,
-                $ \Rightarrow l \leq \bigwedge S$
-        \end{enumerate}
+    \begin{enumerate}
+    \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
+    \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, $
+      \Rightarrow l \leq \bigwedge S$
+    \end{enumerate}
 \end{definition}
 For a better understanding of these universal properties, we can consider some
 special cases:
 \begin{itemize}
-    \item $S = \{a, b\}$, we can use the notations $\bigvee S = (a \vee b)$
-        and, analogously $\bigwedge S = (a \wedge b)$
-    \item $S = \{a\}$. In this case, we are guaranteed that the meet and
-        join exist: $\bigvee S = \bigwedge S = a$
-    \item $S = \emptyset$. Considering the definition of joins,
-        the first property becomes true due to the inability to pick an $x \in S$.
-        With the same reasoning, the second property reduces to $\forall u \in P
-        \Rightarrow \bigvee S \leq u$. Therefore the solution is $\bigvee S = \bot$,
-        the bottom element in P. Analogously, $\bigwedge S = \top$, the top element
-        of P.
+\item $S = \{a, b\}$, we can use the notations $\bigvee S = (a \vee b)$ and,
+  analogously $\bigwedge S = (a \wedge b)$
+\item $S = \{a\}$. In this case, we are guaranteed that the meet and join exist:
+  $\bigvee S = \bigwedge S = a$
+\item $S = \emptyset$. Considering the definition of joins, the first property
+  becomes true due to the inability to pick an $x \in S$. With the same
+  reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee
+  S \leq u$. Therefore the solution is $\bigvee S = \bot$, the bottom element in
+  P. Analogously, $\bigwedge S = \top$, the top element of P.
 \end{itemize}
 
 We can relate the case where S has two elements, $S = \{a, b\}$ to previous
@@ -1250,6 +1256,122 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 \end{exercise}
 
 \chapter{Categories}
-\lecturedetails{17 October 2017}{M Fiore, \ldots}
+\lecturedetails{17 October 2017}{M Fiore, Brad Hardy, \ldots}
+
+\section{Definitions}
+
+\begin{definition} Categories (Internal)
+
+  A category consists of two kinds of entities:
+  \begin{itemize}
+  \item Objects
+  \item Morphisms between objects (also called maps or arrows)
+  \end{itemize}
+
+  Every morphism comes with an assigned domain (also source) and codomain (also
+  target). We write $D \morpharr f C$ to show that the morphism $f$ has domain
+  $D$ and codomain $C$.
+
+  Every object $A$ has an associated \emph{identity} arrow $A \morpharr{\id A}
+  A$, also written $1_A$ or just $A$.
+  
+  Arrows come with a (well-typed) \emph{composition} operation $\circ$. Given $A
+  \morpharr f B$ and $B \morpharr C$ we have $A \morpharr{g \circ f} C$.
+
+  Composition and identity arrows must satisfy laws similar to the monoid laws:
+
+  \begin{itemize}
+  \item Composition is associative. Given any objects and arrows such that
+
+    \[A \morpharr h B \morpharr g C \morpharr f D\]
+
+    we insist that
+
+    \[(f \circ g) \circ h = f \circ (g \circ h).\]
+
+  \item $\id X$ is an identity under composition. Given
+
+    \[X \morpharr k Y\]
+
+    we insist that
+
+    \[k \circ \id X = k = \id X \circ k .\]
+  \end{itemize}
+\end{definition}
+
+\begin{definition} Categories (Enriched)
+
+  A category $\mathcal C$ consists of
+  \begin{itemize}
+  \item a class of objects $\Ob(\mathcal C)$ (also written $|\mathcal C|$),
+    together with
+  \item \emph{hom-sets} $\mathcal C(A, B)$ for all $A, B \in \Ob(\mathcal C)$,
+    and
+  \item identities $\id A \in \mathcal C(A, A)$ for all $A \in \Ob(\mathcal C)$,
+    in addition to
+  \item a composition operation
+    \begin{equation*}
+      \begin{matrix}
+        \mathcal C(B, C) & \times & \mathcal C(A, B) &
+        \morpharr{\circ_{A,B,C}}
+        & \mathcal C(A, C) \\
+        g & , & f & \mapsto & g \circ f
+      \end{matrix}
+    \end{equation*}
+  \end{itemize}
+
+  It must satisfy laws, written here as commutative diagrams:
+
+  \begin{itemize}
+  \item Composition is associative:
+
+    \begin{tikzcd}
+      & \mathcal C(C, D) \times \mathcal C(B, C) \times \mathcal C(A, B)
+      \arrow[dl, "\circ_{B,C,D} \times \idfunc"] \arrow[dr, "\idfunc \times
+      \circ_{A,B,C}"]
+      & \\
+      \mathcal C(B, D) \times \mathcal C(A, B) \arrow[dr, "\circ_{A,B,C}"] & &
+      \mathcal C(C, D) \times \mathcal C(A, C)
+      \arrow[dl, "\circ_{A,C,D}"] \\
+      & \mathcal C(A, D) &
+    \end{tikzcd}
+    
+    NB Here, $\idfunc \eqdef x \mapsto x$ is the standard identity function.
+    $\times$ is an operator that essentially runs two functions in parallel.
+    Given
+
+    \[f : A_1 \rightarrow B_1\]
+    \[g : A_2 \rightarrow B_2\]
+     
+    we have
+    \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\] with
+    \[(f \times g)(x, y) \mapsto (f x, g y) .\]
+    
+  \item Identity is a proper left and right identity. First, notice that we can
+    write
+
+    \[\unitset \morpharr{\id A} \mathcal C(A, A)\]
+
+    to express the idea that the identity morphism $\id A$ exists for every $A$.
+    Then the right identity law is expressed as:
+
+    \begin{tikzcd}
+      \mathcal C(A, B) \times \unitset \arrow[rr, "\idfunc \times \id A"]
+      \arrow[dr, "\pi_1"] & &
+      \mathcal C(A, B) \times \mathcal C(A, A) \arrow[dl, "\circ_{A,A,B}"] \\
+      & \mathcal C(A, B)
+    \end{tikzcd}
+
+    and the left identity law is expressed similarly:
+
+    \begin{tikzcd}
+      \unitset \times \mathcal C(A, B) \arrow[rr, "\id A \times \idfunc"]
+      \arrow[dr, "\pi_2"] & &
+      \mathcal C(A, A) \times \mathcal C(A, B) \arrow[dl, "\circ_{B,A,A}"] \\
+      & \mathcal C(A, B)
+    \end{tikzcd}
+  \end{itemize}
+  
+\end{definition}
 
 \end{document}
