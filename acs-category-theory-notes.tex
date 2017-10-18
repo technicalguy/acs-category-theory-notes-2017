@@ -663,10 +663,10 @@ $S^\star \,\eqdef\, \bigcup_{\ell\in\nats}\setof{\ell} \times S^\ell$ given by
   \approx
   \big(j,(t_1,\ldots,t_j)\big)
   \\
-  \iff & 
+  \iff &
   \\
-  & 
-  \text{ there exists a bijection } 
+  &
+  \text{ there exists a bijection }
   \sigma: \setof{1,\ldots,i}\to\setof{1,\ldots,j}
   \text{ such that } s_k = t_{\sigma(k)} \text{ for all } k = 1,\ldots,i
   \enspace.
@@ -680,50 +680,50 @@ Define the set
   \enspace.
 \]
 
-$\blacktriangleright$ Show that 
+$\blacktriangleright$ Show that
 \begin{align*}
   &\big(i,(s_1,\ldots,s_i)\big)
-  \approx 
+  \approx
   \big(i',(s'_1,\ldots,s'_{i'})\big)
   \text{ and }
   \big(j,(t_1,\ldots,t_j)\big)
-  \approx 
+  \approx
   \big(j',(t'_1,\ldots,t'_{j'})\big)
   \\
   &\text{imply }
   \big(i+j,(s_1,\ldots,s_i,t_1,\ldots,t_j)\big)
-  \approx 
+  \approx
   \big(i'+j',(s'_1,\ldots,s'_{i'},t'_1,\ldots,t'_{j'})\big)
   \enspace.
 \end{align*}
 
-We therefore have a binary operation 
+We therefore have a binary operation
 $\oplus: \mathcal M_f(S) \times \mathcal M_f(S) \to \mathcal M_f(S)$ given by
 \[
-  \big[\big(i,(s_1,\ldots,s_i)\big)\big]_\approx 
-  \oplus 
-  \big[\big(j,(t_1,\ldots,t_j)\big)\big]_\approx 
-  \ \eqdef \ 
-  \big[\big(i+j,(s_1,\ldots,s_i,t_1,\ldots,t_j)\big)\big]_\approx 
+  \big[\big(i,(s_1,\ldots,s_i)\big)\big]_\approx
+  \oplus
+  \big[\big(j,(t_1,\ldots,t_j)\big)\big]_\approx
+  \ \eqdef \
+  \big[\big(i+j,(s_1,\ldots,s_i,t_1,\ldots,t_j)\big)\big]_\approx
 \]
 
 $\blacktriangleright$ Prove that
 \[
-  \big(\ 
-    \mathcal M_f(S) 
-    \ , \ 
+  \big(\
+    \mathcal M_f(S)
+    \ , \
     \bigsetof{\,\big( 0 , (\,)\big)\,}
-    \ , \ 
+    \ , \
     \oplus
     \ \big)
 \]
-is a commutative monoid. 
+is a commutative monoid.
 
 We claim that the function
 \[
   \iota: S \to \mathcal M_f(S) : s \mapsto \bigsetof{\,\big(1,(s)\big)\,}
 \]
-is an initial universal solution.  
+is an initial universal solution.
 
 To this end, consider a commutative monoid $(M,\shortmid,\ast)$ and a function
 $f:S\to M$.
@@ -743,7 +743,7 @@ $\ast_{n+1}(x_1,\ldots,x_n,x_{n+1})\eqdef \ast_n(x_1,\ldots,x_n)\ast x_{n+1}$.
 
 We therefore have a function $f^\#: \mathcal M_f(S)\to M$ given by
 \[
-  f^\#\big(i,(s_1,\ldots,s_i)\big) 
+  f^\#\big(i,(s_1,\ldots,s_i)\big)
   \eqdef
   \ast_i\big( f(s_1),\ldots,f(s_i)\big)
   \enspace.
@@ -1249,7 +1249,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 \begin{proof}[Solution]
     Consider the set of all functions from natural numbers to $\setof{0,1}$,
     written here as ${[\nats\Rightarrow\setof{0,1}]}$, and also the
-    functions 
+    functions
     \[
       \mathrm{hd}: [\nats\Rightarrow\setof{0,1}] \to \setof{0,1}
       \enspace,\quad
@@ -1258,80 +1258,80 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     \]
     defined by
     \begin{align*}
-      \mathrm{hd} (f) &= f(0) 
+      \mathrm{hd} (f) &= f(0)
       \\[1mm]
-      \mathrm{tl} (f) &= \lambda x \in \nats.\ f (x + 1) 
+      \mathrm{tl} (f) &= \lambda x \in \nats.\ f (x + 1)
     \end{align*}
     This clearly provides data as desired, it remains to show it is a final
     solution.
 
-    Consider any other data with set $S$, and functions 
+    Consider any other data with set $S$, and functions
     $\theta: S \to \setof{0, 1}$ and $\sigma: S \to S$.
     Let ${h: S \to [\nats\Rightarrow\setof{0,1}]}$ be the following function:
     \[ h (x) \eqdef \lambda n \in \nats.\ \theta\big(\sigma^n (x)\big) \]
     It satisfies the required conditions:
 
     \begin{itemize}
-    
-    \item 
+
+    \item
     $\theta = \mathrm{hd} \comp h$ because
-    \[ 
-      \big(\mathrm{hd} \comp h\big)(x) 
+    \[
+      \big(\mathrm{hd} \comp h\big)(x)
       = \mathrm{hd}
-          \big( \lambda n \in \nats.\ \theta\big(\sigma^n(x)\big) \big) 
-      = \theta\big(\sigma^0(x)\big) 
-      = \theta(x) 
+          \big( \lambda n \in \nats.\ \theta\big(\sigma^n(x)\big) \big)
+      = \theta\big(\sigma^0(x)\big)
+      = \theta(x)
     \]
 
-    \item 
+    \item
     $h \comp \sigma = \mathrm{tl} \comp h$ because
     \[
-      \big(h \comp \sigma\big)(x) 
-      = h \big( \sigma (x) \big) 
-      = \lambda n \in \nats.  \, \theta\big(\sigma^n\big(\sigma(x)\big)\big) 
+      \big(h \comp \sigma\big)(x)
+      = h \big( \sigma (x) \big)
+      = \lambda n \in \nats.  \, \theta\big(\sigma^n\big(\sigma(x)\big)\big)
       = \lambda n \in \nats.  \, \theta\big(\sigma^{n+1}(x)\big)
     \]
     and
     \[
-      \big(\mathrm{tl} \comp h\big)(x) 
+      \big(\mathrm{tl} \comp h\big)(x)
       = \mathrm{tl}
-          \big(\lambda m \in \nats.\, \theta\big(\sigma^m (x)\big)\big) 
-      = \lambda n \in \nats.\, \theta\big(\sigma^{n+1} (x)\big) 
+          \big(\lambda m \in \nats.\, \theta\big(\sigma^m (x)\big)\big)
+      = \lambda n \in \nats.\, \theta\big(\sigma^{n+1} (x)\big)
     \]
 
     \end{itemize}
 
     This function $h$ is also the unique with the above properties. To see
     this, let $k: S\to[\nats\Rightarrow\setof{0,1}]$ be any other function
-    such that $\theta = \mathrm{hd} \comp k$ and 
+    such that $\theta = \mathrm{hd} \comp k$ and
     $k \comp \sigma = \mathrm{tl} \comp k$.
     Then for any $x \in S$:
-    \[ 
-      \big(\mathrm{hd} \comp k\big) (x) =  \theta(x) 
+    \[
+      \big(\mathrm{hd} \comp k\big) (x) =  \theta(x)
     \]
     which, by definition of $\mathrm{hd}$, implies
     \[ k(x)(0) = \theta(x) \]
-    So $k(x)$ has to map $0$ to $\theta(x)$. 
-    
+    So $k(x)$ has to map $0$ to $\theta(x)$.
+
     Also, for $n\in\nats$, we have:
-    \[ 
-      \big(\mathrm{tl} \comp k\big) (x) (n) 
-      = \mathrm{tl} \big(k(x)\big) (n) 
-      = k(x)(n + 1) 
+    \[
+      \big(\mathrm{tl} \comp k\big) (x) (n)
+      = \mathrm{tl} \big(k(x)\big) (n)
+      = k(x)(n + 1)
     \]
-    and, by assumption, 
-    \[ 
-      \big(\mathrm{tl} \comp k\big) (x) (n) 
+    and, by assumption,
+    \[
+      \big(\mathrm{tl} \comp k\big) (x) (n)
       = \big(k \comp \sigma\big) (x) (n)
-      = k \big(\sigma (x)\big)(n) 
+      = k \big(\sigma (x)\big)(n)
       \enspace;
     \]
     from which we conclude that $k(x)(0) = \theta(x)$ and, for all $n\in\nats$,
     $k(x)(n+1) = k\big(\sigma(x)\big)(n)$.
 
-    Finally, one shows by induction, that 
+    Finally, one shows by induction, that
     $k(x)(n) = \theta(\sigma^n (x))$.  So that $k(x)=h(x)$ for all $x\in S$,
-    and thus $k=h$.  
+    and thus $k=h$.
   \end{proof}
 
 \chapter{Categories}
@@ -1353,7 +1353,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 
   Every object $A$ has an associated \emph{identity} arrow $A \morpharr{\id A}
   A$, also denoted $1_A$ or just $A$.
-  
+
   Arrows come with a (well-typed) \emph{composition} operation $\circ$. Given
   $A \morpharr f B$ and $B \morpharr g C$ we have $A \morpharr{g \circ f} C$.
 
@@ -1407,7 +1407,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     \begin{center}
     \begin{tikzcd}
       & \mathcal C(C, D) \times \mathcal C(B, C) \times \mathcal C(A, B)
-      \arrow[dl, "\circ_{B,C,D} \times \idfunc", swap] 
+      \arrow[dl, "\circ_{B,C,D} \times \idfunc", swap]
       \arrow[dr, "\idfunc \times \circ_{A,B,C}"]
       & \\
       \mathcal C(B, D) \times \mathcal C(A, B) \arrow[dr, "\circ_{A,B,C}",
@@ -1417,7 +1417,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
       & \mathcal C(A, D) &
     \end{tikzcd}
   \end{center}
-  
+
   \paragraph{NB.} Here, $\idfunc \eqdef (x \mapsto x)$ is the standard
   identity function.  The operator $\times$ on two functions intuitively runs
   two them in parallel.
@@ -1426,12 +1426,12 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     \[f : A_1 \rightarrow B_1
       \enspace,\quad
       g : A_2 \rightarrow B_2\]
-     
+
     we have
-    \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\] 
+    \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\]
     defined by
     \[\big(f \times g\big)(x, y) \mapsto (f x, g y) \]
-    
+
   \item Identity is a left and right neutral element. First, notice that we
     can write
 
@@ -1448,7 +1448,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
       & \mathcal C(A, B)
     \end{tikzcd}
   \end{center}
-  
+
     and the left identity law is expressed similarly as:
 
     \begin{center}
@@ -1460,7 +1460,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     \end{tikzcd}
   \end{center}
 \end{itemize}
-  
+
 \end{definition}
 
 \section{Examples of categories}
@@ -1491,26 +1491,26 @@ homomorphism. Assume we have monoids
   \enspace,\quad
   (M_2, \shortmid_2, \star_2)
   \enspace,\quad
-  (M_3, \shortmid_3, \star_3) 
+  (M_3, \shortmid_3, \star_3)
   \enspace.
 \]
 and let $f : M_1 \rightarrow M_2$ and $g : M_2 \rightarrow M_3$ be monoid
-homomorphisms.  
+homomorphisms.
 
-Then, 
+Then,
 \[
-  \big(g\comp f\big)(\shortmid_1) 
+  \big(g\comp f\big)(\shortmid_1)
   \ = \ g\big(f(\shortmid_1)\big)
   \ = \ g(\shortmid_2)
   \ = \ \shortmid_3
 \]
-and, for $x, y \in M_1$, 
+and, for $x, y \in M_1$,
 \begin{align*}
   \big(g \circ f\big)(x \star_1 y)
-  & = g \big(f (x \star_1 y)\big) 
+  & = g \big(f (x \star_1 y)\big)
     & \text{(definition of function composition)}\\
   & = g \big(f (x) \star_2 f (y)\big) & \text{($f$ is a monoid homomorphism)}\\
-  & = g\big(f(x)\big) \star_3 g\big(f(y)\big) 
+  & = g\big(f(x)\big) \star_3 g\big(f(y)\big)
     & \text{($g$ is a monoid homomorphism)}\\
   & = \big(g \circ f\big)(x) \star_3 \big(g \circ f\big)(y)
     & \text{(definition of function composition)}
@@ -1523,7 +1523,7 @@ morphisms are monotone functions.
 
 For preorders $(P, \le_P)$ and $(Q, \le_Q)$, a function
 \[f : P \rightarrow Q\]
-is \emph{monotone} when, for every $x, y \in P$, 
+is \emph{monotone} when, for every $x, y \in P$,
 $x \le_P y \implies f(x) \le_Q
 f(y)$.
 
@@ -1542,7 +1542,7 @@ Notice that $\catposet$ is a \emph{subcategory} of $\catpreo$.
     A subcategory $\mathcal S$ of a category $\mathcal C$ is specified by
     \begin{itemize}
     \item $\Ob(\mathcal S) \subseteq \Ob(\mathcal C)$ and
-    \item $\Arr(\mathcal S) \subseteq \Arr(\mathcal C)$ 
+    \item $\Arr(\mathcal S) \subseteq \Arr(\mathcal C)$
     \end{itemize}
     with identities and composition in $\mathcal S$ as in $\mathcal C$.
   \end{definition}
@@ -1576,11 +1576,11 @@ itself:
 and composition is relational composition:
 
 \[
-  R \circ_{A,B,C} S 
-  = 
-  \bigsetof{\, 
+  R \circ_{A,B,C} S
+  =
+  \bigsetof{\,
     (a, c) \;|\; \exists b \in B.\; (a, b) \in S \wedge (b, c) \in R
-  \,} 
+  \,}
 \enspace.
 \]
 
@@ -1613,7 +1613,7 @@ Recall the following universal property from Lecture~1:
     &
     B
     \\
-    {} & 
+    {} &
     \stackrel{\mbox{$C$}}{\forall}
     \arrow[uu, dashed, "\exists!"]
     \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
@@ -1624,17 +1624,17 @@ Before, we stipulated that $P, A, B, C$ were sets and $\alpha, \beta, f, g$
 were functions. However, we can generalize those assertions and instead work
 in an arbitrary category $\mathcal C$; so that $P, A, B, C$ are objects of
 $\mathcal C$ and $\alpha, \beta, f, g$ are arrows of $\mathcal C$ between the
-respective objects. 
+respective objects.
 
 \begin{exercise}
-  In $\catset$, we can take 
-  $P = A \times B\eqdef \bigsetof{\, (a,b) \suchthat a\in A \wedge b\in B \,}$, 
+  In $\catset$, we can take
+  $P = A \times B\eqdef \bigsetof{\, (a,b) \suchthat a\in A \wedge b\in B \,}$,
   $\alpha = \pi_1: (a,b)\mapsto a$ and $\beta = \pi_2: (a,b)\mapsto b$ as the
   final solution.  Check it out!
-  
+
   What happens for the other categories described in this lecture?  (Btw, in
   some of the categories there will be no solution.)  In particular, have a
-  look at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$. 
+  look at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$.
 \end{exercise}
 
 \end{document}
