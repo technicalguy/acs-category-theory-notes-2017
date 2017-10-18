@@ -1356,7 +1356,9 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
   A$, also denoted $1_A$ or just $A$.
 
   Arrows come with a (well-typed) \emph{composition} operation $\circ$. Given
-  $A \morpharr f B$ and $B \morpharr g C$ we have $A \morpharr{g \circ f} C$.
+  $A \morpharr f B$ and $B \morpharr g C$ we have $A \morpharr{g \circ f} C$,
+  also denoted $A \morpharr{gf} B$ or $A \morpharr{f;g} B$ (read ``apply $f$ and
+  then $g$'').
 
   Composition and identity arrows must satisfy laws similar to the monoid laws:
 
@@ -1375,7 +1377,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 
     we require that
 
-    \[k \circ \id X = k = \id X \circ k .\]
+    \[k \circ \id X = k = \id Y \circ k .\]
   \end{itemize}
 \end{definition}
 
@@ -1419,19 +1421,21 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
     \end{tikzcd}
   \end{center}
 
-  \paragraph{NB.} Here, $\idfunc \eqdef (x \mapsto x)$ is the standard
-  identity function.  The operator $\times$ on two functions intuitively runs
-  two them in parallel.
-  Given
+  \begin{framed}
+    \paragraph{NB.} Here, $\idfunc \eqdef (x \mapsto x)$ is the standard
+    identity function.  The operator $\times$ on two functions intuitively runs
+    two them in parallel.
+    Given
 
-    \[f : A_1 \rightarrow B_1
-      \enspace,\quad
-      g : A_2 \rightarrow B_2\]
+      \[f : A_1 \rightarrow B_1
+        \enspace,\quad
+        g : A_2 \rightarrow B_2\]
 
-    we have
-    \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\]
-    defined by
-    \[\big(f \times g\big)(x, y) \mapsto (f x, g y) \]
+      we have
+      \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\]
+      defined by
+      \[\big(f \times g\big)(x, y) \mapsto (f x, g y) \]
+  \end{framed}
 
   \item Identity is a left and right neutral element. First, notice that we
     can write
@@ -1545,7 +1549,9 @@ Notice that $\catposet$ is a \emph{subcategory} of $\catpreo$.
     \item $\Ob(\mathcal S) \subseteq \Ob(\mathcal C)$ and
     \item $\Arr(\mathcal S) \subseteq \Arr(\mathcal C)$
     \end{itemize}
-    with identities and composition in $\mathcal S$ as in $\mathcal C$.
+    with identities and composition in $\mathcal S$ as in $\mathcal C$. $\Ob$ is
+    defined as above, and $\Arr$ is the set of ``arrows'' or morphisms in
+    $\mathcal S$.
   \end{definition}
 \end{framed}
 
@@ -1633,9 +1639,9 @@ respective objects.
   $\alpha = \pi_1: (a,b)\mapsto a$ and $\beta = \pi_2: (a,b)\mapsto b$ as the
   final solution.  Check it out!
 
-  What happens for the other categories described in this lecture?  (Btw, in
-  some of the categories there will be no solution.)  In particular, have a
-  look at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$.
+  What happens for the other categories described in this lecture? (Note that in
+  some of the categories there will be no solution.) In particular, have a look
+  at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$.
 \end{exercise}
 
 \end{document}
