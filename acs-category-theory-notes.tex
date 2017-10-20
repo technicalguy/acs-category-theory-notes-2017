@@ -22,6 +22,7 @@
 \usepackage{framed}
 \usepackage{tikz}
 \usepackage{tikz-cd}
+\usetikzlibrary{fit, positioning, shapes, calc}
 \usepackage{microtype}
 
 \usepackage{multicol}
@@ -59,6 +60,9 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{exercise}{Exercise}
 
+\newtheorem*{remark}{Remark}
+\newtheorem*{example}{Example}
+
 %%%% Stylistic
 \setlength\parindent{0pt}
 \setlength\parskip{0.7em}
@@ -89,6 +93,7 @@
 \newcommand{\catgraph}{\cat {Graphs}}
 \newcommand{\catpreo}{\cat {PreO}}
 \newcommand{\catpred}{\cat {Pred}}
+\newcommand{\catdirgraph}{\cat {DirGraph}}
 
 %%%% Objects and morphism sets
 \DeclareMathOperator{\Ob}{\mathit{Obj}}
@@ -111,7 +116,8 @@
 \newcommand{\id}[1]{ \mathrm{id}_{ #1 } }
 \newcommand{\idfunc}{ \mathrm{Id} }
 \newcommand{\nats}{\mathbb{N}}
-\newcommand{\morpharr}[1]{\overset{#1}{\longrightarrow}}
+\newcommand{\morpharrow}{\longrightarrow}
+\newcommand{\morpharr}[1]{\overset{#1}{\morpharrow}}
 
 \begin{document}
 
@@ -130,7 +136,9 @@ Andrej Ivašković\\
 Oliver Richardson\\
 Razvan Kusztos\\
 Sebastian Borgeaud\\
-Brad Hardy
+Brad Hardy\\
+Stella Lau\\
+Dima Szamozvancev
 \end{multicols}
 \clearpage
 
@@ -1642,6 +1650,381 @@ respective objects.
   What happens for the other categories described in this lecture? (Note that in
   some of the categories there will be no solution.) In particular, have a look
   at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$.
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Morphisms}
+\lecturedetails{19 October 2017}{M Fiore, S Lau, D Szamozvancev}
+
+\section{Isomorphisms}
+\begin{definition}[Isomorphism]
+An arrow $f : A \morpharrow B$ is an \emph{isomorphism} if there exists an
+inverse arrow $g : B \morpharrow A$ such that
+\[
+    g \comp f = \id{A} \quad \text{ and } \quad f \comp g = \id{B}
+\]
+We say $A$ and $B$ are \emph{isomorphic} if there exists an isomorphism between
+them.
+\end{definition}
+
+\begin{remark}
+If $f$ has an inverse $g$, then the inverse is unique and we write $g = f^{-1}$.
+\end{remark}
+
+\begin{proof}
+Suppose $h$ is also an inverse, so we have
+$h \comp f = \id{A}$ and $f \comp h = \id{B}$.
+Then
+\begin{alignat*}{4}
+    h \comp (f \comp g) &= h \comp \id{B} &&= h \quad \text{and} \\
+    (h \comp f) \comp g &= \id{A} \comp g &&= g.
+\end{alignat*}
+By associativity, $g = h$.
+\end{proof}
+
+\begin{example}
+In $\catset$, $f$ is an isomorphism iff it is a bijection, where
+\[
+    f : A \rightarrow B \text{ is a bijection } \iff
+    \forall b \in B.\ \exists ! a \in A.\ f(a) = b.
+\]
+
+A bijection is an \emph{injection} and a \emph{surjection}.
+
+\begin{minipage}[t]{0.50\textwidth}
+    \begin{center}
+    Injection\\
+    $\forall a, a' \in A.\ f(a) = f(a') \Rightarrow a = a'$
+
+    \begin{tikzpicture}
+        [
+            group/.style={ellipse, draw, minimum height=50pt,
+                          minimum width=30pt, label=above:#1},
+            dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+        ]
+        \node (a) [dot] {};
+        \node (b) [dot, below=of a] {};
+        \node (p) [dot, right=50pt of a] {};
+        \node (q) [dot, below=of p] {};
+        \node (r) [dot, right=10pt of p] {};
+        \node (s) [dot, below=of r] {};
+        \node (t) [dot] at ($(r)!1/2!(s)$) {};
+        \foreach \i/\j in {a/p,b/q}
+            \draw [->, >=stealth,scale=3] (\i) -- (\j);
+        \node [fit=(a) (b), group=A] {};
+        \node [fit=(p) (q) (r) (s) (t), group=B] {};
+    \end{tikzpicture}
+    \end{center}
+\end{minipage}%
+\begin{minipage}[t]{0.50\textwidth}
+    \begin{center}
+    Surjection\\
+    $\forall b \in B.\ \exists a \in A.\ f(a) = b$
+
+    \vspace{15pt}
+    \begin{tikzpicture}
+        [
+            group/.style={ellipse, draw, minimum height=20pt,
+                          minimum width=50pt, label=left:#1},
+            dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+        ]
+        \node (a) [dot] {};
+        \node (b) [dot, right=10pt of a] {};
+        \node (c) [dot, right=10pt of b] {};
+        \node (d) [dot, right=10pt of c] {};
+        \node (e) [dot, right=10pt of d] {};
+        \node (p) [dot, below=of b] {};
+        \node (q) [dot, below=of d] {};
+        \foreach \i/\j in {a/p,b/p,d/q}
+            \draw [->, >=stealth,scale=3] (\i) -- (\j);
+        \node [fit=(a) (b) (c) (d) (e), group=A] {};
+        \node [fit=(p) (q), group=B] {};
+    \end{tikzpicture}
+    \end{center}
+\end{minipage}%
+\end{example}
+
+
+\begin{remark}
+    Recall the universal problem of generating a monoid $(S*, \cdot, \epsilon)$
+    from a set $S$ with a function $\sigma$. Compare the definition of a
+    universal solution to this problem with the definition of a bijection $ f :
+    S \rightarrow T$:
+    \begin{alignat*}{3}
+        & \forall (M, f).\ &&
+        \exists!\ f^\# : S* \rightarrow M.\ &&
+        f = f^\# \comp \sigma \text{ and }
+        f^\# \text{ is a homomorphism} \\
+        & \forall t \in T.\ &&
+        \exists!\ s \in S.\ &&
+        f(s) = t
+    \end{alignat*}
+
+    The similarity suggests that solving a universal problem amounts to
+    establishing a bijection between a potential solutions and morphisms that
+    ``convert'' these potential solutions into the universal one. To see this,
+    consider the hom-set of the generated monoid and any proposed solution $(M,
+    \shortmid, \star)$
+    \begin{equation*}
+        H_{\catmon} = \catmon ( (S*, \cdot, \epsilon), (M, \shortmid, \star) )
+    \end{equation*}
+    and the hom-set of our source set $S$ and the underlying set $M$ of the
+    proposed solution:
+    \begin{equation*}
+        H_{\catset} = \catset ( S, M )
+    \end{equation*}
+
+    \begin{center}
+    \begin{tikzcd}
+          S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall f"]
+        & (S*, \cdot, \epsilon) \arrow[d, "\exists! f^\# \text{ homomorphism}"]
+        \\
+        {} & (M, \shortmid, \star)
+    \end{tikzcd}
+    \end{center}
+
+    The universality condition states that for each function $f \in H_{\catset}$
+    we must find a unique $f^\# \in H_{\catmon}$ such that $f = f^\# \comp
+    \sigma$ and $f^\#$ is a homomorphism. That is, we must find a bijection
+    between $H_{\catmon}$ and $H_{\catset}$:
+
+    \begin{equation*}
+        \catmon ( (S*, \cdot, \epsilon), (M, \shortmid, \star) ) \simeq
+        \catset ( S, M )
+    \end{equation*}
+
+\end{remark}
+
+\section{Sections and retractions}
+
+\begin{definition}[Sections and retractions]
+A \emph{section} $s : A \morpharrow B$ is an arrow for which there exists an
+arrow $r : B \morpharrow A$ (retraction) such that
+\[
+    r \comp s = \id{A}
+\]
+In other words, a section is the right inverse of some morphism.
+Dually, a \emph{retraction} is the left inverse of some morphism.
+\end{definition}
+
+\begin{example}
+Consider the category of sets, $\catset$.
+
+\begin{center}
+    \begin{tikzpicture}
+        [
+            group/.style={ellipse, draw, minimum height=50pt,
+                          minimum width=30pt, label=above:#1},
+            dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+        ]
+        \node (a) [dot] {};
+        \node (b) [dot, below=10pt of a] {};
+        \node (p) [dot, xshift=75pt] at ($(a)!1/2!(b)$) {};
+        \foreach \i/\j in {a/p,b/p}
+            \draw [->, >=stealth,scale=3] (\i) -- (\j);
+        \node (A) [fit=(a) (b), group=A] {};
+        \node (B) [fit=(p), group=B] {};
+        \draw [->] (A) to [bend left] node[above] {$s$} (B);
+    \end{tikzpicture}
+\end{center}
+
+The above map $s : A \morpharrow B$ can not be a section, as there is no way to
+``go back to two points``.
+Hence, a section in $\catset$ must at least be an injection.
+However, note that if $A$ is the empty set, $s$ can not be a section.
+
+So in $\catset$, $A \morpharr {s} B$ is a section iff $A \neq \emptyset$ and
+$s$ is injective.
+
+A map $r : B \rightarrow A$ is a retraction iff it has a section.
+In $\catset$, retractions are the same as surjections (expressed
+diagrammatically below).
+
+\begin{center}
+    \begin{tikzpicture}
+        [
+            group/.style={ellipse, draw, minimum height=75pt,
+                          minimum width=30pt, label=above:#1},
+            dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+        ]
+        \node (a) [dot] {};
+        \node (b) [dot, below=10pt of a] {};
+        \node (c) [dot, below=10pt of b] {};
+        \node (p) [dot, right=75pt of a] {};
+        \node (q) [dot, right=75pt of c] {};
+        \foreach \i/\j in {a/p,b/q, c/q}
+            \draw [->, >=stealth,scale=3] (\i) -- (\j);
+        \node (B) [fit=(a) (b) (c), group=B] {};
+        \node (A) [fit=(p) (q), group=A] {};
+        \draw [->] ([yshift=25pt]B.east) to [bend left] node[above] {$r$}
+                   ([yshift=25pt]A.west);
+        \draw [->] ([yshift=-25pt]A.west) to [bend left] node[below]
+                   {$\exists s$} ([yshift=-25pt]B.east);
+    \end{tikzpicture}
+\end{center}
+
+\end{example}
+
+\subsection{Axiom of choice}
+\begin{center}
+    \begin{tikzpicture}
+        [
+            group/.style={ellipse, draw, minimum height=20pt,
+                          minimum width=10pt, label=left:#1},
+            dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+        ]
+        \foreach \i [count = \xi] in {x,y,z}{
+            \node (\i1) [dot] at (\xi, 0) {};
+            \node (\i2) [dot,below=2pt of \i1] {};
+            \node (\i3) [dot,below=2pt of \i2] {};
+            \node (g-\i) [fit=(\i1) (\i2) (\i3), group] {};
+            \node (a-\i) [dot] at (\xi, -3) {};
+            \draw [->] (g-\i) to [bend left=10] (a-\i);
+            \draw [->] (a-\i) to [bend left=10] (g-\i);
+        }
+        \node (A) [fit=(a-x) (a-y) (a-z), group=A] {};
+        \node (B) [fit=(g-x) (g-y) (g-z), group=B] {};
+        \draw [->] (-1.5,-2.5) to node[left] {$s$} (-1.5,-0.75);
+        \draw [->] (-1.0,-0.75) to node[right] {$r$} (-1.0,-2.5);
+    \end{tikzpicture}
+\end{center}
+
+There is a section on $A$ if $\forall a \in A$, we can find a $b \in B$ such
+that $r(b) = a$.
+In other words, $\forall a \in A,\ s(a)$ is defined by choosing
+a $b \in B$ such that $r(b) = a$.
+This may require the \emph{axiom of choice}.
+
+\begin{definition}
+A category $\mathcal{C}$ \emph{satisfies the axiom of choice} whenever every
+``surjection'' in $\mathcal{C}$ has a retraction.
+\end{definition}
+
+\section{Injections in categories}
+A function $f : A \rightarrow B$ is \emph{injective} if every element in its
+codomain is mapped to by at most one element in its domain:
+
+\begin{equation*}
+    \forall a, a' \in A.\ f(a) = f(a') \implies a = a'
+\end{equation*}
+
+How could we express this notion categorically? The set-theoretic definition
+involves talking about function application and individual \emph{elements} of
+sets, which do not in general exist in an arbitrary category. To avoid these
+set-specific notions, we attempt to construct a definition which only mentions
+morphisms and the universal operation of morphism composition.
+
+\subsection{Proposed solution 1: morphisms from the terminal object}
+In the category of sets, there is a bijection between the elements of a set $S$
+and the functions from a singleton set $\{*\}$ and $S$: mapping $*$ to an $s \in
+S$ amounts to selecting a specific element $s$ from $S$. This lets us abstract
+over the notion of individual elements and is therefore a good starting point
+for generalising the problem to categories. Before that, we also need a
+category-theoretic counterpart to singleton sets: \emph{terminal objects}.
+
+\begin{definition}[Terminal objects]
+A \emph{terminal object} in a category $\mathcal C$ is an object $\mathbb 1$
+such that
+\begin{equation*}
+    \forall c \in \Ob(\mathcal C).\ \exists!\, m : c \rightarrow \mathbb 1
+\end{equation*}
+\end{definition}
+
+A terminal object in $\catset$ is any singleton set $\{*\}$, as for every other
+set $S$ we have the constant function $S \rightarrow \{*\}$ mapping $s \in S$ to
+$*$.
+As with other universal constructions, all terminal objects in a category are
+isomorphic to each other, so we can talk about \emph{the} terminal object.
+
+Looking back at the definition of injections, we can use the terminal object of
+a category to ``select'' two elements from $A$ by finding two morphisms $a$ and
+$a'$ from $\mathbb 1$ to $A$.
+
+\begin{center}
+\begin{tikzcd}
+    \mathbb{1} \arrow[r, shift left=5pt, "a"]
+               \arrow[r,shift right=5pt, swap, "a'"]
+    & A \arrow[r, "f"]
+    & B
+\end{tikzcd}
+\end{center}
+
+The application of the function $f$ to the elements $a$ and $a'$ is translated
+into composition of the morphisms $a$ and $a'$ with $f$:
+
+\begin{equation*}
+    \forall a, a' : \mathbb 1 \rightarrow A.\ f \comp a = f \comp a'
+    \implies a = a'
+\end{equation*}
+
+Unfortunately, this definition is too weak to capture the notion of injectivity
+for morphisms: the objects of a category may have internal structures which
+cannot be ``selected'' by a morphism from the terminal object. Such a category
+is introduced in Exercise \ref{lecture-5-exercise}.
+
+\subsection{Proposed solution 2: morphisms from an arbitrary object}
+To fix the issue in the previous definition, we consider mappings from any
+object in the category, not just terminal objects:
+
+\begin{equation*}
+    \forall X \in \Ob(\mathcal C).\ \forall a, a' : X \rightarrow A.\
+    f \comp a = f \comp a' \implies a = a'
+\end{equation*}
+
+Note how this definition of injectivity of morphisms does not use any
+set-specific concepts such as elements and function application: everything is
+expressed using composition of morphisms which is available in any category.
+
+\begin{exercise} \label{lecture-5-exercise}
+Consider the category of \emph{directed graphs}, $\catdirgraph$:
+
+\begin{itemize}
+    \item Objects: tuples $(N, E, s, t)$ where $N$ is the set of nodes, $E$ is
+    the set of edges and $s, t : E \rightarrow N$ are functions mapping an edge
+    to its source and target nodes respectively.
+    \item Morphisms: a pair of functions $(\eta, \epsilon)$, where $\eta : N
+    \rightarrow N$ maps nodes to nodes and $\epsilon : E \rightarrow E$ maps
+    edges to edges between two graphs such that connectivity is maintained. That
+    is, if there is an edge $e$ between nodes $a$ and $b$ in one graph $G$,
+    there will be an edge $\epsilon(e)$ between nodes $\eta(a)$ and $\eta(b)$ in
+    a graph that is connected to $G$ by a graph morphism $(\eta, \epsilon)$.
+\end{itemize}
+\begin{center}
+\begin{tikzcd}[row sep=0.8em]
+      {}
+    & E_1 \arrow[ld, swap, "s_1"] \arrow[dd, "\epsilon"] \arrow[rd, "t_1"]
+    & {} \\
+      N_1 \arrow[dd, swap, "\eta"]
+    & {}
+    & N_2 \arrow[dd, "\eta"] \\
+      {}
+    & E_2 \arrow[ld, "s_2"] \arrow[rd, swap, "t_2"]
+    & {} \\
+    N_1 & {} & N_2
+\end{tikzcd}\hspace{4em}%
+\begin{tikzcd}[row sep=4em]
+        a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta"]
+      & b \arrow[d, dashed, "\eta"] \\
+        \eta(a) \arrow[r, "\epsilon(e)"{name=D}]
+      & \eta(b)
+      \arrow[from=U, to=D, dashed, "\epsilon"]
+\end{tikzcd}
+\end{center}
+
+What is the terminal object of this category? It contains a single node (as the
+singleton set is the terminal object of the set of nodes) and a single looping
+edge:
+
+\begin{center}
+\begin{tikzcd}
+    \bullet \arrow[out=150,in=210, loop, looseness=5]
+\end{tikzcd}
+\end{center}
+
+Using this category $\catdirgraph$, show that Proposed solution 1 is
+insufficient to characterise injective morphisms. Hint: consider what structures
+can this single loop graph ``select'' from a larger graph.
 \end{exercise}
 
 \end{document}
