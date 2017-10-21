@@ -1841,12 +1841,12 @@ A bijection is an \emph{injection} and a \emph{surjection}.
 
 \begin{definition}[Sections and retractions]
 A \emph{section} $s : A \morpharrow B$ is an arrow for which there exists an
-arrow $r : B \morpharrow A$ (retraction) such that
+arrow $r : B \morpharrow A$ (a \emph{retraction}) such that
 \[
     r \comp s = \id{A}
 \]
 In other words, a section is the right inverse of some morphism.
-Dually, a \emph{retraction} is the left inverse of some morphism.
+Dually, a retraction is the left inverse of some morphism.
 \end{definition}
 
 \begin{example}
@@ -1870,13 +1870,13 @@ Consider the category of sets, $\catset$.
     \end{tikzpicture}
 \end{center}
 
-The above map $s : A \morpharrow B$ can not be a section, as there is no way to
-``go back to two points``.
+The above map $s : A \morpharrow B$ can not be a section, as there is no way
+to functionally ``go back to two points``.
 Hence, a section in $\catset$ must at least be an injection.
 However, note that if $A$ is the empty set, $s$ can not be a section.
 
-So in $\catset$, $A \morpharr {s} B$ is a section iff $A \neq \emptyset$ and
-$s$ is injective.
+In $\catset$, $s: A \to B$ is a section iff $s$ is injective and 
+($A = \emptyset \Rightarrow B = \emptyset$).
 
 A map $r : B \rightarrow A$ is a retraction iff it has a section.
 In $\catset$, retractions are the same as surjections (expressed
@@ -1931,18 +1931,19 @@ diagrammatically below).
     \end{tikzpicture}
 \end{center}
 
-There is a section on $A$ if $\forall a \in A$, we can find a $b \in B$ such
-that $r(b) = a$.
-In other words, $\forall a \in A,\ s(a)$ is defined by choosing
-a $b \in B$ such that $r(b) = a$.
-This may require the \emph{axiom of choice}.
+The function $r$ has a section if, $\forall a \in A$, we can find a $b \in B$
+such that $r(b) = a$.  In other words, $\forall a \in A$, a section $s$ is
+defined by choosing $s(a) \in B$ such that $r\big(s(a)\big) = a$.  This may
+require the \emph{axiom of choice}.
 
 \begin{definition}
 A category $\mathcal{C}$ \emph{satisfies the axiom of choice} whenever every
-``surjection'' in $\mathcal{C}$ has a retraction.
+``surjection'' (technically, \emph{epimorphism}) in $\mathcal{C}$ has a
+retraction.  
 \end{definition}
 
-\section{Injections in categories}
+\section{Injections (technically, \emph{monomorphisms}) in categories}
+
 A function $f : A \rightarrow B$ is \emph{injective} if every element in its
 codomain is mapped to by at most one element in its domain:
 
@@ -1954,33 +1955,36 @@ How could we express this notion categorically? The set-theoretic definition
 involves talking about function application and individual \emph{elements} of
 sets, which do not in general exist in an arbitrary category. To avoid these
 set-specific notions, we attempt to construct a definition which only mentions
-morphisms and the universal operation of morphism composition.
+morphisms and the operation of morphism composition.
 
-\subsection{Proposed solution 1: morphisms from the terminal object}
-In the category of sets, there is a bijection between the elements of a set $S$
-and the functions from a singleton set $\{*\}$ and $S$: mapping $*$ to an $s \in
-S$ amounts to selecting a specific element $s$ from $S$. This lets us abstract
-over the notion of individual elements and is therefore a good starting point
-for generalising the problem to categories. Before that, we also need a
-category-theoretic counterpart to singleton sets: \emph{terminal objects}.
+\subsection{Proposed solution 1: morphisms from the terminal object (global
+  elements)}
+
+In the category of sets, there is a bijection between the elements of a set
+$S$ and the functions from a singleton set $\setof{*}$ to $S$: mapping $*$ to
+an $s \in S$ amounts to selecting the specific element $s$ in $S$. This lets
+us abstract over the notion of individual elements and is therefore a good
+starting point for generalising the problem to categories. Before that, we
+also need a category-theoretic counterpart to singleton sets: 
+\emph{terminal objects}.
 
 \begin{definition}[Terminal objects]
 A \emph{terminal object} in a category $\mathcal C$ is an object $\mathbb 1$
 such that
 \begin{equation*}
-    \forall c \in \Ob(\mathcal C).\ \exists!\, m : c \rightarrow \mathbb 1
+    \forall c \in \Ob(\mathcal C).\ \exists!\, u : c \rightarrow \mathbb 1
 \end{equation*}
 \end{definition}
 
-A terminal object in $\catset$ is any singleton set $\{*\}$, as for every other
-set $S$ we have the constant function $S \rightarrow \{*\}$ mapping $s \in S$ to
-$*$.
-As with other universal constructions, all terminal objects in a category are
+A terminal object in $\catset$ is any singleton set, for instance $\{*\}$, as
+for every other set $S$ we only have the constant function 
+$S \rightarrow \{*\}$ mapping $s \in S$ to $*$.
+As with all universal constructions, all terminal objects in a category are
 isomorphic to each other, so we can talk about \emph{the} terminal object.
 
-Looking back at the definition of injections, we can use the terminal object of
-a category to ``select'' two elements from $A$ by finding two morphisms $a$ and
-$a'$ from $\mathbb 1$ to $A$.
+Looking back at the definition of injections, we can use the terminal object
+of a category to specify two ``elements'' of an object $A$ by as two morphisms
+$a$ and $a'$ from $\mathbb 1$ to $A$.
 
 \begin{center}
 \begin{tikzcd}
@@ -1992,66 +1996,84 @@ $a'$ from $\mathbb 1$ to $A$.
 \end{center}
 
 The application of the function $f$ to the elements $a$ and $a'$ is translated
-into composition of the morphisms $a$ and $a'$ with $f$:
+into composition of the morphisms $a$ and $a'$ with $f$.  We are thus lead to
+the following:
 
 \begin{equation*}
     \forall a, a' : \mathbb 1 \rightarrow A.\ f \comp a = f \comp a'
     \implies a = a'
 \end{equation*}
 
-Unfortunately, this definition is too weak to capture the notion of injectivity
-for morphisms: the objects of a category may have internal structures which
-cannot be ``selected'' by a morphism from the terminal object. Such a category
-is introduced in Exercise \ref{lecture-5-exercise}.
+Unfortunately, this definition is too weak to capture the notion of
+``injectivity'' for morphisms: the objects of a category may have internal
+structures that cannot be ``selected'' by a morphism from the terminal
+object.  Such a category is introduced in Exercise~\ref{lecture-5-exercise}.
 
-\subsection{Proposed solution 2: morphisms from an arbitrary object}
+\subsection{Proposed solution 2: morphisms from an arbitrary object
+  (generalized elements)}
+
 To fix the issue in the previous definition, we consider mappings from any
-object in the category, not just terminal objects:
+object in the category, not just terminal objects.
 
+\begin{definition}
+A morphism $f: A\to B$ in a category $\mathcal C$ is said to be a
+\emph{monomorphism} whenever
 \begin{equation*}
-    \forall X \in \Ob(\mathcal C).\ \forall a, a' : X \rightarrow A.\
-    f \comp a = f \comp a' \implies a = a'
+    \forall X \in \Ob(\mathcal C).\ 
+    \forall a, a' : X \rightarrow A \text{ in }\mathcal C.\
+      f \comp a = f \comp a' \implies a = a'
+    \enspace.
 \end{equation*}
+\end{definition}
 
-Note how this definition of injectivity of morphisms does not use any
-set-specific concepts such as elements and function application: everything is
-expressed using composition of morphisms which is available in any category.
+Note how this definition of ``injectivity of morphisms'' (technically
+monomorphisms) does not use any set-specific concepts such as elements and
+function application: everything is expressed using composition of morphisms
+which is available in any category.
 
 \begin{exercise} \label{lecture-5-exercise}
 Consider the category of \emph{directed graphs}, $\catdirgraph$:
 
 \begin{itemize}
     \item Objects: tuples $(N, E, s, t)$ where $N$ is the set of nodes, $E$ is
-    the set of edges and $s, t : E \rightarrow N$ are functions mapping an edge
-    to its source and target nodes respectively.
-    \item Morphisms: a pair of functions $(\eta, \varepsilon)$, where $\eta : N
-    \rightarrow N$ maps nodes to nodes and $\varepsilon : E \rightarrow E$ maps
-    edges to edges between two graphs such that connectivity is maintained. That
-    is, if there is an edge $e$ between nodes $a$ and $b$ in one graph $G$,
-    there will be an edge $\varepsilon(e)$ between nodes $\eta(a)$ and $\eta(b)$ in
-    a graph that is connected to $G$ by a graph morphism $(\eta, \varepsilon)$.
-\end{itemize}
+      the set of edges and $s, t : E \rightarrow N$ are functions mapping an
+      edge to its source and target nodes respectively.
+
+    \item Morphisms from $G=(N,E,s,t)$ to $G'=(N',E',s',t')$: a pair of
+      functions $(\eta, \varepsilon)$, where $\eta : N \rightarrow N'$ maps
+      nodes to nodes and $\varepsilon : E \rightarrow E'$ maps edges to edges
+      between two graphs such that connectivity is maintained: 
+      \begin{center}
+      \begin{tikzcd}[row sep=0.8em]
+      {}
+      & E \arrow[ld, swap, "s"] \arrow[dd, "\varepsilon"] \arrow[rd, "t"]
+      & {} \\
+      N \arrow[dd, swap, "\eta"]
+      & {}
+      & N' \arrow[dd, "\eta"] \\
+      {}
+      & E' \arrow[ld, "s'"] \arrow[rd, swap, "t'"]
+      & {} \\
+      N' & {} & N'
+\end{tikzcd}     
+\end{center}
+      That is, an
+      edge $e$ between nodes $a$ and $b$ in the graph $G$ is mapped to an
+      edge $\varepsilon(e)$ between the nodes $\eta(a)$ and $\eta(b)$ in the
+      graph $G'$.
 \begin{center}
-\begin{tikzcd}[row sep=0.8em]
-      {}
-    & E_1 \arrow[ld, swap, "s_1"] \arrow[dd, "\varepsilon"] \arrow[rd, "t_1"]
-    & {} \\
-      N_1 \arrow[dd, swap, "\eta"]
-    & {}
-    & N_2 \arrow[dd, "\eta"] \\
-      {}
-    & E_2 \arrow[ld, "s_2"] \arrow[rd, swap, "t_2"]
-    & {} \\
-    N_1 & {} & N_2
-\end{tikzcd}\hspace{4em}%
 \begin{tikzcd}[row sep=4em]
-        a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta"]
-      & b \arrow[d, dashed, "\eta"] \\
-        \eta(a) \arrow[r, "\varepsilon(e)"{name=D}]
+        a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta", mapsto]
+      & b \arrow[d, dashed, "\eta"] 
+      & \text{in $G$}
+      \\
+        \eta(a) \arrow[r, "\varepsilon(e)"{name=D} , mapsto]
       & \eta(b)
-      \arrow[from=U, to=D, dashed, "\varepsilon"]
+      \arrow[from=U, to=D, dashed, "\varepsilon", mapsto]
+      & \text{in $G'$}
 \end{tikzcd}
 \end{center}
+\end{itemize}
 
 What is the terminal object of this category? It contains a single node (as the
 singleton set is the terminal object of the set of nodes) and a single looping
@@ -2063,9 +2085,18 @@ edge:
 \end{tikzcd}
 \end{center}
 
-Using this category $\catdirgraph$, show that Proposed solution 1 is
-insufficient to characterise injective morphisms. Hint: consider what structures
-can this single loop graph ``select'' from a larger graph.
+In the category $\catdirgraph$, the notion of ``subgraph up to renaming'' is
+captured by morphisms $(\eta,\varepsilon)$ such that both $\eta$ and
+$\varepsilon$ are injections.
+\begin{enumerate}
+  \item 
+    Show that proposed solution 1 is insufficient to characterise the notion
+    of subgraph up to renaming.  (Hint: Consider what structures can this
+    single loop graph ``select'' from a graph.)
+  \item
+    Show that proposed solution 2 precisely characterises the notion of
+    subgraph up to renaming.
+\end{enumerate}
 \end{exercise}
 
 \end{document}
