@@ -1706,22 +1706,24 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     Injection\\
     $\forall a, a' \in A.\ f(a) = f(a') \Rightarrow a = a'$
 
+    \vspace{15pt}
     \begin{tikzpicture}
         [
-            group/.style={ellipse, draw, minimum height=50pt,
-                          minimum width=30pt, label=above:#1},
+            group/.style={ellipse, draw, minimum height=20pt,
+                          minimum width=50pt, label=left:#1},
             dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
         ]
         \node (a) [dot] {};
-        \node (b) [dot, below=of a] {};
-        \node (p) [dot, right=50pt of a] {};
-        \node (q) [dot, below=of p] {};
-        \node (r) [dot, right=10pt of p] {};
-        \node (s) [dot, below=of r] {};
-        \node (t) [dot] at ($(r)!1/2!(s)$) {};
-        \foreach \i/\j in {a/p,b/q}
+        \node (b) [dot, right=10pt of a] {};
+        \node (c) [dot, right=10pt of b] {};
+        \node (q) [dot, below=of a] {};
+        \node (r) [dot, below=of b] {};
+        \node (s) [dot, below=of c] {};
+        \node (p) [dot, left=10pt of q] {};
+        \node (t) [dot, right=10pt of s] {};
+        \foreach \i/\j in {a/q,b/s,c/t}
             \draw [->, >=stealth,scale=3] (\i) -- (\j);
-        \node [fit=(a) (b), group=A] {};
+        \node [fit=(a) (b) (c), group=A] {};
         \node [fit=(p) (q) (r) (s) (t), group=B] {};
     \end{tikzpicture}
     \end{center}
