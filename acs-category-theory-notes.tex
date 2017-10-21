@@ -1747,13 +1747,13 @@ A bijection is an \emph{injection} and a \emph{surjection}.
 
 
 \begin{remark}
-    Recall the universal problem of generating a monoid $(S*, \cdot, \epsilon)$
+    Recall the universal problem of generating a monoid $(S^*, \epsilon, \cdot)$
     from a set $S$ with a function $\sigma$. Compare the definition of a
     universal solution to this problem with the definition of a bijection $ f :
     S \rightarrow T$:
     \begin{alignat*}{3}
         & \forall (M, f).\ &&
-        \exists!\ f^\# : S* \rightarrow M.\ &&
+        \exists!\ f^\# : S^* \rightarrow M.\ &&
         f = f^\# \comp \sigma \text{ and }
         f^\# \text{ is a homomorphism} \\
         & \forall t \in T.\ &&
@@ -1767,7 +1767,7 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     consider the hom-set of the generated monoid and any proposed solution $(M,
     \shortmid, \star)$
     \begin{equation*}
-        H_{\catmon} = \catmon ( (S*, \cdot, \epsilon), (M, \shortmid, \star) )
+        H_{\catmon} = \catmon ( (S^*, \epsilon, \cdot), (M, \shortmid, \star) )
     \end{equation*}
     and the hom-set of our source set $S$ and the underlying set $M$ of the
     proposed solution:
@@ -1778,7 +1778,7 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     \begin{center}
     \begin{tikzcd}
           S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall f"]
-        & (S*, \cdot, \epsilon) \arrow[d, "\exists! f^\# \text{ homomorphism}"]
+        & (S^*, \epsilon, \cdot) \arrow[d, "\exists! f^\# \text{ homomorphism}"]
         \\
         {} & (M, \shortmid, \star)
     \end{tikzcd}
@@ -1790,7 +1790,7 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     between $H_{\catmon}$ and $H_{\catset}$:
 
     \begin{equation*}
-        \catmon ( (S*, \cdot, \epsilon), (M, \shortmid, \star) ) \simeq
+        \catmon ( (S^*, \epsilon, \cdot), (M, \shortmid, \star) ) \simeq
         \catset ( S, M )
     \end{equation*}
 
@@ -1983,17 +1983,17 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
     \item Objects: tuples $(N, E, s, t)$ where $N$ is the set of nodes, $E$ is
     the set of edges and $s, t : E \rightarrow N$ are functions mapping an edge
     to its source and target nodes respectively.
-    \item Morphisms: a pair of functions $(\eta, \epsilon)$, where $\eta : N
-    \rightarrow N$ maps nodes to nodes and $\epsilon : E \rightarrow E$ maps
+    \item Morphisms: a pair of functions $(\eta, \varepsilon)$, where $\eta : N
+    \rightarrow N$ maps nodes to nodes and $\varepsilon : E \rightarrow E$ maps
     edges to edges between two graphs such that connectivity is maintained. That
     is, if there is an edge $e$ between nodes $a$ and $b$ in one graph $G$,
-    there will be an edge $\epsilon(e)$ between nodes $\eta(a)$ and $\eta(b)$ in
-    a graph that is connected to $G$ by a graph morphism $(\eta, \epsilon)$.
+    there will be an edge $\varepsilon(e)$ between nodes $\eta(a)$ and $\eta(b)$ in
+    a graph that is connected to $G$ by a graph morphism $(\eta, \varepsilon)$.
 \end{itemize}
 \begin{center}
 \begin{tikzcd}[row sep=0.8em]
       {}
-    & E_1 \arrow[ld, swap, "s_1"] \arrow[dd, "\epsilon"] \arrow[rd, "t_1"]
+    & E_1 \arrow[ld, swap, "s_1"] \arrow[dd, "\varepsilon"] \arrow[rd, "t_1"]
     & {} \\
       N_1 \arrow[dd, swap, "\eta"]
     & {}
@@ -2006,9 +2006,9 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
 \begin{tikzcd}[row sep=4em]
         a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta"]
       & b \arrow[d, dashed, "\eta"] \\
-        \eta(a) \arrow[r, "\epsilon(e)"{name=D}]
+        \eta(a) \arrow[r, "\varepsilon(e)"{name=D}]
       & \eta(b)
-      \arrow[from=U, to=D, dashed, "\epsilon"]
+      \arrow[from=U, to=D, dashed, "\varepsilon"]
 \end{tikzcd}
 \end{center}
 
