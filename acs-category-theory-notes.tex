@@ -24,6 +24,7 @@
 \usepackage{tikz-cd}
 \usetikzlibrary{fit, positioning, shapes, calc}
 \usepackage{microtype}
+\usepackage{color}
 
 \usepackage{multicol}
 \usepackage{enumitem}
@@ -666,7 +667,7 @@ is given by its \emph{set of finite multisets}.  Here is a formal
 implementation of this idea.
 
 Let $\approx$ be the binary relation on
-$S^\star \,\eqdef\, \bigcup_{\ell\in\nats}\setof{\ell} \times S^\ell$ given by
+$S^\ast \,\eqdef\, \bigcup_{\ell\in\nats}\setof{\ell} \times S^\ell$ given by
 \begin{align*}
   & \big(i,(s_1,\ldots,s_i)\big)
   \approx
@@ -685,7 +686,7 @@ $\blacktriangleright$ Show that $\approx$ is an equivalence relation.
 
 Define the set
 \[
-  \mathcal M_f(S) \ \eqdef \ S^\star_{\,\raisebox{0mm}{$/\!\approx$}}
+  \mathcal M_f(S) \ \eqdef \ S^\ast_{\,\raisebox{0mm}{$/\!\approx$}}
   \enspace.
 \]
 
@@ -1660,12 +1661,13 @@ respective objects.
 \section{Isomorphisms}
 \begin{definition}[Isomorphism]
 An arrow $f : A \morpharrow B$ is an \emph{isomorphism} if there exists an
-inverse arrow $g : B \morpharrow A$ such that
+arrow $g : B \morpharrow A$, called its \emph{inverse}, such that
 \[
     g \comp f = \id{A} \quad \text{ and } \quad f \comp g = \id{B}
+    \enspace.
 \]
-We say $A$ and $B$ are \emph{isomorphic} if there exists an isomorphism between
-them.
+We say that two objects are \emph{isomorphic} if there exists an isomorphism
+between them.
 \end{definition}
 
 \begin{remark}
@@ -1676,11 +1678,18 @@ If $f$ has an inverse $g$, then the inverse is unique and we write $g = f^{-1}$.
 Suppose $h$ is also an inverse, so we have
 $h \comp f = \id{A}$ and $f \comp h = \id{B}$.
 Then
-\begin{alignat*}{4}
-    h \comp (f \comp g) &= h \comp \id{B} &&= h \quad \text{and} \\
-    (h \comp f) \comp g &= \id{A} \comp g &&= g.
-\end{alignat*}
+\[
+    h \comp (f \comp g) = h \comp \id{B} = h
+\]
+and
+\[
+(h \comp f) \comp g = \id{A} \comp g = g
+\enspace.
+\]
 By associativity, $g = h$.
+
+[Note that the argument only uses two of the four available the identities for
+the composites $f\comp g$, $f\comp h$, $g\comp f$, and $h\comp f$.]
 \end{proof}
 
 \begin{example}
@@ -1747,53 +1756,83 @@ A bijection is an \emph{injection} and a \emph{surjection}.
 
 
 \begin{remark}
-    Recall the universal problem of generating a monoid $(S^*, \epsilon, \cdot)$
-    from a set $S$ with a function $\sigma$. Compare the definition of a
-    universal solution to this problem with the definition of a bijection $ f :
-    S \rightarrow T$:
+    Recall the universal problem of generating a monoid 
+    $(S^\ast, \epsilon, \cdot)$ from a set $S$ with a function 
+    $\sigma: S\to S^\ast$. Compare the definition of a universal solution to
+    this problem: for all monoids $(M, \shortmid, \star)$,
     \begin{alignat*}{3}
-        & \forall (M, f).\ &&
-        \exists!\ f^\# : S^* \rightarrow M.\ &&
-        f = f^\# \comp \sigma \text{ and }
-        f^\# \text{ is a homomorphism} \\
-        & \forall t \in T.\ &&
-        \exists!\ s \in S.\ &&
-        f(s) = t
+        & \forall\, \text{functions } f:S\to M.\ &&
+        \exists!\ \text{homomorphism } 
+        f^\#: (S^\ast, \epsilon, \cdot)
+        \to 
+        (M, \shortmid, \star)
+        .\ &&
+        \textcolor{blue}{(}f^\#\textcolor{blue}{) \comp \sigma} = f
+        %\\
+        %& \forall\, y \in Y.\ &&
+        %\exists!\ x \in X.\ &&
+        %g(x) = y
+    \end{alignat*}
+    with the definition of a bijection $g : X \rightarrow Y$:
+    \begin{alignat*}{3}
+        %& \forall\, \text{functions } f:S\to M.\ &&
+        %\exists!\ \text{homomorphism } f^\#:S^* \to M.\ &&
+        %f = f^\# \comp \sigma 
+        %\\
+        & 
+        \forall\, y \in Y.\ 
+        \hspace*{2.5cm} 
+        &&
+        \exists!\ x \in X.\ 
+        \hspace*{5cm} 
+        &&
+        \textcolor{blue}{g(}x\textcolor{blue}{)} = y
     \end{alignat*}
 
-    The similarity suggests that solving a universal problem amounts to
-    establishing a bijection between a potential solutions and morphisms that
-    ``convert'' these potential solutions into the universal one. To see this,
-    consider the hom-set of the generated monoid and any proposed solution $(M,
-    \shortmid, \star)$
+    The similarity suggests that solving an initial universal problem amounts
+    to establishing a bijection that \emph{naturally converts} potential
+    solutions (in the above example functions between the sets $S$ and $M$) to
+    morphisms from the initial universal solution \big(in the above example
+    homomorphisms between the monoids $(S^\ast, \epsilon, \cdot)$ and 
+    $(M, \shortmid, \star)$\big).
+    %
+    To see this, consider the hom-set of the generated monoid and any other
+    monoid $(M, \shortmid, \star)$
     \begin{equation*}
-        H_{\catmon} = \catmon ( (S^*, \epsilon, \cdot), (M, \shortmid, \star) )
+        H_{\catmon} 
+        = \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big)
     \end{equation*}
-    and the hom-set of our source set $S$ and the underlying set $M$ of the
-    proposed solution:
+    and the hom-set of our generating set $S$ and the underlying set $M$ of
+    the proposed monoid:
     \begin{equation*}
         H_{\catset} = \catset ( S, M )
     \end{equation*}
 
+    The universality condition 
     \begin{center}
     \begin{tikzcd}
-          S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall f"]
-        & (S^*, \epsilon, \cdot) \arrow[d, "\exists! f^\# \text{ homomorphism}"]
+          S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall\, f"]
+        & 
+        S^\ast
+        \arrow[d, "f^\#"]
+        & (S^\ast, \epsilon, \cdot) 
+        \arrow[d, "\exists!\, f^\# \text{ homomorphism}"]
         \\
-        {} & (M, \shortmid, \star)
+        {} & M & (M, \shortmid, \star)
     \end{tikzcd}
     \end{center}
-
-    The universality condition states that for each function $f \in H_{\catset}$
-    we must find a unique $f^\# \in H_{\catmon}$ such that $f = f^\# \comp
-    \sigma$ and $f^\#$ is a homomorphism. That is, we must find a bijection
-    between $H_{\catmon}$ and $H_{\catset}$:
-
+    states that for each function $f \in H_{\catset}$
+    we must have a unique $f^\# \in H_{\catmon}$ such that $f = f^\# \comp
+    \sigma$.  That is, we must have that the \emph{natural} function
+    between $H_{\catmon}$ and $H_{\catset}$ given as follows
     \begin{equation*}
-        \catmon ( (S^*, \epsilon, \cdot), (M, \shortmid, \star) ) \simeq
-        \catset ( S, M )
+      \textcolor{blue}{(}-\textcolor{blue}{)\comp\sigma}:
+      \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big) 
+      %\stackrel\cong
+      \longrightarrow
+      \catset ( S, M )
     \end{equation*}
-
+    is a bijection.
 \end{remark}
 
 \section{Sections and retractions}
