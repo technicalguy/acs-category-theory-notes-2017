@@ -111,9 +111,8 @@
 \newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
 \newcommand{\suchthat}{\mid}
 \newcommand{\union}{\cup}
-\newcommand{\unitset}{\mathbf 1}
 
-\newcommand{\nelem}[1]{ \mathbf{ #1 } }
+\newcommand{\nelem}[1]{ \mathbb{ #1 } }
 \newcommand{\id}[1]{ \mathrm{id}_{ #1 } }
 \newcommand{\idfunc}{ \mathrm{Id} }
 \newcommand{\nats}{\mathbb{N}}
@@ -1449,14 +1448,14 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
   \item Identity is a left and right neutral element. First, notice that we
     can write
 
-    \[\unitset \morpharr{\id A} \mathcal C(A, A)\]
+    \[\nelem{1} \morpharr{\id A} \mathcal C(A, A)\]
 
     to express the idea that the identity morphism $\id A$ exists for every
     $A$.  Then the right identity law is expressed as:
 
     \begin{center}
     \begin{tikzcd}
-      \mathcal C(A, B) \times \unitset \arrow[rr, "\idfunc \times \id A"]
+      \mathcal C(A, B) \times \nelem{1} \arrow[rr, "\idfunc \times \id A"]
       \arrow[dr, "\pi_1", swap] & &
       \mathcal C(A, B) \times \mathcal C(A, A) \arrow[dl, "\circ_{A,A,B}"] \\
       & \mathcal C(A, B)
@@ -1467,7 +1466,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
 
     \begin{center}
     \begin{tikzcd}
-      \unitset \times \mathcal C(A, B) \arrow[rr, "\id B \times \idfunc"]
+      \nelem{1} \times \mathcal C(A, B) \arrow[rr, "\id B \times \idfunc"]
       \arrow[dr, "\pi_2", swap] & &
       \mathcal C(B, B) \times \mathcal C(A, B) \arrow[dl, "\circ_{A,B,B}"] \\
       & \mathcal C(A, B)
@@ -1969,10 +1968,10 @@ also need a category-theoretic counterpart to singleton sets:
 \emph{terminal objects}.
 
 \begin{definition}[Terminal objects]
-A \emph{terminal object} in a category $\mathcal C$ is an object $\mathbb 1$
+A \emph{terminal object} in a category $\mathcal C$ is an object $\nelem{1}$
 such that
 \begin{equation*}
-    \forall c \in \Ob(\mathcal C).\ \exists!\, u : c \rightarrow \mathbb 1
+    \forall c \in \Ob(\mathcal C).\ \exists!\, u : c \rightarrow \nelem{1}
 \end{equation*}
 \end{definition}
 
@@ -1984,11 +1983,11 @@ isomorphic to each other, so we can talk about \emph{the} terminal object.
 
 Looking back at the definition of injections, we can use the terminal object
 of a category to specify two ``elements'' of an object $A$ by as two morphisms
-$a$ and $a'$ from $\mathbb 1$ to $A$.
+$a$ and $a'$ from $\nelem{1}$ to $A$.
 
 \begin{center}
 \begin{tikzcd}
-    \mathbb{1} \arrow[r, shift left=5pt, "a"]
+    \nelem{1} \arrow[r, shift left=5pt, "a"]
                \arrow[r,shift right=5pt, swap, "a'"]
     & A \arrow[r, "f"]
     & B
@@ -2000,7 +1999,7 @@ into composition of the morphisms $a$ and $a'$ with $f$.  We are thus lead to
 the following:
 
 \begin{equation*}
-    \forall a, a' : \mathbb 1 \rightarrow A.\ f \comp a = f \comp a'
+    \forall a, a' : \nelem{1} \rightarrow A.\ f \comp a = f \comp a'
     \implies a = a'
 \end{equation*}
 
