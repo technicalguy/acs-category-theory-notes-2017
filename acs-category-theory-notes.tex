@@ -1757,15 +1757,15 @@ A bijection is an \emph{injection} and a \emph{surjection}.
 
 
 \begin{remark}
-    Recall the universal problem of generating a monoid 
-    $(S^\ast, \epsilon, \cdot)$ from a set $S$ with a function 
+    Recall the universal problem of generating a monoid
+    $(S^\ast, \epsilon, \cdot)$ from a set $S$ with a function
     $\sigma: S\to S^\ast$. Compare the definition of a universal solution to
     this problem: for all monoids $(M, \shortmid, \star)$,
     \begin{alignat*}{3}
         & \forall\, \text{functions } f:S\to M.\ &&
-        \exists!\ \text{homomorphism } 
+        \exists!\ \text{homomorphism }
         f^\#: (S^\ast, \epsilon, \cdot)
-        \to 
+        \to
         (M, \shortmid, \star)
         .\ &&
         \textcolor{blue}{(}f^\#\textcolor{blue}{) \comp \sigma} = f
@@ -1778,14 +1778,14 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     \begin{alignat*}{3}
         %& \forall\, \text{functions } f:S\to M.\ &&
         %\exists!\ \text{homomorphism } f^\#:S^* \to M.\ &&
-        %f = f^\# \comp \sigma 
+        %f = f^\# \comp \sigma
         %\\
-        & 
-        \forall\, y \in Y.\ 
-        \hspace*{2.5cm} 
+        &
+        \forall\, y \in Y.\
+        \hspace*{2.5cm}
         &&
-        \exists!\ x \in X.\ 
-        \hspace*{5cm} 
+        \exists!\ x \in X.\
+        \hspace*{5cm}
         &&
         \textcolor{blue}{g(}x\textcolor{blue}{)} = y
     \end{alignat*}
@@ -1794,13 +1794,13 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     to establishing a bijection that \emph{naturally converts} potential
     solutions (in the above example functions between the sets $S$ and $M$) to
     morphisms from the initial universal solution \big(in the above example
-    homomorphisms between the monoids $(S^\ast, \epsilon, \cdot)$ and 
+    homomorphisms between the monoids $(S^\ast, \epsilon, \cdot)$ and
     $(M, \shortmid, \star)$\big).
     %
     To see this, consider the hom-set of the generated monoid and any other
     monoid $(M, \shortmid, \star)$
     \begin{equation*}
-        H_{\catmon} 
+        H_{\catmon}
         = \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big)
     \end{equation*}
     and the hom-set of our generating set $S$ and the underlying set $M$ of
@@ -1809,14 +1809,14 @@ A bijection is an \emph{injection} and a \emph{surjection}.
         H_{\catset} = \catset ( S, M )
     \end{equation*}
 
-    The universality condition 
+    The universality condition
     \begin{center}
     \begin{tikzcd}
           S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall\, f"]
-        & 
+        &
         S^\ast
         \arrow[d, "f^\#"]
-        & (S^\ast, \epsilon, \cdot) 
+        & (S^\ast, \epsilon, \cdot)
         \arrow[d, "\exists!\, f^\# \text{ homomorphism}"]
         \\
         {} & M & (M, \shortmid, \star)
@@ -1828,7 +1828,7 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     between $H_{\catmon}$ and $H_{\catset}$ given by
     \begin{equation*}
       \textcolor{blue}{(}-\textcolor{blue}{)\comp\sigma}:
-      \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big) 
+      \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big)
       %\stackrel\cong
       \longrightarrow
       \catset ( S, M )
@@ -1874,7 +1874,7 @@ to functionally ``go back to two points``.
 Hence, a section in $\catset$ must at least be an injection.
 However, note that if $A$ is the empty set, $s$ can not be a section.
 
-In $\catset$, $s: A \to B$ is a section iff $s$ is injective and 
+In $\catset$, $s: A \to B$ is a section iff $s$ is injective and
 ($A = \emptyset \Rightarrow B = \emptyset$).
 
 A map $r : B \rightarrow A$ is a retraction iff it has a section.
@@ -1938,7 +1938,7 @@ require the \emph{axiom of choice}.
 \begin{definition}
 A category $\mathcal{C}$ \emph{satisfies the axiom of choice} whenever every
 ``surjection'' (technically, \emph{epimorphism}) in $\mathcal{C}$ has a
-retraction.  
+retraction.
 \end{definition}
 
 \section{Injections (technically, \emph{monomorphisms}) in categories}
@@ -1964,7 +1964,7 @@ $S$ and the functions from a singleton set $\setof{*}$ to $S$: mapping $*$ to
 an $s \in S$ amounts to selecting the specific element $s$ in $S$. This lets
 us abstract over the notion of individual elements and is therefore a good
 starting point for generalising the problem to categories. Before that, we
-also need a category-theoretic counterpart to singleton sets: 
+also need a category-theoretic counterpart to singleton sets:
 \emph{terminal objects}.
 
 \begin{definition}[Terminal objects]
@@ -1976,7 +1976,7 @@ such that
 \end{definition}
 
 A terminal object in $\catset$ is any singleton set, for instance $\{*\}$, as
-for every other set $S$ we only have the constant function 
+for every other set $S$ we only have the constant function
 $S \rightarrow \{*\}$ mapping $s \in S$ to $*$.
 As with all universal constructions, all terminal objects in a category are
 isomorphic to each other, so we can talk about \emph{the} terminal object.
@@ -2018,7 +2018,7 @@ object in the category, not just terminal objects.
 A morphism $f: A\to B$ in a category $\mathcal C$ is said to be a
 \emph{monomorphism} whenever
 \begin{equation*}
-    \forall X \in \Ob(\mathcal C).\ 
+    \forall X \in \Ob(\mathcal C).\
     \forall a, a' : X \rightarrow A \text{ in }\mathcal C.\
       f \comp a = f \comp a' \implies a = a'
     \enspace.
@@ -2041,7 +2041,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
     \item Morphisms from $G=(N,E,s,t)$ to $G'=(N',E',s',t')$: a pair of
       functions $(\eta, \varepsilon)$, where $\eta : N \rightarrow N'$ maps
       nodes to nodes and $\varepsilon : E \rightarrow E'$ maps edges to edges
-      between two graphs such that connectivity is maintained: 
+      between two graphs such that connectivity is maintained:
       \begin{center}
       \begin{tikzcd}[row sep=0.8em]
       {}
@@ -2054,7 +2054,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
       & E' \arrow[ld, "s'"] \arrow[rd, swap, "t'"]
       & {} \\
       N' & {} & N'
-\end{tikzcd}     
+\end{tikzcd}
 \end{center}
       That is, an
       edge $e$ between nodes $a$ and $b$ in the graph $G$ is mapped to an
@@ -2063,7 +2063,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
 \begin{center}
 \begin{tikzcd}[row sep=4em]
         a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta", mapsto]
-      & b \arrow[d, dashed, "\eta"] 
+      & b \arrow[d, dashed, "\eta"]
       & \text{in $G$}
       \\
         \eta(a) \arrow[r, "\varepsilon(e)"{name=D} , mapsto]
@@ -2088,7 +2088,7 @@ In the category $\catdirgraph$, the notion of ``subgraph up to renaming'' is
 captured by morphisms $(\eta,\varepsilon)$ such that both $\eta$ and
 $\varepsilon$ are injections.
 \begin{enumerate}
-  \item 
+  \item
     Show that proposed solution 1 is insufficient to characterise the notion
     of subgraph up to renaming.  (Hint: Consider what structures can this
     single loop graph ``select'' from a graph.)
