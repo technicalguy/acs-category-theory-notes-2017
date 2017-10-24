@@ -103,7 +103,8 @@
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\etc}{\emph{etc.}}
 
-\newcommand{\eqdef}{\stackrel{\text{def}}{=}} % composition
+\newcommand{\eqdef}{\stackrel{\text{def}}{=}}
+\newcommand{\iffdef}{\stackrel{\text{def}}{\iff}}
 \newcommand{\comp}{\circ} % composition
 \newcommand{\icomp}{\,} % implicit composition
 
@@ -118,6 +119,10 @@
 \newcommand{\nats}{\mathbb{N}}
 \newcommand{\morpharrow}{\longrightarrow}
 \newcommand{\morpharr}[1]{\overset{#1}{\morpharrow}}
+
+\newcommand{\verteq}{\rotatebox{90}{$\,=$}}
+\newcommand{\equalto}[2]{\underset{\displaystyle\overset{\mkern4mu\verteq}{#2}}{#1}}
+\newcommand{\mapsfrom}{\reflectbox{$\;\mapsto\;$}}
 
 \begin{document}
 
@@ -139,6 +144,7 @@ Sebastian Borgeaud\\
 Brad Hardy\\
 Stella Lau\\
 Dima Szamozvancev
+James Clarke\\
 \end{multicols}
 \clearpage
 
@@ -2096,6 +2102,179 @@ $\varepsilon$ are injections.
     Show that proposed solution 2 precisely characterises the notion of
     subgraph up to renaming.
 \end{enumerate}
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Functors}
+\lecturedetails{24 October 2017}{M Fiore, J Clarke}
+
+\section{Duality}
+\begin{definition}[Duality]
+Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual},
+$\mathcal{C}^{\mathrm{op}}$ to be the category with:
+    \begin{itemize}
+        \item $\Ob(\mathcal{C}^{\mathrm{op}}) = \Ob(\mathcal{C})$
+        \item $\mathcal{C}^{\mathrm{op}}(A, B) \eqdef \mathcal{C}(B, A)$
+    \end{itemize}
+
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}^{\mathrm{op}}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \arrow[d, swap, "f"] \\
+            B
+        \end{tikzcd}
+    \end{center}
+\end{minipage}%
+\vline%
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \\
+            B \arrow[u, "f"]
+        \end{tikzcd}
+    \end{center}
+\end{minipage}
+
+Identities are the same as in $\mathcal{C}$, \ie:
+
+\begin{equation*}
+    \id{A}^{\mathrm{op}} \eqdef \id{A}
+\end{equation*}
+
+For composition, we need:
+
+\begin{equation*}
+    \equalto{\mathcal{C}^{\mathrm{op}}(B, C)}{\mathcal{C}(C, B)} \times
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)} \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, C)}{\mathcal{C}(C, A)}
+\end{equation*}
+
+Therefore, we define:
+
+\begin{equation*}
+    g \comp^{\mathrm{op}}_{A,B,C} f = f \comp_{C,B,A} g
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Monomorphism]
+A \emph{monomorphism} in a category $\mathcal{C}$ is a map $f : A \to B$ such
+that for all $X \in \Ob(\mathcal{C})$ and for all $a, a' : X \to A$,
+$f \comp a = f \comp a' \implies a = a'$.
+\end{definition}
+
+\begin{definition}[Epimorphism]
+An \emph{epimorphism} in a category $\mathcal{C}$ is a monomorphism in
+$\mathcal{C}^{\mathrm{op}}$, \ie~$f : A \to B$ is an epimorphism if:
+
+\begin{equation*}
+    \forall T \in \Ob(\mathcal{C}) . \forall t, t' : B \to T .
+    t \comp f = t' \comp f \implies t = t'
+\end{equation*}
+
+Here, $T$ can be thought of as a set of tests.
+\end{definition}
+
+\begin{exercise}
+Show that, in $\catset$, epimorphisms are the same as surjections.
+\end{exercise}
+
+\begin{exercise}
+Show that each of isomorphisms, epimorphisms, monomorphisms, sections and
+retractions are closed under composition, \ie~if $f : A \to B$, $g : B \to C$
+are in the class, then $g \comp f : A \to C$ is also in the class.
+\end{exercise}
+
+\begin{exercise}
+Prove the labelled inclusions:
+
+\begin{center}
+    \begin{tikzpicture}
+        \matrix[matrix of math nodes, name=m, column sep=0.6em, row sep=1.2em] {
+            &
+            |[alias=Sec]| \mathcal{C}_{\mathrm{sections}} &
+            |[alias=Mono]| \mathcal{C}_{\mathrm{mono}} &
+            \\
+            |[alias=Cong]| \mathcal{C}_{\mathrm{\cong}} &
+            |[alias=Ex1]| &
+            |[alias=Ex2]| &
+            |[alias=C]| \mathcal{C}
+            \\
+            &
+            |[alias=Ret]| \mathcal{C}_{\mathrm{retractions}} &
+            |[alias=Epi]| \mathcal{C}_{\mathrm{epi}} &
+            \\
+        };
+
+        \node (Ex) [fit=(Ex1)(Ex2)]{exercises};
+
+        \path (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Sec)
+              (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Ret)
+              (Sec) edge[draw=none] node (SecMono) [sloped, allow upside down, auto=false] {$\subseteq$} (Mono)
+              (Ret) edge[draw=none] node (RetEpi) [sloped, allow upside down, auto=false] {$\subseteq$} (Epi)
+              (Mono) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Epi) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Ex) edge (SecMono)
+              (Ex) edge (RetEpi);
+    \end{tikzpicture}
+\end{center}
+\end{exercise}
+
+Recall that the product of a family of objects $\setof{A_i \suchthat i \in I}$
+is given by:
+
+\begin{equation*}
+    \left(\prod_i A_i\right) \xrightarrow{\pi_k} A_k
+\end{equation*}
+
+for all $k \in I$, such that this is a terminal universal solution.
+
+\begin{definition}
+\emph{Coproducts}, or \emph{sums}, in $\mathcal{C}$ are products in
+$\mathcal{C}^{\mathrm{op}}$. The coproduct of a family
+$\setof{A_i \suchthat i \in I}$ is given by:
+
+\begin{center}
+    \begin{tikzcd}
+        A_k \arrow[r, "\iota_k"] \arrow[dr, swap, "\forall f_k"] &
+        \left(\coprod_{i \in I} A_i\right) \arrow[d, "\exists!f_k"]
+        \\
+        &
+        X
+    \end{tikzcd}
+\end{center}
+
+for all $k \in I$.
+\end{definition}
+
+In $\catset$, disjoint unions are coproducts:
+
+\begin{equation*}
+    \begin{aligned}
+        \coprod_{i \in I} A_i = \bigcup_{i \in I} \setof{i} \times A_i &
+        \overset{\iota_k}{\leftarrow} A_k
+        \\
+        (k, a) &
+        \mapsfrom a
+    \end{aligned}
+\end{equation*}
+
+\begin{exercise}
+Calculate coproducts/sums in the categories introduced so far ($\catrel$,
+$\catpfn$, $\catpred$, $\catmon$, $\catpreo$, \dots).
+\end{exercise}
+
+\begin{exercise}
+Prove or disprove whether bijections ($\iffdef$ monomorphic and epimorphic) are
+the same as isomorphisms.
 \end{exercise}
 
 \end{document}
