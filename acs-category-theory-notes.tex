@@ -145,6 +145,7 @@ Dhruv Makwana\\
 Oliver Richardson\\
 Shaun Steenkamp\\
 Dima Szamozvancev\\
+Thomas Parks
 \end{multicols}
 \clearpage
 
@@ -2104,10 +2105,8 @@ $\varepsilon$ are injections.
 \end{enumerate}
 \end{exercise}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \chapter{Functors}
-\lecturedetails{24 October 2017}{M Fiore, J Clarke}
+\lecturedetails{24 October 2017}{M Fiore, J Clarke, T Parks}
 
 \section{Duality}
 \begin{definition}[Duality]
@@ -2277,5 +2276,138 @@ $\catpfn$, $\catpred$, $\catmon$, $\catpreo$, \dots).
 Prove or disprove whether bijections ($\iffdef$ monomorphic and epimorphic) are
 the same as isomorphisms.
 \end{exercise}
+
+\section{Functors}
+
+We have looked at many morphisms between objects in categories. Somewhat
+analogously, given categories $\mathcal{A, B}$ and a
+\textit{Functor} $\mathcal{F}$,
+
+\begin{center}
+\begin{tikzcd}
+    \mathcal{A} \arrow[r, "\mathcal F"]  & \mathcal{B}
+\end{tikzcd}
+\end{center}
+
+holds. Informally this suggests that categories form a mathematical
+structure in the same way as as the objects of a category.
+
+\subsection{Example 1: Monoids can be regarded as Categories}
+
+We can motivate this idea by looking at connections between categories and
+monoids (themselves forming a category).
+
+We consider a monoid $(M, e, \ast)$ and compare it to a category $\mathcal C$.
+$\mathcal C$ has a single object, $\Ob(\mathcal C) = \{ \bullet \}$.
+
+We consider the category $\mathcal M$. We require that $\mathcal M$ has
+
+\begin{equation*}
+\mathcal{M}(\bullet, \bullet) = M
+\end{equation*}
+
+Where $M$ are the elements of the monoid. The identity is given by
+
+\begin{equation*}
+\id{\bullet} \eqdef \bullet
+\end{equation*}
+
+And the composition of arrows $f, g \in \Arr(\mathcal M)$ is
+
+\begin{equation*}
+f \comp g = f \ast g
+\end{equation*}
+
+Conversely, $\mathcal C$ has a monadic structure given by
+$(\mathcal{C}(\bullet, \bullet), \id{\bullet}, \comp)$. Thease structures
+are in bijective corraspondance.
+
+\subsection{Example 2: Preorders can be regarded as Categories}
+\begin{example}
+
+Given a preorder $(P, \leq)$, consider the category $\mathcal P$
+where $\Ob(\mathcal P) = P$ and
+
+\begin{equation*}
+\forall p,q \in P  \ldotp \mathcal{P}(p, q) = \begin{cases}
+    \{\ast_{p,q}\} & \text{if } p \leq q\\
+    \emptyset & \text{otherwise }
+\end{cases}
+\end{equation*}
+
+As $p \leq p$, the identity is given by
+
+\begin{equation*}
+\id{p} = \ast_{p,p}
+\end{equation*}
+
+We also need to consider the operation of composition.
+
+\begin{equation*}
+\mathcal{P}(q, r) \times \mathcal{P}(p, q) = \mathcal{P}(p, r)
+\end{equation*}
+
+We can determine this by cases. if $p \leq q \leq r$, then by the transitive
+property of preorders $p \leq r$, and so
+
+\begin{equation*}
+\mathcal{P}(p, r) = \{\ast_{p,r}\}
+\end{equation*}
+
+If either of the conditions does not hold, the LHS of the composition involves
+the empty set and so the result if $p \nleq q$ or $q \nleq r$ is uniquely
+\begin{equation*}
+\mathcal{P}(q, r) \times \mathcal{P}(p, q) = \emptyset
+\end{equation*}
+
+We can define $\mathcal{X}\leq \mathcal{Y} \eqdef \mathcal{C}(X, Y) = \nelem{1}$.
+
+Functors are monotone between preorders.
+\end{example}
+
+\subsection{Small and locally small categories}
+
+Let $\cat{C}$ be a category such that
+
+\begin{equation*}
+\forall X,Y \in \Ob{\cat{C}} \ldotp \# \cat{C}(X, Y) \leq 1
+\end{equation*}
+
+where $\#$ is the cardinality operator on a set. The objects of $\cat{C}$ must
+form a set, not a class in order for $\cat{C}$ to be small. A locally small
+category is allowed to have a class of objects, but the morphisms $\cat{C}(X, Y)$
+must be a set.
+
+\subsection{Example correspondences for morphisms}
+
+The morphisms within categories are duplicated by the category of categories. Some examples are shown here.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llll}
+ Monoids                                                               & PreOrders                                                         & Catagories                                                                    \\
+ $(M_1, e_1, \ast_1) \stackrel{h}{\longrightarrow} (M_2, e_2, \ast_2)$ & $(P_1, \leq_1) \stackrel{f}{\longrightarrow} (P_2, \leq_2)$       & $\cat{C}_1 \stackrel{\mathcal{F}}{\longrightarrow} \cat{C}_2 $                \\
+ $M_1 \stackrel{h}{\longrightarrow} M_2$                               & $P_1 \stackrel{f}{\longrightarrow} P_2$                           & $\mathcal{F_{\textrm{objects}}} : \Ob(\cat{C}_1) \longrightarrow \Ob(\cat{C}_2)$  \\
+                                                                       &                                                                   & $\mathcal{F_{\textrm{arrows}}} : \Arr(\cat{C}_1) \longrightarrow \Arr(\cat{C}_2)$ \\
+ $h(e_1) = e_2$                                                        & $\forall p,q \in P_1 \ldotp p \leq_1 q \implies f(p) \leq_2 f(q)$ & $\mathcal{F_{\textrm{arrows}}}( \id{ \cat{C}_1 } ) = \id{ \mathcal{F_{\textrm{objects}}}({\mathbf{C}_1}) }$ \\
+                                                                       &                                                                   &
+
+% the yshift is needed to make the F_arrow level.
+\begin{tikzcd}
+P \arrow[dd, ""{name=L, right}] &  & F_{objects}(P) \arrow[dd, ""{name=R, left}] \\
+\arrow[rr, "F_{arrows}", from=L, to=R, start anchor={[yshift=-0.2ex]},] &  &  \\
+Q &  & F_{objects}(P)
+\end{tikzcd} \\
+
+ $ h(f \comp g) = h(f) \comp h(g) $                                  &                                                                    &
+
+ \begin{tikzcd}
+A \arrow[d, "f"] \arrow[dd, "g \comp f"', bend right=49] &  & F_{objects}(A) \arrow[d, "F_{arrow}(f)"] \arrow[dd, "F_{arrow}(g \comp f)", bend left=60] \\
+B \arrow[d, "g"] & \arrow[r, equals] & F_{objects}(B) \arrow[d, "F_{arrow}(g)", dashed] \\
+C &  & F_{objects}(C)
+\end{tikzcd}
+
+\end{tabular}
+\end{table}
 
 \end{document}
