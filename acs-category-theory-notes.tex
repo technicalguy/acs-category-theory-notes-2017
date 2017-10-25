@@ -2111,8 +2111,8 @@ $\varepsilon$ are injections.
 
 \section{Duality}
 \begin{definition}[Duality]
-Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual},
-$\mathcal{C}^{\mathrm{op}}$ to be the category with:
+Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual}
+category, $\mathcal{C}^{\mathrm{op}}$, to be the category with:
     \begin{itemize}
         \item $\Ob(\mathcal{C}^{\mathrm{op}}) = \Ob(\mathcal{C})$
         \item $\mathcal{C}^{\mathrm{op}}(A, B) \eqdef \mathcal{C}(B, A)$
@@ -2154,7 +2154,8 @@ For composition, we need:
 
 \begin{equation*}
     \equalto{\mathcal{C}^{\mathrm{op}}(B, C)}{\mathcal{C}(C, B)} \times
-    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)} \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)} 
+    \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
     \equalto{\mathcal{C}^{\mathrm{op}}(A, C)}{\mathcal{C}(C, A)}
 \end{equation*}
 
@@ -2180,7 +2181,7 @@ $\mathcal{C}^{\mathrm{op}}$, \ie~$f : A \to B$ is an epimorphism if:
     t \comp f = t' \comp f \implies t = t'
 \end{equation*}
 
-Here, $T$ can be thought of as a set of tests.
+Here, $T$ can be thought of as an object of ``tests''.
 \end{definition}
 
 \begin{exercise}
@@ -2189,8 +2190,8 @@ Show that, in $\catset$, epimorphisms are the same as surjections.
 
 \begin{exercise}
 Show that each of isomorphisms, epimorphisms, monomorphisms, sections and
-retractions are closed under composition, \ie~if $f : A \to B$, $g : B \to C$
-are in the class, then $g \comp f : A \to C$ is also in the class.
+retractions are closed under composition; \ie~if $f : A \to B$ and 
+$g : B \to C$ are in one of these classes, then so is $g \comp f : A \to C$.
 \end{exercise}
 
 \begin{exercise}
@@ -2201,16 +2202,16 @@ Prove the labelled inclusions:
         \matrix[matrix of math nodes, name=m, column sep=0.6em, row sep=1.2em] {
             &
             |[alias=Sec]| \mathcal{C}_{\mathrm{sections}} &
-            |[alias=Mono]| \mathcal{C}_{\mathrm{mono}} &
+            |[alias=Mono]| \mathcal{C}_{\mathrm{monos}} &
             \\
-            |[alias=Cong]| \mathcal{C}_{\mathrm{\cong}} &
+            |[alias=Cong]| \mathcal{C}_{\mathrm{isos}} &
             |[alias=Ex1]| &
             |[alias=Ex2]| &
             |[alias=C]| \mathcal{C}
             \\
             &
             |[alias=Ret]| \mathcal{C}_{\mathrm{retractions}} &
-            |[alias=Epi]| \mathcal{C}_{\mathrm{epi}} &
+            |[alias=Epi]| \mathcal{C}_{\mathrm{epis}} &
             \\
         };
 
@@ -2232,15 +2233,16 @@ Recall that the product of a family of objects $\setof{A_i \suchthat i \in I}$
 is given by:
 
 \begin{equation*}
-    \left(\prod_i A_i\right) \xrightarrow{\pi_k} A_k
+    \left(\prod_{i\in I} A_i\right) \xrightarrow{\pi_k} A_k
+    \qquad (k\in I)
 \end{equation*}
 
-for all $k \in I$, such that this is a terminal universal solution.
+such that it is a terminal universal solution.
 
 \begin{definition}
 \emph{Coproducts}, or \emph{sums}, in $\mathcal{C}$ are products in
 $\mathcal{C}^{\mathrm{op}}$. The coproduct of a family
-$\setof{A_i \suchthat i \in I}$ is given by:
+$\setof{A_i \suchthat i \in I}$ is given by
 
 \begin{center}
     \begin{tikzcd}
@@ -2250,16 +2252,15 @@ $\setof{A_i \suchthat i \in I}$ is given by:
         &
         X
     \end{tikzcd}
+    \qquad$(k\in I)$
 \end{center}
-
-for all $k \in I$.
 \end{definition}
 
-In $\catset$, disjoint unions are coproducts:
+In $\catset$, coproducts are disjoint unions:
 
 \begin{equation*}
     \begin{aligned}
-        \coprod_{i \in I} A_i = \bigcup_{i \in I} \setof{i} \times A_i &
+        \coprod_{i \in I} A_i \ = \ \bigcup_{i \in I}\, \setof{i} \times A_i &
         \overset{\iota_k}{\leftarrow} A_k
         \\
         (k, a) &
