@@ -1172,13 +1172,59 @@ This structure suggests a connection to the natural numbers $\nats$.
     Show that
     \begin{center}
         \begin{tikzcd}[ampersand replacement=\&]
-            0 \in \nats \arrow[r, "\textrm{succ}"] \&
+            0 \in \nats \arrow[r, "\mathrm{succ}"] \&
             \nats \&
         \end{tikzcd} \\[3mm]
     \end{center}
     is the initial solution. That is the natural numbers $\nats$ with 0 and
-    the successor function $\textrm{succ} = \lambda x\in\nats.x + 1$.
+    the successor function $\mathrm{succ} = \lambda x\in\nats.\ x + 1$.
 \end{exercise}
+\begin{proof}[Solution]
+    We want to show there is a unique $h: \nats \to S$ such that for any data
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            s \in S \arrow[r, "\sigma"] \&
+            S \&
+        \end{tikzcd}
+    \end{center}
+    the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            0 \arrow[d, mapsto, "h"] \& \in \&
+            \nats \arrow[r, "\mathrm{succ}"] \arrow[d, "h"] \&
+            \nats \arrow[d, "h"] \\
+            s \& \in \& S \arrow[r, "\sigma"] \& S
+        \end{tikzcd}
+    \end{center}
+    That is, we want to have $h \comp \mathrm{succ} = \sigma \comp h$ and
+    $h(0) = s$.
+
+    Consider the map $h(n) = \sigma^n (s)$. It is clear that $h(0) = s$,
+    and also for every $n \in \nats$:
+    \[ (h \comp \mathrm{succ})(n) = h(n+1) = \sigma^{n+1}(s) =
+    \sigma(\sigma^{n}(s)) = (\sigma \comp h)(n) \]
+    and therefore $h \comp \mathrm{succ} = \sigma \comp h$.
+
+    Let us show that it is unique \ie\ for any $k:\nats\to S$ such that
+    $k(0) = s$ and $k \comp \mathrm{succ} = \sigma \comp k$ we have $k = h$.
+    Let us show that for all $n \in \nats$, $k(n) = \sigma^{n} (s)$ by
+    induction:
+
+    \begin{itemize}
+
+    \item When $n=0$, we have $k(0) = s = \sigma^0(s)$ by assumption.
+
+    \item Assume that $k(n) = \sigma^n(s)$ for some $n \in \nats$. Now consider
+    $k(n+1)$:
+    \[ k(n + 1) = (k \comp \mathrm{succ})(n) = (\sigma \comp k)(n) =
+    \sigma(k(n)) = \sigma(\sigma^{n}(s)) = \sigma^{n+1}(s) \]
+    Thus $k(n + 1) = \sigma^{n + 1}(s)$.
+
+    \end{itemize}
+
+    Thus by induction we conclude $k = h$, so the function is unique. Therefore
+    this is the initial solution.
+\end{proof}
 
 
 \subsubsection{Relation to automata theory}
