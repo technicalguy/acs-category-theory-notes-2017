@@ -103,7 +103,8 @@
 \newcommand{\ie}{\emph{i.e.}}
 \newcommand{\etc}{\emph{etc.}}
 
-\newcommand{\eqdef}{\stackrel{\text{def}}{=}} % composition
+\newcommand{\eqdef}{\stackrel{\text{def}}{=}}
+\newcommand{\iffdef}{\stackrel{\text{def}}{\iff}}
 \newcommand{\comp}{\circ} % composition
 \newcommand{\icomp}{\,} % implicit composition
 
@@ -119,6 +120,10 @@
 \newcommand{\morpharrow}{\longrightarrow}
 \newcommand{\morpharr}[1]{\overset{#1}{\morpharrow}}
 
+\newcommand{\verteq}{\rotatebox{90}{$\,=$}}
+\newcommand{\equalto}[2]{\underset{\displaystyle\overset{\mkern4mu\verteq}{#2}}{#1}}
+\newcommand{\mapsfrom}{\reflectbox{$\;\mapsto\;$}}
+
 \begin{document}
 
 \begin{center} {\LARGE \sc
@@ -130,15 +135,16 @@ Category Theory, Type Theory, and Logic\\
 
 \thispagestyle{plain}
 \begin{multicols}{3}[\section*{Contributors}]
-Dhruv Makwana\\
-Shaun Steenkamp\\
-Andrej Ivašković\\
-Oliver Richardson\\
-Razvan Kusztos\\
 Sebastian Borgeaud\\
+James Clarke\\
 Brad Hardy\\
+Andrej Ivašković\\
+Razvan Kusztos\\
 Stella Lau\\
-Dima Szamozvancev \\
+Dhruv Makwana\\
+Oliver Richardson\\
+Shaun Steenkamp\\
+Dima Szamozvancev\\
 Thomas Parks
 \end{multicols}
 \clearpage
@@ -871,7 +877,7 @@ solution.\label{ex:bug}
 \end{exercise}
 
 \chapter{Even more universal problems}
-\lecturedetails{October 12}{M Fiore, R Kusztos, S Borgeaud}
+\lecturedetails{October 12}{M Fiore, S Borgeaud, R Kusztos}
 
 In this lecture we introduce mathematical terminology and concepts to then
 consider more interesting universal properties.
@@ -1345,7 +1351,7 @@ The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
   \end{proof}
 
 \chapter{Categories}
-\lecturedetails{17 October 2017}{M Fiore, Brad Hardy}
+\lecturedetails{17 October 2017}{M Fiore, B Hardy}
 
 \section{Definitions}
 
@@ -1758,15 +1764,15 @@ A bijection is an \emph{injection} and a \emph{surjection}.
 
 
 \begin{remark}
-    Recall the universal problem of generating a monoid 
-    $(S^\ast, \epsilon, \cdot)$ from a set $S$ with a function 
+    Recall the universal problem of generating a monoid
+    $(S^\ast, \epsilon, \cdot)$ from a set $S$ with a function
     $\sigma: S\to S^\ast$. Compare the definition of a universal solution to
     this problem: for all monoids $(M, \shortmid, \star)$,
     \begin{alignat*}{3}
         & \forall\, \text{functions } f:S\to M.\ &&
-        \exists!\ \text{homomorphism } 
+        \exists!\ \text{homomorphism }
         f^\#: (S^\ast, \epsilon, \cdot)
-        \to 
+        \to
         (M, \shortmid, \star)
         .\ &&
         \textcolor{blue}{(}f^\#\textcolor{blue}{) \comp \sigma} = f
@@ -1779,14 +1785,14 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     \begin{alignat*}{3}
         %& \forall\, \text{functions } f:S\to M.\ &&
         %\exists!\ \text{homomorphism } f^\#:S^* \to M.\ &&
-        %f = f^\# \comp \sigma 
+        %f = f^\# \comp \sigma
         %\\
-        & 
-        \forall\, y \in Y.\ 
-        \hspace*{2.5cm} 
+        &
+        \forall\, y \in Y.\
+        \hspace*{2.5cm}
         &&
-        \exists!\ x \in X.\ 
-        \hspace*{5cm} 
+        \exists!\ x \in X.\
+        \hspace*{5cm}
         &&
         \textcolor{blue}{g(}x\textcolor{blue}{)} = y
     \end{alignat*}
@@ -1795,13 +1801,13 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     to establishing a bijection that \emph{naturally converts} potential
     solutions (in the above example functions between the sets $S$ and $M$) to
     morphisms from the initial universal solution \big(in the above example
-    homomorphisms between the monoids $(S^\ast, \epsilon, \cdot)$ and 
+    homomorphisms between the monoids $(S^\ast, \epsilon, \cdot)$ and
     $(M, \shortmid, \star)$\big).
     %
     To see this, consider the hom-set of the generated monoid and any other
     monoid $(M, \shortmid, \star)$
     \begin{equation*}
-        H_{\catmon} 
+        H_{\catmon}
         = \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big)
     \end{equation*}
     and the hom-set of our generating set $S$ and the underlying set $M$ of
@@ -1810,14 +1816,14 @@ A bijection is an \emph{injection} and a \emph{surjection}.
         H_{\catset} = \catset ( S, M )
     \end{equation*}
 
-    The universality condition 
+    The universality condition
     \begin{center}
     \begin{tikzcd}
           S \arrow[r, "\sigma"]  \arrow[rd, swap, "\forall\, f"]
-        & 
+        &
         S^\ast
         \arrow[d, "f^\#"]
-        & (S^\ast, \epsilon, \cdot) 
+        & (S^\ast, \epsilon, \cdot)
         \arrow[d, "\exists!\, f^\# \text{ homomorphism}"]
         \\
         {} & M & (M, \shortmid, \star)
@@ -1829,7 +1835,7 @@ A bijection is an \emph{injection} and a \emph{surjection}.
     between $H_{\catmon}$ and $H_{\catset}$ given by
     \begin{equation*}
       \textcolor{blue}{(}-\textcolor{blue}{)\comp\sigma}:
-      \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big) 
+      \catmon \big( (S^*, \epsilon, \cdot), (M, \shortmid, \star) \big)
       %\stackrel\cong
       \longrightarrow
       \catset ( S, M )
@@ -1875,7 +1881,7 @@ to functionally ``go back to two points``.
 Hence, a section in $\catset$ must at least be an injection.
 However, note that if $A$ is the empty set, $s$ can not be a section.
 
-In $\catset$, $s: A \to B$ is a section iff $s$ is injective and 
+In $\catset$, $s: A \to B$ is a section iff $s$ is injective and
 ($A = \emptyset \Rightarrow B = \emptyset$).
 
 A map $r : B \rightarrow A$ is a retraction iff it has a section.
@@ -1939,7 +1945,7 @@ require the \emph{axiom of choice}.
 \begin{definition}
 A category $\mathcal{C}$ \emph{satisfies the axiom of choice} whenever every
 ``surjection'' (technically, \emph{epimorphism}) in $\mathcal{C}$ has a
-retraction.  
+retraction.
 \end{definition}
 
 \section{Injections (technically, \emph{monomorphisms}) in categories}
@@ -1965,7 +1971,7 @@ $S$ and the functions from a singleton set $\setof{*}$ to $S$: mapping $*$ to
 an $s \in S$ amounts to selecting the specific element $s$ in $S$. This lets
 us abstract over the notion of individual elements and is therefore a good
 starting point for generalising the problem to categories. Before that, we
-also need a category-theoretic counterpart to singleton sets: 
+also need a category-theoretic counterpart to singleton sets:
 \emph{terminal objects}.
 
 \begin{definition}[Terminal objects]
@@ -1977,7 +1983,7 @@ such that
 \end{definition}
 
 A terminal object in $\catset$ is any singleton set, for instance $\{*\}$, as
-for every other set $S$ we only have the constant function 
+for every other set $S$ we only have the constant function
 $S \rightarrow \{*\}$ mapping $s \in S$ to $*$.
 As with all universal constructions, all terminal objects in a category are
 isomorphic to each other, so we can talk about \emph{the} terminal object.
@@ -2019,7 +2025,7 @@ object in the category, not just terminal objects.
 A morphism $f: A\to B$ in a category $\mathcal C$ is said to be a
 \emph{monomorphism} whenever
 \begin{equation*}
-    \forall X \in \Ob(\mathcal C).\ 
+    \forall X \in \Ob(\mathcal C).\
     \forall a, a' : X \rightarrow A \text{ in }\mathcal C.\
       f \comp a = f \comp a' \implies a = a'
     \enspace.
@@ -2042,7 +2048,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
     \item Morphisms from $G=(N,E,s,t)$ to $G'=(N',E',s',t')$: a pair of
       functions $(\eta, \varepsilon)$, where $\eta : N \rightarrow N'$ maps
       nodes to nodes and $\varepsilon : E \rightarrow E'$ maps edges to edges
-      between two graphs such that connectivity is maintained: 
+      between two graphs such that connectivity is maintained:
       \begin{center}
       \begin{tikzcd}[row sep=0.8em]
       {}
@@ -2055,7 +2061,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
       & E' \arrow[ld, "s'"] \arrow[rd, swap, "t'"]
       & {} \\
       N' & {} & N'
-\end{tikzcd}     
+\end{tikzcd}
 \end{center}
       That is, an
       edge $e$ between nodes $a$ and $b$ in the graph $G$ is mapped to an
@@ -2064,7 +2070,7 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
 \begin{center}
 \begin{tikzcd}[row sep=4em]
         a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta", mapsto]
-      & b \arrow[d, dashed, "\eta"] 
+      & b \arrow[d, dashed, "\eta"]
       & \text{in $G$}
       \\
         \eta(a) \arrow[r, "\varepsilon(e)"{name=D} , mapsto]
@@ -2089,7 +2095,7 @@ In the category $\catdirgraph$, the notion of ``subgraph up to renaming'' is
 captured by morphisms $(\eta,\varepsilon)$ such that both $\eta$ and
 $\varepsilon$ are injections.
 \begin{enumerate}
-  \item 
+  \item
     Show that proposed solution 1 is insufficient to characterise the notion
     of subgraph up to renaming.  (Hint: Consider what structures can this
     single loop graph ``select'' from a graph.)
@@ -2100,7 +2106,178 @@ $\varepsilon$ are injections.
 \end{exercise}
 
 \chapter{Functors}
-\lecturedetails{24 October 2017}{M Fiore, T Parks}
+\lecturedetails{24 October 2017}{M Fiore, J Clarke, T Parks}
+
+\section{Duality}
+\begin{definition}[Duality]
+Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual}
+category, $\mathcal{C}^{\mathrm{op}}$, to be the category with:
+    \begin{itemize}
+        \item $\Ob(\mathcal{C}^{\mathrm{op}}) = \Ob(\mathcal{C})$
+        \item $\mathcal{C}^{\mathrm{op}}(A, B) \eqdef \mathcal{C}(B, A)$
+    \end{itemize}
+
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}^{\mathrm{op}}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \arrow[d, swap, "f"] \\
+            B
+        \end{tikzcd}
+    \end{center}
+\end{minipage}%
+\vline%
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \\
+            B \arrow[u, "f"]
+        \end{tikzcd}
+    \end{center}
+\end{minipage}
+
+Identities are the same as in $\mathcal{C}$, \ie:
+
+\begin{equation*}
+    \id{A}^{\mathrm{op}} \eqdef \id{A}
+\end{equation*}
+
+For composition, we need:
+
+\begin{equation*}
+    \equalto{\mathcal{C}^{\mathrm{op}}(B, C)}{\mathcal{C}(C, B)} \times
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)} 
+    \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, C)}{\mathcal{C}(C, A)}
+\end{equation*}
+
+Therefore, we define:
+
+\begin{equation*}
+    g \comp^{\mathrm{op}}_{A,B,C} f = f \comp_{C,B,A} g
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Monomorphism]
+A \emph{monomorphism} in a category $\mathcal{C}$ is a map $f : A \to B$ such
+that for all $X \in \Ob(\mathcal{C})$ and for all $a, a' : X \to A$,
+$f \comp a = f \comp a' \implies a = a'$.
+\end{definition}
+
+\begin{definition}[Epimorphism]
+An \emph{epimorphism} in a category $\mathcal{C}$ is a monomorphism in
+$\mathcal{C}^{\mathrm{op}}$, \ie~$f : A \to B$ is an epimorphism if:
+
+\begin{equation*}
+    \forall T \in \Ob(\mathcal{C}) . \forall t, t' : B \to T .
+    t \comp f = t' \comp f \implies t = t'
+\end{equation*}
+
+Here, $T$ can be thought of as an object of ``tests''.
+\end{definition}
+
+\begin{exercise}
+Show that, in $\catset$, epimorphisms are the same as surjections.
+\end{exercise}
+
+\begin{exercise}
+Show that each of isomorphisms, epimorphisms, monomorphisms, sections and
+retractions are closed under composition; \ie~if $f : A \to B$ and 
+$g : B \to C$ are in one of these classes, then so is $g \comp f : A \to C$.
+\end{exercise}
+
+\begin{exercise}
+Prove the labelled inclusions:
+
+\begin{center}
+    \begin{tikzpicture}
+        \matrix[matrix of math nodes, name=m, column sep=0.6em, row sep=1.2em] {
+            &
+            |[alias=Sec]| \mathcal{C}_{\mathrm{sections}} &
+            |[alias=Mono]| \mathcal{C}_{\mathrm{monos}} &
+            \\
+            |[alias=Cong]| \mathcal{C}_{\mathrm{isos}} &
+            |[alias=Ex1]| &
+            |[alias=Ex2]| &
+            |[alias=C]| \mathcal{C}
+            \\
+            &
+            |[alias=Ret]| \mathcal{C}_{\mathrm{retractions}} &
+            |[alias=Epi]| \mathcal{C}_{\mathrm{epis}} &
+            \\
+        };
+
+        \node (Ex) [fit=(Ex1)(Ex2)]{exercises};
+
+        \path (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Sec)
+              (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Ret)
+              (Sec) edge[draw=none] node (SecMono) [sloped, allow upside down, auto=false] {$\subseteq$} (Mono)
+              (Ret) edge[draw=none] node (RetEpi) [sloped, allow upside down, auto=false] {$\subseteq$} (Epi)
+              (Mono) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Epi) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Ex) edge (SecMono)
+              (Ex) edge (RetEpi);
+    \end{tikzpicture}
+\end{center}
+\end{exercise}
+
+Recall that the product of a family of objects $\setof{A_i \suchthat i \in I}$
+is given by:
+
+\begin{equation*}
+    \left(\prod_{i\in I} A_i\right) \xrightarrow{\pi_k} A_k
+    \qquad (k\in I)
+\end{equation*}
+
+such that it is a terminal universal solution.
+
+\begin{definition}
+\emph{Coproducts}, or \emph{sums}, in $\mathcal{C}$ are products in
+$\mathcal{C}^{\mathrm{op}}$. The coproduct of a family
+$\setof{A_i \suchthat i \in I}$ is given by
+
+\begin{center}
+    \begin{tikzcd}
+        A_k \arrow[r, "\iota_k"] \arrow[dr, swap, "\forall f_k"] &
+        \left(\coprod_{i \in I} A_i\right) \arrow[d, "\exists!f_k"]
+        \\
+        &
+        X
+    \end{tikzcd}
+    \qquad$(k\in I)$
+\end{center}
+\end{definition}
+
+In $\catset$, coproducts are disjoint unions:
+
+\begin{equation*}
+    \begin{aligned}
+        \coprod_{i \in I} A_i \ = \ \bigcup_{i \in I}\, \setof{i} \times A_i &
+        \overset{\iota_k}{\leftarrow} A_k
+        \\
+        (k, a) &
+        \mapsfrom a
+    \end{aligned}
+\end{equation*}
+
+\begin{exercise}
+Calculate coproducts/sums in the categories introduced so far ($\catrel$,
+$\catpfn$, $\catpred$, $\catmon$, $\catpreo$, \dots).
+\end{exercise}
+
+\begin{exercise}
+Prove or disprove whether bijections ($\iffdef$ monomorphic and epimorphic) are
+the same as isomorphisms.
+\end{exercise}
+
+\section{Functors}
 
 We have looked at many morphisms between objects in categories. Somewhat
 analogously, given categories $\mathcal{A, B}$ and a
