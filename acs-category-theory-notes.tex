@@ -2279,23 +2279,17 @@ the same as isomorphisms.
 
 \section{Functors}
 
-We have looked at many morphisms between objects in categories. Somewhat
-analogously, given categories $\mathcal{A, B}$ and a
-\textit{Functor} $\mathcal{F}$,
-
+Categories are mathematical structures with their own morphisms,
+\emph{functors}:
 \begin{center}
 \begin{tikzcd}
-    \mathcal{A} \arrow[r, "\mathcal F"]  & \mathcal{B}
+    \mathcal{A} \arrow[r, "F"]  & \mathcal{B}
 \end{tikzcd}
 \end{center}
+We will motivate their definition by considering two special kinds of
+categories, monoids and preorders, together with their respective morphisms.
 
-holds. Informally this suggests that categories form a mathematical
-structure in the same way as as the objects of a category.
-
-\subsection{Example 1: Monoids can be regarded as Categories}
-
-We can motivate this idea by looking at connections between categories and
-monoids (themselves forming a category).
+\subsection{Monoids can be regarded as categories}
 
 We consider a monoid $(M, e, \ast)$ and compare it to a category $\mathcal C$.
 $\mathcal C$ has a single object, $\Ob(\mathcal C) = \{ \bullet \}$.
@@ -2385,7 +2379,7 @@ The morphisms within categories are duplicated by the category of categories. So
 \begin{table}[H]
 \centering
 \begin{tabular}{llll}
- Monoids                                                               & PreOrders                                                         & Catagories                                                                    \\
+ Monoids                                                               & PreOrders                                                         & Categories                                                                    \\
  $(M_1, e_1, \ast_1) \stackrel{h}{\longrightarrow} (M_2, e_2, \ast_2)$ & $(P_1, \leq_1) \stackrel{f}{\longrightarrow} (P_2, \leq_2)$       & $\cat{C}_1 \stackrel{\mathcal{F}}{\longrightarrow} \cat{C}_2 $                \\
  $M_1 \stackrel{h}{\longrightarrow} M_2$                               & $P_1 \stackrel{f}{\longrightarrow} P_2$                           & $\mathcal{F_{\textrm{objects}}} : \Ob(\cat{C}_1) \longrightarrow \Ob(\cat{C}_2)$  \\
                                                                        &                                                                   & $\mathcal{F_{\textrm{arrows}}} : \Arr(\cat{C}_1) \longrightarrow \Arr(\cat{C}_2)$ \\
