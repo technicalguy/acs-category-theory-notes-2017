@@ -2121,10 +2121,10 @@ Consider the category of \emph{directed graphs}, $\catdirgraph$:
 \begin{center}
 \begin{tikzcd}[row sep=4em]
         a \arrow[r, swap, "e"{name=U}] \arrow[d, dashed, "\eta", mapsto]
-      & b \arrow[d, dashed, "\eta"]
+      & b \arrow[d, dashed, "\eta", mapsto]
       & \text{in $G$}
       \\
-        \eta(a) \arrow[r, "\varepsilon(e)"{name=D} , mapsto]
+        \eta(a) \arrow[r, "\varepsilon(e)"{name=D}]
       & \eta(b)
       \arrow[from=U, to=D, dashed, "\varepsilon", mapsto]
       & \text{in $G'$}
