@@ -6,8 +6,8 @@ TARGETS=acs-category-theory-notes.pdf
 all: $(TARGETS)
 
 %.pdf: %.tex
-	latexmk -pdf  -output-directory=build -pdflatex="pdflatex -shell-escape -interaction=nonstopmode" -use-make $<
+	latexmk -pdf  -output-directory=$(BUILD) -pdflatex="pdflatex -shell-escape -interaction=nonstopmode" -use-make $<
 	mv $(BUILD)/$@ ./$@
 
 clean:
-	git clean -xf $(foreach target, $(TARGETS), --exclude="$(target)")
+	git clean -xfd $(foreach target, $(TARGETS), --exclude="$(target)")
