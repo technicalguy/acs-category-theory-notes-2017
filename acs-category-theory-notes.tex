@@ -2512,7 +2512,7 @@ C & F_\text{obj}(C)
 \section{More about functors}
 
 \begin{definition}
-A functor \(F: \mathcal{A} \rightarrow \mathcal{B}\) specifies a function \(F: \Ob(\mathcal{A}) \rightarrow \Ob(\mathcal{B})\) such that \(\forall X, Y \in \Ob(\mathcal{A})\), there exists \(F_{X, Y}: \mathcal{A}(X, Y) \rightarrow \mathcal{B}(FX, FY)\) such that identities are preserved.
+A functor \(F: \mathcal{A} \rightarrow \mathcal{B}\) specifies a map \(F: \Ob(\mathcal{A}) \rightarrow \Ob(\mathcal{B})\) such that \(\forall X, Y \in \Ob(\mathcal{A})\), there exists \(F_{X, Y}: \mathcal{A}(X, Y) \rightarrow \mathcal{B}(FX, FY)\) such that identities are preserved.
 
 
 \begin{center}
@@ -2525,7 +2525,7 @@ X
 \arrow[dd, "f"{name=L, right}] & & FX 
 \arrow[dd, "Ff"{name=R, left}] 
 \\
-\arrow[rr, "F_{XY}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto] 
+\arrow[rr, "F_{XY}", from=L, to=R, mapsto] 
 &  &  
 \\
 Y &  & FY
@@ -2702,7 +2702,9 @@ Show that the free semilattice (commutative idempotent monoids --- \ie finite po
 
 \subsection{More examples: product and coproduct constructions}
 
+\begin{definition}
 The (locally small) category \(\catcat\) has as objects small categories, \(\mathbb{C}\), and as morphisms functors \(\mathbb{C} \morpharr{F} \mathbb{D}\). Identities are \(\Id{\mathbb{C}}\) and composition \(\mathbb{A} \morpharr{F} \mathbb{B} \morpharr{G} \mathbb{C}\) such that \((G \comp F)(A) \eqdef G(FA)\).
+\end{definition}
 
 The terminal object in \(\catcat\) is the one-object one-arrow category:
 \begin{center}
