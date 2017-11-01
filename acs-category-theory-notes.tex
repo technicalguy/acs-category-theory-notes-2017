@@ -3260,6 +3260,7 @@ $\nabla_A:A + A\to A$ as the unique map such that
       &
     \end{tikzcd}\\[3mm]
 \end{center}
+\end{definition}
 
 \begin{exercise}
 Show that 
@@ -3283,7 +3284,6 @@ transformation:
 \end{center}
 where $\Delta:\lscat C\to\lscat C\times\lscat C$ is the 
 \emph{diagonal functor} given by $\Delta(-)\eqdef(-,-)$.
-\end{definition}
 \end{exercise}
 
 \section{Functor Categories}
@@ -3379,16 +3379,16 @@ Prove that $\lscat C^{\nelem1} \iso \lscat C$.
 \begin{example}
 Let $\cat D$ be the category with two objects and a parallel pair of arrows:
 \[
-  \framebox{\begin{tikzcd}
+  \begin{array}{|c|}\hline 
+  \begin{tikzcd}
     E
       %\arrow[out=150,in=210, loop, looseness=5, "id_*"left]
       \arrow[shift left=+2, "s"above]{r}
       \arrow[shift left=-2, "t"below]{r}
     &
-    %N \arrow[out=30,in=-30, loop, looseness=5, "id_\bullet"right]
-    &
-    N
-    \end{tikzcd}}
+    N %\arrow[out=30,in=-30, loop, looseness=5, "id_\bullet"right]
+  \end{tikzcd}
+  \\ \hline \end{array}
 \]
 where, as it is customary, identities have been omitted from the picture.
 
@@ -3397,10 +3397,12 @@ In the functor category $\catset^{\cat D}$,
 \item
 the objects are functors
 \[
-  \framebox{\begin{tikzcd}
+  \begin{array}{|c|}\hline 
+  \begin{tikzcd}
   E \arrow[shift left=+2, "s"above]{r} \arrow[shift left=-2, "t"below]{r} 
-  & & N
-  \end{tikzcd}}
+  & N
+  \end{tikzcd}
+  \\ \hline \end{array}
   \overset G\longrightarrow 
   \catset 
 \]
@@ -3418,13 +3420,11 @@ the morphisms are natural transformations
   \varphi : G_1 \Rightarrow G_2 : \cat D\to \catset
 \]
 and therefore given by functions 
-\[
-  \begin{align*}
+\begin{align*}
   \varphi_E &: G_1(E) \longrightarrow G_2(E)
   \\[1mm]
   \varphi_N &: G_1(N) \longrightarrow G_2(N)
-  \end{align*}
-\]
+\end{align*}
 such that the diagram
 \[\begin{tikzcd}[sep=4em]
     G_1(E)
