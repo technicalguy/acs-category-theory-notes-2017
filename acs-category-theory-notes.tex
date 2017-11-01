@@ -28,6 +28,8 @@
 
 \usepackage{multicol}
 \usepackage{enumitem}
+\usepackage{mathtools}
+
 
 \usepackage[utf8]{inputenc}
 
@@ -112,7 +114,7 @@
 \newcommand{\iffdef}{\stackrel{\text{def}}{\iff}}
 \newcommand{\comp}{\circ} % composition
 \newcommand{\icomp}{\,} % implicit composition
-\newcommand{\iso}{\cong} 
+\newcommand{\iso}{\cong}
 
 \newcommand{\setof}[1]{ \{ #1 \} }
 \newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
@@ -149,17 +151,19 @@ Category Theory, Type Theory, and Logic\\
 \begin{multicols}{3}[\section*{Contributors}]
 Nathanael Alcock\\
 Sebastian Borgeaud\\
+Vishal Chakraborty\\
 James Clarke\\
 Brad Hardy\\
 Andrej Ivašković\\
 Razvan Kusztos\\
 Stella Lau\\
+Nándor Licker\\
 Dhruv Makwana\\
 Thomas Parks\\
 Oliver Richardson\\
 Shaun Steenkamp\\
 Dima Szamozvancev\\
-Zongzhe Yuan
+Zongzhe Yuan\\
 \end{multicols}
 \clearpage
 
@@ -167,6 +171,7 @@ Zongzhe Yuan
 \tableofcontents
 
 \newpage
+
 \chapter{How to think Categorically}
 \lecturedetails{5 October 2017}{M Fiore, D Makwana, S Steenkamp, O Richardson}
 
@@ -1193,7 +1198,7 @@ This structure suggests a connection to the natural numbers $\nats$.
 \end{exercise}
 \begin{proof}[Solution]
     We want to show that there is a unique $h: \nats \to S$ such that for any
-    data 
+    data
     \begin{center}
         \begin{tikzcd}[ampersand replacement=\&]
             s \in S \arrow[r, "\sigma"] \&
@@ -1236,7 +1241,7 @@ This structure suggests a connection to the natural numbers $\nats$.
 
     \end{itemize}
 
-    By induction, we conclude $k(n) = h(n)$ for all $n\in\nats$; so that 
+    By induction, we conclude $k(n) = h(n)$ for all $n\in\nats$; so that
     $k = h$, and the function is unique.  Therefore this is the initial
     solution.
 \end{proof}
@@ -2216,7 +2221,7 @@ For composition, we need:
 
 \begin{equation*}
     \equalto{\mathcal{C}^{\mathrm{op}}(B, C)}{\mathcal{C}(C, B)} \times
-    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)} 
+    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)}
     \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
     \equalto{\mathcal{C}^{\mathrm{op}}(A, C)}{\mathcal{C}(C, A)}
 \end{equation*}
@@ -2250,7 +2255,7 @@ Show that, in $\catset$, epimorphisms are the same as surjections.
 
 \begin{exercise}
 Show that each of isomorphisms, epimorphisms, monomorphisms, sections and
-retractions are closed under composition; \ie~if $f : A \to B$ and 
+retractions are closed under composition; \ie~if $f : A \to B$ and
 $g : B \to C$ are in one of these classes, then so is $g \comp f : A \to C$.
 \end{exercise}
 
@@ -2372,9 +2377,9 @@ f \comp g &\eqdef f \star g
 \end{align*}
 
 Conversely, every category $\mathcal C$ with a singleton set of objects, say
-$\setof{\bullet}$, has an underlying monoid structure given by 
+$\setof{\bullet}$, has an underlying monoid structure given by
 \[
-  \big(\, \mathcal{C}(\bullet,\bullet) \,,\, \id{\bullet} \,,\, \comp \,\big) 
+  \big(\, \mathcal{C}(\bullet,\bullet) \,,\, \id{\bullet} \,,\, \comp \,\big)
 \]
 
 The above two constructions are in bijective correspondence.
@@ -2384,7 +2389,7 @@ The above two constructions are in bijective correspondence.
 For a preorder $(P, \leq)$, consider the category $\mathcal P$ with
 $\Ob(\mathcal P) = P$ and hom-sets
 \[
-\mathcal{P}(p, q) 
+\mathcal{P}(p, q)
 = \begin{cases}
     \bigsetof{\, (p,q) \,} & \text{if } p \leq q
     \\[1mm]
@@ -2403,22 +2408,22 @@ We also need to consider the operation of composition:
 \[
 \mathcal{P}(q, r) \times \mathcal{P}(p, q) \to \mathcal{P}(p, r)
 \]
-We can determine it by cases: 
+We can determine it by cases:
 \begin{itemize}
 \item
-If either $\mathcal{P}(q, r)$ or $\mathcal{P}(p, q)$ are empty, then so is 
+If either $\mathcal{P}(q, r)$ or $\mathcal{P}(p, q)$ are empty, then so is
 $\mathcal{P}(q, r) \times \mathcal{P}(p, q)$ and the composition map is
 uniquely determined.
 
 \item
 Otherwise, both $\mathcal{P}(q, r)$ and $\mathcal{P}(p, q)$ are singleton
-sets so that, by the transitivity property of preorders, so is 
+sets so that, by the transitivity property of preorders, so is
 $\mathcal{P}(p, r)$; and the composition map is again uniquely determined.
 \end{itemize}
 
 Conversely, every category $\mathcal C$ with a set of objects and
 subsingleton~(\viz,~a subset of a singleton) hom-sets has an underlying
-preorder structure given by 
+preorder structure given by
 \[
   \big(\, \Ob(\mathcal C) \,,\, \leq \,\big)
 \]
@@ -2440,24 +2445,24 @@ generalize them to categories.
 Monoids and homomorphisms & \qquad\qquad\qquad & Preorders and monotone
 functions
 \\[3mm]
-$(M_1, \shortmid_1, \star_1) 
- \stackrel{h}{\longrightarrow} 
- (M_2, \shortmid_2, \star_2)$ 
-&& 
-$(P_1, \leq_1) \stackrel{f}{\longrightarrow} (P_2, \leq_2)$       
+$(M_1, \shortmid_1, \star_1)
+ \stackrel{h}{\longrightarrow}
+ (M_2, \shortmid_2, \star_2)$
+&&
+$(P_1, \leq_1) \stackrel{f}{\longrightarrow} (P_2, \leq_2)$
 \\[3mm]
 \begin{tabular}{l}
-$h: M_1 \to M_2$                               
+$h: M_1 \to M_2$
 \\[1mm]
-s.t.~$h(\shortmid_1) =\ \shortmid_2$ 
+s.t.~$h(\shortmid_1) =\ \shortmid_2$
 \\[1mm]
-\phantom{s.t.~}$h(x \star_1 y) = h(x) \star_2 h(y)$   
+\phantom{s.t.~}$h(x \star_1 y) = h(x) \star_2 h(y)$
 \end{tabular}
-&& 
+&&
 \begin{tabular}{l}
-$f: P_1 \to P_2$ 
+$f: P_1 \to P_2$
 \\[1mm]
-s.t.~$p \leq_1 q \implies f(p) \leq_2 f(q)$ 
+s.t.~$p \leq_1 q \implies f(p) \leq_2 f(q)$
 \end{tabular}
 \end{tabular}
 \end{center}
@@ -2465,7 +2470,7 @@ s.t.~$p \leq_1 q \implies f(p) \leq_2 f(q)$
 \begin{center}\begin{tabular}{c}
 Categories and functors
 \\[3mm]
-$\mathcal{C}_1 \stackrel{F}{\longrightarrow} \mathcal{C}_2$                
+$\mathcal{C}_1 \stackrel{F}{\longrightarrow} \mathcal{C}_2$
 \\[4mm]
 $\left\{
 \begin{array}{l}
@@ -2481,28 +2486,28 @@ s.t. &
 &
 % the yshift is needed to make the F_arrow level.
 \begin{tikzcd}
-P 
-\arrow[dd, "f"{name=L, right}] & & F_{obj}(P) 
-\arrow[dd, "F_{\text{arr}}(f)"{name=R, left}] 
+P
+\arrow[dd, "f"{name=L, right}] & & F_{obj}(P)
+\arrow[dd, "F_{\text{arr}}(f)"{name=R, left}]
 \\
-\arrow[rr, "F_{arr}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto] 
-&  &  
+\arrow[rr, "F_{arr}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto]
+&  &
 \\
 Q &  & F_{obj}(Q)
 \end{tikzcd}
 \\[20mm]
 &
-$F_{\textrm{arr}}( \id{X} ) \,=\, \id{ F_{\textrm{obj}}(X) }$ 
+$F_{\textrm{arr}}( \id{X} ) \,=\, \id{ F_{\textrm{obj}}(X) }$
 \\[6mm]
 &
 \begin{tikzcd}
-A \arrow[d, "f"] \arrow[dd, "g \comp f"', bend right=50] 
-&  
-F_\text{obj}(A) 
-\arrow[d, "F_\text{arr}(f)"{left}] 
-\arrow[dd, "F_\text{arr}(g \comp f)", bend left=55] 
+A \arrow[d, "f"] \arrow[dd, "g \comp f"', bend right=50]
+&
+F_\text{obj}(A)
+\arrow[d, "F_\text{arr}(f)"{left}]
+\arrow[dd, "F_\text{arr}(g \comp f)", bend left=55]
 \\
-B \arrow[d, "g"] & F_\text{obj}(B) \arrow[d, "F_\text{arr}(g)"{left}] 
+B \arrow[d, "g"] & F_\text{obj}(B) \arrow[d, "F_\text{arr}(g)"{left}]
 \\
 C & F_\text{obj}(C)
 \end{tikzcd}
@@ -2526,15 +2531,15 @@ all \(X, Y \in \Ob(\mathcal{A})\), so that
 &
 % the yshift is needed to make the F_arrow level.
 \begin{tikzcd}
-X 
-\arrow[dd, "\mathcal{A}\ni f"{name=L, right}] 
-& \qquad & FX 
-\arrow[dd, "F_{X,Y}(f)\in\mathcal{B}"{name=R, left}] 
+X
+\arrow[dd, "\mathcal{A}\ni f"{name=L, right}]
+& \qquad & FX
+\arrow[dd, "F_{X,Y}(f)\in\mathcal{B}"{name=R, left}]
 \\
-& 
-\arrow[rr, "F_{X,Y}", from=L, to=R, %start anchor={[yshift=-0.2ex]}, 
-mapsto] 
-& & 
+&
+\arrow[rr, "F_{X,Y}", from=L, to=R, %start anchor={[yshift=-0.2ex]},
+mapsto]
+& &
 \\
 Y &  & FY
 \end{tikzcd}
@@ -2546,7 +2551,7 @@ such that the following two diagrams commute:
 
 \begin{center}
     \begin{tikzcd}
-        \nelem{1} \arrow[r, "id^{(\mathcal{A})}_A"] 
+        \nelem{1} \arrow[r, "id^{(\mathcal{A})}_A"]
         \arrow[dr, swap, "id^{(\mathcal{B})}_{FA}"] &
         \mathcal{A}\left(A,A\right) \arrow[d, "F_{A,A}"]
         \\
@@ -2557,13 +2562,13 @@ such that the following two diagrams commute:
 
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        \mathcal{A}(Y,Z) \times  \mathcal{A}(X,Y) 
-        \arrow[r, "\circ_{X,Y,Z}^{(\mathcal{A})}"] 
+        \mathcal{A}(Y,Z) \times  \mathcal{A}(X,Y)
+        \arrow[r, "\circ_{X,Y,Z}^{(\mathcal{A})}"]
         \arrow [d, "F_{Y,Z} \times F_{X,Y}"{left}] \&
-        \mathcal{A}(X,Z) 
+        \mathcal{A}(X,Z)
         \arrow[d, "F_{X,Z}"] \&
         \\
-        \mathcal{B}(FY,FZ) \times  \mathcal{B}(FX,FY) 
+        \mathcal{B}(FY,FZ) \times  \mathcal{B}(FX,FY)
         \arrow[r, "\circ_{FX,FY,FZ}^{(\mathcal{B})}"] \&
         \mathcal{B}(FX,FZ) \&
     \end{tikzcd} \\[3mm]
@@ -2626,7 +2631,7 @@ Recall the universal property of the free monoid on a set
 giving rise to the list construction.
 
 We have a \emph{list functor} \(\fnclist: \catset \to \catset\) informally
-given as follows: 
+given as follows:
 \begin{center}
 \begin{tabular}[t]{lc}
 \\
@@ -2634,11 +2639,11 @@ given as follows:
 % the yshift is needed to make the F_arrow level.
 \begin{tikzcd}
 A
-\arrow[dd, "f"{name=L, right}] & & List(A) 
-\arrow[dd, "\fnclist(f)"{name=R, left}] 
+\arrow[dd, "f"{name=L, right}] & & List(A)
+\arrow[dd, "\fnclist(f)"{name=R, left}]
 \\
-\arrow[rr, "\fnclist{}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto] 
-&  &  
+\arrow[rr, "\fnclist{}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto]
+&  &
 \\
 B &  & \fnclist(B)
 \end{tikzcd}
@@ -2654,10 +2659,10 @@ where $\fnclist(f) \eqdef \map{f}$
 \end{center}
 
 Functoriality amounts to checking that
-\[\map{\,\id{A}} = \id{\fnclist(A)}\] 
-and 
+\[\map{\,\id{A}} = \id{\fnclist(A)}\]
+and
 \[\map{g} \comp \map{f} = \map{g \comp f}\enspace.\]\\
-By definition of \(\map\), it is easy to show that 
+By definition of \(\map\), it is easy to show that
 \(\map{\,\id{A}} = \id{\fnclist(A)}\), and we also have:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
@@ -2669,18 +2674,18 @@ By definition of \(\map\), it is easy to show that
 \end{center}
 
 Let us show that $\fnclist$ is a functor solely from the universal property of
-a free monoids.  
+a free monoids.
 
 Firstly, we define the action of the functor on morphisms as follows:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
         A \arrow[r, "{[\text{--}]_A}"] \arrow [d, "f"{left}] \&
-        \fnclist(A) 
-        \arrow[d, "\fnclist(f)\eqdef {\big([\text{--}]_B\circ f\big){^\#}}"] 
-        \& \qquad \& 
-        (\fnclist(A), nil, @) 
-        \arrow[d, "\exists!\ {\big([\text{--}]_B\circ f\big)^{\#}} 
-          \text{ homomorphism}" ] 
+        \fnclist(A)
+        \arrow[d, "\fnclist(f)\eqdef {\big([\text{--}]_B\circ f\big){^\#}}"]
+        \& \qquad \&
+        (\fnclist(A), nil, @)
+        \arrow[d, "\exists!\ {\big([\text{--}]_B\circ f\big)^{\#}}
+          \text{ homomorphism}" ]
            \\
         B \arrow[r, "{[\text{--}]_B}"] \&
         \fnclist(B) \& \& (\fnclist(B), nil, @)
@@ -2692,16 +2697,16 @@ We now check functoriality.
 \item Preservation of identities:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        A \arrow[r, "{[\text{--}]_A}"] 
-        \arrow [d, "\id{A}"{left}] 
+        A \arrow[r, "{[\text{--}]_A}"]
+        \arrow [d, "\id{A}"{left}]
         \&
-        \fnclist(A) 
-        \arrow[d, "{\fnclist(\id{A}) \eqdef \big([\text{--}]_A\big)^\#}"] 
-        \& \& 
-        (\fnclist(A), nil, @) 
-        \arrow[d, 
+        \fnclist(A)
+        \arrow[d, "{\fnclist(\id{A}) \eqdef \big([\text{--}]_A\big)^\#}"]
+        \& \&
+        (\fnclist(A), nil, @)
+        \arrow[d,
           "{\exists! \text{ homomorphism }
-              \big([\text{--}]_A\big)^\# \,= \ \id{\fnclist(A)}}"] 
+              \big([\text{--}]_A\big)^\# \,= \ \id{\fnclist(A)}}"]
         \\
         A \arrow[r, "{[\text{--}]_A}"] \&
         \fnclist(A) \& \& (List(A), nil, @)
@@ -2711,42 +2716,42 @@ We now check functoriality.
 \item Preservation of composition:
 \begin{center}
 \begin{tikzcd}
-    A 
-    \arrow[d, "f"]  
-    \arrow[dd, bend right=40, "g \comp f" swap] 
-    \arrow[r, "{[\text{--}]_A}"] 
-    & 
-    \fnclist(A) 
-    \arrow[d, dotted, "\fnclist(f)"] 
-    \arrow[dd, bend left=80, dotted, "\fnclist(g) \comp \fnclist(f)"] 
+    A
+    \arrow[d, "f"]
+    \arrow[dd, bend right=40, "g \comp f" swap]
+    \arrow[r, "{[\text{--}]_A}"]
+    &
+    \fnclist(A)
+    \arrow[d, dotted, "\fnclist(f)"]
+    \arrow[dd, bend left=80, dotted, "\fnclist(g) \comp \fnclist(f)"]
     \\
-    B 
-    \arrow[d, "g"] 
-    \arrow[r, "{[\text{--}]_B}"] 
-    & 
-    \fnclist(B) 
-    \arrow[d, dotted, "\fnclist(g)"] 
+    B
+    \arrow[d, "g"]
+    \arrow[r, "{[\text{--}]_B}"]
+    &
+    \fnclist(B)
+    \arrow[d, dotted, "\fnclist(g)"]
     \\
-    C \arrow[r, "{[\text{--}]_C}"] 
-    & 
+    C \arrow[r, "{[\text{--}]_C}"]
+    &
     \fnclist(C)
 \end{tikzcd}
 \end{center}
 
 Note that $\fnclist(g) \comp \fnclist(f)$ is an homomorphism \big(because so
-are $\fnclist(g)$ and $\fnclist(f)$\big) such that  
-$\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\text{--}]_A} 
- = {[\text{--}]_C} \comp (g \comp f)$.  Therefore, 
+are $\fnclist(g)$ and $\fnclist(f)$\big) such that
+$\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\text{--}]_A}
+ = {[\text{--}]_C} \comp (g \comp f)$.  Therefore,
 \[
- \fnclist(g) \comp \fnclist(f) 
- \ = \  \big( {[\text{--}]_C} \comp (g \comp f) \big)^\# 
+ \fnclist(g) \comp \fnclist(f)
+ \ = \  \big( {[\text{--}]_C} \comp (g \comp f) \big)^\#
  \ \eqdef \ \fnclist(g\comp f)
   \enspace.
 \]
 \end{itemize}
 
 \begin{exercise}\label{ex:fcmonoidfunctor}
-Show that the free commutative monoid (\ie~finite multiset) construction 
+Show that the free commutative monoid (\ie~finite multiset) construction
 \begin{center}
     \begin{tikzcd}
           S \arrow[r, "\setof{\text{--}}_S"]  \arrow[rd, swap, "\forall\, f"]
@@ -2759,12 +2764,12 @@ Show that the free commutative monoid (\ie~finite multiset) construction
         {} & C & (C,\shortmid,\star) & \forall\ \text{commutative monoid}
     \end{tikzcd}
     \end{center}
-yields a functor. 
+yields a functor.
 \end{exercise}
 
 \begin{exercise}\label{ex:fsemilatticefunctor}
 Show that the free semilattice [equivalently, free commutative and idempotent
-monoid] (\ie~finite powerset) construction yields a functor. 
+monoid] (\ie~finite powerset) construction yields a functor.
 \end{exercise}
 
 \section{Products and coproducts}
@@ -2774,9 +2779,9 @@ monoid] (\ie~finite powerset) construction yields a functor.
 \begin{definition}
 The (locally small) category \(\catcat\) has as objects small categories and
 as morphisms functors.  Identities are given by the identity functors
-\(\Id{\mathbb{C}}\) and the composition of 
+\(\Id{\mathbb{C}}\) and the composition of
 \(\mathbb{A} \morpharr{F} \mathbb{B} \morpharr{G} \mathbb{C}\) is the functor
-$G\comp F:\mathbb A\to \mathbb C$ defined by setting 
+$G\comp F:\mathbb A\to \mathbb C$ defined by setting
 \((G \comp F)(-) \eqdef G(F(-))\) both on objects and morphisms.
 \end{definition}
 
@@ -2790,23 +2795,23 @@ The terminal object in \(\catcat\) is the one-object one-arrow category:
 \begin{definition}[Product category]
 The product of two categories $\lscat{A}$ and $\lscat{B}$, denoted
 $\lscat{A}\times\lscat{B}$, is the category whose objects are pairs $(A, B)$
-with $A \in \Ob(\lscat{A})$ and $B \in \Ob(\lscat{B})$, and whose morphisms 
+with $A \in \Ob(\lscat{A})$ and $B \in \Ob(\lscat{B})$, and whose morphisms
 $(A', B') \to (A', B')$ are pairs $(f,g)$ of arrows with $f:A\to A'$ in
 $\lscat A$ and $g:B\to B'$ in $\lscat B$.  Identities and composition are
-given pointwise: $\id{(A, B)} = (\id{A}, \id{B})$ and 
+given pointwise: $\id{(A, B)} = (\id{A}, \id{B})$ and
 $(f, g) \comp (f', g') = (f \comp f', g \comp g')$.
 \end{definition}
 
 \begin{center}
 \begin{tikzcd}
-  (A_1,B_1) 
-  \arrow[r, "{(f,g)}"] 
-  \arrow[rr, swap, bend right=30, 
-    "{(f',g')\circ(f,g) \ \eqdef \ (f'\circ f, g'\circ g)}"] 
-  & 
-  (A_2,B_2) 
-  \arrow[r, "{(f',g')}"] 
-  & 
+  (A_1,B_1)
+  \arrow[r, "{(f,g)}"]
+  \arrow[rr, swap, bend right=30,
+    "{(f',g')\circ(f,g) \ \eqdef \ (f'\circ f, g'\circ g)}"]
+  &
+  (A_2,B_2)
+  \arrow[r, "{(f',g')}"]
+  &
   (A_3,B_3)
 \end{tikzcd}
 \end{center}
@@ -2829,57 +2834,57 @@ Recall the definition of binary products in a category:
 
 \begin{exercise}\label{ex:produnivconstr}
 Show that the product of categories $\lscat A\times\lscat B$ equipped with the
-projection functors 
+projection functors
 \begin{center}
 \begin{tikzcd}
-    {} & {\lscat{A}\times\lscat{B}} 
-    \arrow[ld, swap, "\pi_1"] \arrow[rd, "\pi_2"] & {} 
+    {} & {\lscat{A}\times\lscat{B}}
+    \arrow[ld, swap, "\pi_1"] \arrow[rd, "\pi_2"] & {}
     \\
     \lscat{A} & {} & \lscat{B}
 \end{tikzcd}
 \end{center}
-given by 
+given by
 \begin{center}
 \begin{tikzcd}
-  & 
-  {(A, B)} 
+  &
+  {(A, B)}
   \arrow[dd, "{(f, g)}"]
-  \arrow[rd, "\pi_2", mapsto , 
-    start anchor={[yshift=-6.5ex]}, 
-    end anchor={[yshift=-6.5ex]} 
-    ] 
-  & 
+  \arrow[rd, "\pi_2", mapsto ,
+    start anchor={[yshift=-6.5ex]},
+    end anchor={[yshift=-6.5ex]}
+    ]
+  &
   \\
-  A \arrow[dd, "f"{name=L}] 
+  A \arrow[dd, "f"{name=L}]
   &
-    \arrow[l, "\pi_1"{left}, mapsto, to=L] 
+    \arrow[l, "\pi_1"{left}, mapsto, to=L]
   &
-  B \arrow[dd, "g"{left, name=R}] 
+  B \arrow[dd, "g"{left, name=R}]
   \\
   & {(A', B')} &
   \\
   A' & & B'
 \end{tikzcd}
 \end{center}
-is universal. 
+is universal.
 \end{exercise}
 
 \subsection{Product and coproduct functors}
 
 \begin{remark}
-The product and coproduct constructions are functors. 
+The product and coproduct constructions are functors.
 \end{remark}
-  
-Let \(\lscat{C}\) be a category with binary products for all pairs of objects, 
-and write 
+
+Let \(\lscat{C}\) be a category with binary products for all pairs of objects,
+and write
 \begin{center}\begin{tikzcd}
-    & 
-    \mathrm{Prod}(A, B) 
-    \arrow[ld, swap, "\pi^{A,B}_1"] 
-    \arrow[rd, "\pi^{A,B}_2"] 
-    & 
+    &
+    \mathrm{Prod}(A, B)
+    \arrow[ld, swap, "\pi^{A,B}_1"]
+    \arrow[rd, "\pi^{A,B}_2"]
+    &
     \\
-    A & & B  
+    A & & B
 \end{tikzcd}\end{center}
 for a specified product of $A, B \in \Ob(\lscat{C})$.\
 
@@ -2890,37 +2895,507 @@ to be the unique morphism (guaranteed to exist by the universal property of
 products) as follows:
 \begin{center}
 \begin{tikzcd}
-    {} 
-    & \mathrm{Prod}(A, B) 
-    \arrow[ld, swap, "\pi^{A,B}_1"] 
-    \arrow[rd, "\pi^{A,B}_2"] 
-    \arrow[ddd, dashed, "\exists!" swap, "{\textrm{Prod}(f, g)}"] 
-    & {} 
+    {}
+    & \mathrm{Prod}(A, B)
+    \arrow[ld, swap, "\pi^{A,B}_1"]
+    \arrow[rd, "\pi^{A,B}_2"]
+    \arrow[ddd, dashed, "\exists!" swap, "{\textrm{Prod}(f, g)}"]
+    & {}
     \\
-    A \arrow[d, swap, "f"] 
-    & {} & 
-    B  \arrow[d, "g"] 
+    A \arrow[d, swap, "f"]
+    & {} &
+    B  \arrow[d, "g"]
     \\
-    A' & {} & B' 
+    A' & {} & B'
     \\
-    {} & 
-    \mathrm{Prod}(A', B') \arrow[lu, "\pi^{A',B'}_1"] 
-    \arrow[ru, swap, "\pi^{A',B'}_2"] 
+    {} &
+    \mathrm{Prod}(A', B') \arrow[lu, "\pi^{A',B'}_1"]
+    \arrow[ru, swap, "\pi^{A',B'}_2"]
     & {}
 \end{tikzcd}
 \end{center}
-that is, using the notation of~(\ref{UniversalPairingMap}), 
+that is, using the notation of~(\ref{UniversalPairingMap}),
 \[
-  \textrm{Prod}(f,g) 
-  \ \eqdef \ 
+  \textrm{Prod}(f,g)
+  \ \eqdef \
   \bigunivpair{\, f\comp\pi^{A,B}_1 \, , \, g\comp\pi^{A,B}_2 \,}
   \enspace.
 \]
-Show that the above definition yields a functor 
+Show that the above definition yields a functor
 $\textrm{Prod}:\lscat C\times\lscat C\to \lscat C$; \ie~show that
 $\mathrm{Prod}(\id{A}, \id{B}) = \id{\mathrm{Prod}(A,B)}$ and that
-$\mathrm{Prod}(f, g) \comp \mathrm{Prod}(f', g') 
+$\mathrm{Prod}(f, g) \comp \mathrm{Prod}(f', g')
  = \mathrm{Prod}(f \comp f', g \comp g')$.
+\end{exercise}
+
+\chapter{Natural Transformations}
+\lecturedetails{31 October 2017}{M Fiore, V Chakraborty, N Licker}
+
+\section{Motivation for Natural Transformations}
+
+Morphisms between functors with the same domain and codomain.
+
+
+In the category $\catpreo$ with objects $(P, \le)$, the morphisms are monotone
+functions $f, g: (P, \le_P) \to (Q, \le_Q)$. Morphisms can be pre-ordered as
+well:
+
+$$f \le g \eqdef \forall p \in P. f(p) \le g(p)$$.
+
+In the category $\catcat$, the objects are locally small categories $\lscat C$.
+The morphisms are functors $F, G : \lscat A \to \lscat B$.
+Natural transformations $\varphi: F \Rightarrow G$ relate these functors.
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \lscat A
+        \ar[bend left=40, "F"{name=T, above}]{r}
+        \ar[bend right=40, "G"{name=B, below}]{r}
+      &
+      \lscat B
+      \\
+      \ar[Rightarrow, from=T, to=B, "{\varphi}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\section{Definition}
+
+\begin{definition}[Natural Transformations]
+
+A natural transformation $\varphi: F \Rightarrow G : \lscat A \to \lscat B$
+is a family:
+
+$$\varphi = \Big \{ \varphi_A : F A \to G A \Big \}_{A \in \Ob(\lscat A)}$$
+
+Such that the following naturality condition holds:
+
+\begin{center}
+    \begin{tikzcd}
+        \text{In } \lscat A: &
+        \text{In } \lscat B: &
+        {}
+        \\
+        A \arrow [d, "\forall f"] &
+        F A \arrow[r, "\varphi_A"] \arrow [d, "F f"] &
+        G A \arrow[d, "G f"]
+        \\
+        A' &
+        F A' \arrow[r, "\varphi_{A'}"] &
+        G A'
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+\end{definition}
+
+\section{Examples}
+
+\subsection{Hom Functor}
+
+Let $\lscat C$ be a locally small category. We define a functor
+$\lscat C(\_, \_): \lscat C^{op} \times \lscat C \to \catset$ mapping objects
+from $\lscat C^{op} \times \lscat C$ to the set of morphisms between the two
+objects.
+
+$$
+  A, B \mapsto \lscat C(A, B)
+$$
+
+
+\begin{center}
+  \begin{tikzcd}
+    A \ar[dotted, "h"]{r}
+    &
+    B \ar["g"]{d}
+    &
+    (A, B) \ar["{(f, g)}"{name=L}]{d}
+    &
+    \lscat C (A, B) \ar["{\lscat C(f, g) = \lambda h. g \circ h \circ f}"{name=R}]{d}
+    &
+    &
+    A \ar["h"{name=T}]{rr}
+    &
+    &
+    B
+    \\
+    A' \ar["f"]{u}
+    &
+    B'
+    &
+    (A', B')
+    &
+    \lscat C (A', B')
+    &
+    &
+    &
+    g \circ h \circ f
+    &
+    \ar[from=L, to=R, mapsto, shorten <= 2pt, shorten >= 2pt]
+    \ar[from=T, to=2-7, mapsto, shorten <= 2pt, shorten >= 2pt]
+  \end{tikzcd}
+\end{center}
+
+\subsection{List Functor}
+
+The list functor \(\fnclist: \catset \to \catset\) is defined as:
+
+\begin{center}
+\begin{tikzcd}
+A
+\arrow[rr, "\fnclist", mapsto] & & B
+\\
+A
+\arrow[dd, "f"{name=L, right}] & & List(A)
+\arrow[dd, "\fnclist(f)"{name=R, left}]
+\\
+\arrow[rr, "\fnclist{}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto]
+&  &
+\\
+B &  & \fnclist(B)
+\end{tikzcd}
+\end{center}
+
+There is a unique homomorphism
+$$
+(List(A), nil, @) \to (List(B), nil, @)
+$$
+
+Such that the following diagram commutes:
+
+\begin{center}
+\begin{tikzcd}
+A
+\arrow[d, "f"]
+\arrow[r, "{[\text{--}]_A}"]
+&
+List(A)
+\arrow[d, "List(f)"]
+\\
+B
+\arrow[r, "{[\text{--}]_B}"]
+&
+List(B)
+\end{tikzcd}
+\end{center}
+
+The family of singleton constructions:
+$$
+{[\text{--}]} = \Big \{ {[\text{--}]}_A : A \to List(A) \Big \}_{A \in \catset}
+$$
+
+is a natural transformation from $\fncid{Set}$ to $\fnclist$:
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \catset
+        \ar[bend left=40, "\fncid{\catset}"{name=T, above}]{r}
+        \ar[bend right=40, "\fnclist"{name=B, below}]{r}
+      &
+      \catset
+      \\
+      \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\subsection{List Flattening}
+
+Let $flat_A : List(List(A)) \to List(A)$ be a function that flattens lists.
+
+$$
+flat = \Big \{ flat_A: List(List(A)) \to List(A) \Big\}_{A \in \catset}
+$$
+
+flat is a natural transformation:
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \catset
+        \ar[bend left=40, "List \circ List"{name=T, above}]{r}
+        \ar[bend right=40, "\fnclist"{name=B, below}]{r}
+      &
+      \catset
+      \\
+      \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+By the universal sulution:
+
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      List(A)
+        \ar["{[\text{--}]}_{List(A)}"]{r}
+        \ar["id_{List(A)}"below]{rd}
+      &
+      List(List(A))
+        \ar["(id_{List(A)})^\#\eqdef flat_A"]{d}
+      \\
+      &
+      List(A)
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\begin{exercise}
+Show $flat_A$ is a natural transformation using the definition.
+\end{exercise}
+
+\subsection{Coproducts}
+
+Let $\lscat C$ be a category with coproducts (sums).
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      &
+      A + B
+        \ar[dotted, "{\exists![f+g]}"]{d}
+      &
+      \\
+      A
+        \ar["f"]{r}
+        \ar["\iota_1^{A,B}"above]{ru}
+      &
+      C
+      &
+      B
+        \ar["g"]{l}
+        \ar["\iota_2^{A,B}"above]{lu}
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+We have a coproduct functor $\lscat C \times \lscat C \to \lscat C$ mapping
+$A, B \mapsto A + B$:
+
+
+\begin{center}
+    \begin{tikzcd}[sep=3em]
+      &
+      A + B
+        \ar[dotted, "{\exists!(f+g)}"]{ddd}
+      &
+      \\
+      A
+        \ar["f"]{d}
+        \ar["\iota_1^{A,B}"above]{ru}
+      &
+      &
+      B
+        \ar["g"]{d}
+        \ar["\iota_2^{A,B}"above]{lu}
+      \\
+      A'
+        \ar["\iota_1^{A',B'}"above]{rd}
+      &
+      &
+      B'
+        \ar["\iota_2^{A',B'}"above]{ld}
+      \\
+      &
+      A' + B'
+      &
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+The family $\iota_1=\Big\{ \iota_1^{A, B}: A \to A + B \Big\}_{(a,b) \in \lscat C \times \lscat C}$
+is a natural transformation.
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \lscat C \times \lscat C
+        \ar[bend left=40, "\pi_1"{name=T, above}]{r}
+        \ar[bend right=40, "+"{name=B, below}]{r}
+      &
+      \lscat C
+      \\
+      \ar[Rightarrow, from=T, to=B, "{\iota_1}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+Similarly:
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \lscat C \times \lscat C
+        \ar[bend left=40, "\pi_1"{name=T, above}]{r}
+        \ar[bend right=40, "+"{name=B, below}]{r}
+      &
+      \lscat C
+      \\
+      \ar[Rightarrow, from=T, to=B, "{\iota_1}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\begin{exercise}
+Show that $\iota_1$ is a natural transformation.
+\end{exercise}
+
+\subsection{TODO - Not sure what to call this}
+
+For $A \in \Ob(\lscat C)$, let $\nabla_A:A + A$ be the unique map s.t.
+
+\begin{center}
+    \begin{tikzcd}
+      &
+      A + A
+        \ar[dotted, "{\exists!\nabla_A}"]{dd}
+      &
+      \\
+      A
+        \ar["id"]{rd}
+        \ar["\iota_1^{A,A}"above]{ru}
+      &
+      &
+      A
+        \ar["id"]{ld}
+        \ar["\iota_2^{A,A}"above]{lu}
+      \\
+      &
+      A
+      &
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\begin{center}
+    \begin{tikzcd}
+      \Delta(A) \eqdef (A, A)
+      &
+      &
+      \lscat C \times \lscat C
+        \ar["+"above]{rd}
+      &
+      \\
+      &
+      \lscat C
+        \ar[bend right=30, "\Id{\lscat C}"{name=B, below}]{rr}
+        \ar["\Delta"above]{ru}
+      &
+      &
+      \lscat C
+      \arrow[Rightarrow, from=1-3,to=B,"\nabla", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\begin{exercise}
+Show that $\nabla = \Big\{ \nabla_A:A + A \to A \Big\}_{A \in \lscat C}$ is a natural transformation.
+\end{exercise}
+
+\section{Functor Categories}
+
+\begin{definition}[Functor Category]
+Given categories $\lscat X$ and $\lscat A$, the functor category
+$\lscat A^\lscat X$ (or $[\lscat X, \lscat A]$) is the category
+whose objects are functors from $\lscat X$ to $\lscat A$ and whose morphisms
+$\lscat A^\lscat X(F, G)$ are natural transformations from $F$ to $G$.
+The identity morphism $id_F : F \Rightarrow F : \lscat X \to \lscat A$ is
+$id_F = \lbrace id_{FX}: FX \to FX \rbrace_{X \in \Ob(\lscat X)}$.
+Composition is defined as follows:
+
+$$
+\gamma \circ \varphi \eqdef
+\Big\{ (\gamma \circ \varphi)_X : F X \to H X \Big\}_{X \in \Ob(\lscat X)}
+$$
+
+\begin{center}
+    \begin{tikzcd}
+      \lscat F X
+        \ar["(\gamma \circ \varphi)_X \eqdef \gamma_X \circ \varphi_X"]{rr}
+        \ar["\varphi_X"]{rd}
+      &
+      &
+      \lscat H X
+      \\
+      &
+      \lscat G X
+        \ar["\gamma_X"]{ru}
+      &
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+\begin{center}
+    \begin{tikzcd}[sep=6em]
+      \lscat X
+        \ar[bend left=60, "F"{name=F, above}]{r}
+        \ar["G"name=G]{r}
+        \ar[bend right=60, "H"{name=H, below}]{r}
+      &
+      \lscat A \\
+      \ar[Rightarrow, from=F, to=G, "\varphi", shorten <= 2pt, shorten >= 2pt]
+      \ar[Rightarrow, from=G, to=H, "\gamma", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}\\[3mm]
+\end{center}
+
+
+\end{definition}
+
+\begin{exercise}
+If $\varphi$, $\gamma$ are natural transformations, prove that $\gamma \circ \varphi$
+is also a natural transformation.
+\end{exercise}
+
+\begin{example}
+Consider the terminal category and an arbitrary locally small category
+$\lscat C$. The functor category $[\nelem 1, \lscat C]$ has:
+
+\begin{itemize}
+  \item Functors from $\nelem 1$ to $\lscat C$ as objects.
+
+    \begin{center}
+      \begin{tikzcd}
+          * \arrow[out=150,in=210, loop, looseness=5, "id_*"left]
+      \end{tikzcd}
+      $\to \lscat C \cong \Ob(\lscat C)$
+    \end{center}
+
+  \item Natural transformations between functors as morphisms.
+    $$F \xRightarrow[]{\varphi} G: \nelem 1 \to \lscat C$$
+
+    $$\varphi = \Big\{ \varphi_* : F * \to G * \Big\}$$
+\end{itemize}
+
+\end{example}
+
+
+\begin{example}
+Let $\cat D$ be the category with two objects and two arrows:
+
+\begin{center}
+  \begin{tikzcd}
+    *
+      \arrow[out=150,in=210, loop, looseness=5, "id_*"left]
+      \arrow[shift left=+1, "\alpha"above]{r}
+      \arrow[shift left=-1, "\beta"below]{r}
+    &
+    \bullet \arrow[out=30,in=-30, loop, looseness=5, "id_\bullet"right]
+  \end{tikzcd}
+\end{center}
+
+In the functor category $[\cat D, \catset]$, the objects are:
+
+\begin{center}
+  \begin{tikzcd}[sep=4em]
+    E
+      \arrow["\varphi_*"]{d}
+      \arrow[shift left=+1, "s"above]{r}
+      \arrow[shift left=-1, "t"below]{r}
+    &
+    N \arrow["\varphi_\bullet"]{d}
+    &
+    F
+      \arrow[Rightarrow, "\varphi"]{d}
+    \\
+    E'
+      \arrow[shift left=+1, "s'"above]{r}
+      \arrow[shift left=-1, "t'"below]{r}
+    &
+    N'
+    &
+    G
+  \end{tikzcd}
+\end{center}
+
+\end{example}
+
+\begin{exercise}
+Show that $[\cat D, \catset] \cong \catdirgraph$.
 \end{exercise}
 
 \end{document}
