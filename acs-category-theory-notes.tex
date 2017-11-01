@@ -2928,23 +2928,69 @@ $\mathrm{Prod}(f, g) \comp \mathrm{Prod}(f', g')
  = \mathrm{Prod}(f \comp f', g \comp g')$.
 \end{exercise}
 
-\chapter{Natural Transformations}
+\subsection{Hom functor}
+
+For a locally small category $\lscat C$, we define the \emph{hom functor}
+$\lscat C(-, =): \lscat C^{op} \times \lscat C \to \catset$ mapping objects
+from $\lscat C^{op} \times \lscat C$ to the set of morphisms between them:
+$$
+  A, B \mapsto \lscat C(A, B)
+$$
+and given on morphisms as follows
+\begin{center}
+  \begin{tikzcd}
+    A 
+    &
+    B \ar["g"]{d}
+    &
+    &
+    (A, B) \ar["{(f, g)}"{name=L}]{d}
+    &
+    \lscat C (A, B) 
+    \ar["{\lscat C(f, g) \eqdef \lambda h. g \circ h \circ f}"{name=R}]{d}
+    &
+    &
+    &
+    A \overset h \longrightarrow B
+    \\
+    A' \ar["f"]{u}
+    &
+    B'
+    &
+    &
+    (A', B')
+    &
+    \lscat C (A', B')
+    &
+    &
+    &
+    A' \overset  {g \circ h \circ f} \longrightarrow B'
+    \ar[from=L, to=R, mapsto, shorten <= 2pt, shorten >= 2pt]
+    \ar[from=1-8, to=2-8, mapsto, shorten <= 2pt, shorten >= 2pt]
+  \end{tikzcd}
+\end{center}
+
+\chapter{Natural transformations}
 \lecturedetails{31 October 2017}{M Fiore, V Chakraborty, N Licker}
 
-\section{Motivation for Natural Transformations}
+Natural transformations are morphisms between functors with the same domain
+and codomain.  
 
-Morphisms between functors with the same domain and codomain.
+\section{Motivation}
 
+In the category $\catpreo$, morphisms are monotone functions between
+preorders.  These morphisms can in turn be pre-ordered:
+\[
+  f \le g : (P, \le_P) \to (Q, \le_Q)
+  \iffdef \forall p \in P. f(p) \le g(p) \enspace.
+\]
 
-In the category $\catpreo$ with objects $(P, \le)$, the morphisms are monotone
-functions $f, g: (P, \le_P) \to (Q, \le_Q)$. Morphisms can be pre-ordered as
-well:
-
-$$f \le g \eqdef \forall p \in P. f(p) \le g(p)$$.
-
-In the category $\catcat$, the objects are locally small categories $\lscat C$.
-The morphisms are functors $F, G : \lscat A \to \lscat B$.
-Natural transformations $\varphi: F \Rightarrow G$ relate these functors.
+For categories, with morphisms between them given by functors, we have natural
+transformations 
+\[
+  \varphi: F \Rightarrow G: \lscat A\to \lscat B
+\]
+that relate them.
 
 \begin{center}
     \begin{tikzcd}[sep=6em]
@@ -2962,87 +3008,42 @@ Natural transformations $\varphi: F \Rightarrow G$ relate these functors.
 
 \begin{definition}[Natural Transformations]
 
-A natural transformation $\varphi: F \Rightarrow G : \lscat A \to \lscat B$
-is a family:
-
-$$\varphi = \Big \{ \varphi_A : F A \to G A \Big \}_{A \in \Ob(\lscat A)}$$
-
-Such that the following naturality condition holds:
-
+A natural transformation $\varphi: F \Rightarrow G : \lscat A \to \lscat B$ is
+a family:
+\[
+  \varphi = \Big \{ \varphi_A : F A \to G A \Big \}_{A \in \Ob(\lscat A)}
+\]
+such that the following \emph{naturality} condition holds:
 \begin{center}
+    for all
+    \enspace
     \begin{tikzcd}
-        \text{In } \lscat A: &
-        \text{In } \lscat B: &
-        {}
-        \\
-        A \arrow [d, "\forall f"] &
-        F A \arrow[r, "\varphi_A"] \arrow [d, "F f"] &
+        A \arrow [d, "f"] \\ A' 
+    \end{tikzcd} 
+    in $\lscat A$,
+    the square 
+    \enspace
+      \begin{tikzcd}
+        F A \arrow[r, "\varphi_A"] \arrow [d, "F f",swap] &
         G A \arrow[d, "G f"]
         \\
-        A' &
-        F A' \arrow[r, "\varphi_{A'}"] &
+        F A' \arrow[r, "\varphi_{A'}",swap] &
         G A'
-    \end{tikzcd} \\[3mm]
+    \end{tikzcd}
+    commutes in $\lscat B$
+    \enspace.
 \end{center}
 
 \end{definition}
 
 \section{Examples}
 
-\subsection{Hom Functor}
+\subsection{For the $\fnclist$ functor}
 
-Let $\lscat C$ be a locally small category. We define a functor
-$\lscat C(\_, \_): \lscat C^{op} \times \lscat C \to \catset$ mapping objects
-from $\lscat C^{op} \times \lscat C$ to the set of morphisms between the two
-objects.
-
-$$
-  A, B \mapsto \lscat C(A, B)
-$$
-
-
-\begin{center}
-  \begin{tikzcd}
-    A \ar[dotted, "h"]{r}
-    &
-    B \ar["g"]{d}
-    &
-    (A, B) \ar["{(f, g)}"{name=L}]{d}
-    &
-    \lscat C (A, B) \ar["{\lscat C(f, g) = \lambda h. g \circ h \circ f}"{name=R}]{d}
-    &
-    &
-    A \ar["h"{name=T}]{rr}
-    &
-    &
-    B
-    \\
-    A' \ar["f"]{u}
-    &
-    B'
-    &
-    (A', B')
-    &
-    \lscat C (A', B')
-    &
-    &
-    &
-    g \circ h \circ f
-    &
-    \ar[from=L, to=R, mapsto, shorten <= 2pt, shorten >= 2pt]
-    \ar[from=T, to=2-7, mapsto, shorten <= 2pt, shorten >= 2pt]
-  \end{tikzcd}
-\end{center}
-
-\subsection{List Functor}
-
-The list functor \(\fnclist: \catset \to \catset\) is defined as:
+Recall that the list functor \(\fnclist: \catset \to \catset\) is defined by:
 
 \begin{center}
 \begin{tikzcd}
-A
-\arrow[rr, "\fnclist", mapsto] & & B
-\\
 A
 \arrow[dd, "f"{name=L, right}] & & List(A)
 \arrow[dd, "\fnclist(f)"{name=R, left}]
@@ -3054,35 +3055,36 @@ B &  & \fnclist(B)
 \end{tikzcd}
 \end{center}
 
-There is a unique homomorphism
+where $\fnclist(f)$ is the unique homomorphism
 $$
 (List(A), nil, @) \to (List(B), nil, @)
 $$
-
-Such that the following diagram commutes:
-
+such that the following square commutes:
 \begin{center}
 \begin{tikzcd}
 A
-\arrow[d, "f"]
+\arrow[d, "f",swap]
 \arrow[r, "{[\text{--}]_A}"]
 &
 List(A)
 \arrow[d, "List(f)"]
 \\
 B
-\arrow[r, "{[\text{--}]_B}"]
+\arrow[r, "{[\text{--}]_B}", swap]
 &
 List(B)
 \end{tikzcd}
 \end{center}
 
-The family of singleton constructions:
+\begin{example}[List-singletons]
+The family of list-singleton functions
 $$
-{[\text{--}]} = \Big \{ {[\text{--}]}_A : A \to List(A) \Big \}_{A \in \catset}
+{[\text{--}]} 
+= 
+\bigsetof{\, {[\text{--}]}_A : A \to List(A) \,}_{A\in\catset}
 $$
 
-is a natural transformation from $\fncid{Set}$ to $\fnclist$:
+is a natural transformation from $\fncid{\catset}$ to $\fnclist$:
 
 \begin{center}
     \begin{tikzcd}[sep=6em]
@@ -3095,17 +3097,21 @@ is a natural transformation from $\fncid{Set}$ to $\fnclist$:
       \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
     \end{tikzcd}\\[3mm]
 \end{center}
+\end{example}
 
-\subsection{List Flattening}
 
-Let $flat_A : List(List(A)) \to List(A)$ be a function that flattens lists.
+\begin{example}[List flattening]
+Let $\text{flat}_A : \fnclist\big(\fnclist(A)\big) \to \fnclist(A)$ be the
+function that flattens lists.
 
-$$
-flat = \Big \{ flat_A: List(List(A)) \to List(A) \Big\}_{A \in \catset}
-$$
-
-flat is a natural transformation:
-
+The family of functions
+\[
+  \text{flat} 
+  = \bigsetof{\, 
+      \text{flat}_A: \fnclist\big(\fnclist(A)\big) \to \fnclist(A) 
+    \,}_{A \in \catset}
+\]
+is a natural transformation:
 \begin{center}
     \begin{tikzcd}[sep=6em]
       \catset
@@ -3117,55 +3123,65 @@ flat is a natural transformation:
       \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
     \end{tikzcd}\\[3mm]
 \end{center}
+\end{example}
 
-By the universal sulution:
-
-
+\begin{exercise}
+Show that $\text{flat}$ is a natural transformation using its universal
+definition as follows:
 \begin{center}
     \begin{tikzcd}[sep=6em]
-      List(A)
-        \ar["{[\text{--}]}_{List(A)}"]{r}
-        \ar["id_{List(A)}"below]{rd}
+      \fnclist(A)
+        \ar["{[\text{--}]}_{\fnclist(A)}"]{r}
+        \ar["id_{\fnclist(A)}"below]{rd}
       &
-      List(List(A))
-        \ar["(id_{List(A)})^\#\eqdef flat_A"]{d}
+      \fnclist\big(\fnclist(A)\big)
+        \ar[" (id_{\fnclist(A)})^\# \ \eqdef \ \text{flat}_A"]{d}
       \\
       &
       List(A)
     \end{tikzcd}\\[3mm]
 \end{center}
-
-\begin{exercise}
-Show $flat_A$ is a natural transformation using the definition.
 \end{exercise}
 
 \subsection{Coproducts}
 
-Let $\lscat C$ be a category with coproducts (sums).
-
+Let $\lscat C$ be a category with binary coproducts (or sums); that is, we
+have 
 \begin{center}
-    \begin{tikzcd}[sep=6em]
+    \begin{tikzcd}%[sep=6em]
       &
       A + B
-        \ar[dotted, "{\exists![f+g]}"]{d}
+        \ar[dotted, "{\exists![f,g]}"]{dd}
       &
       \\
       A
-        \ar["f"]{r}
+        \ar["f",swap]{dr}
         \ar["\iota_1^{A,B}"above]{ru}
       &
-      C
       &
       B
-        \ar["g"]{l}
+        \ar["g"]{ld}
         \ar["\iota_2^{A,B}"above]{lu}
+      \\
+      & \overset{\mbox{$C$}}{\forall} & 
     \end{tikzcd}\\[3mm]
 \end{center}
+for every pair of objects $A,B$ in $\lscat C$.
 
-We have a coproduct functor $\lscat C \times \lscat C \to \lscat C$ mapping
-$A, B \mapsto A + B$:
-
-
+We have a \emph{coproduct functor} $\lscat C \times \lscat C \to \lscat C$
+mapping as follows 
+\begin{center}
+  \begin{tikzcd}
+    (A,B) \ar["{(f,g)}"{right},name=L]{d} 
+    & 
+    A+B \ar["f+g"{left},name=R]{d} 
+    \ar[mapsto,from=L,to=R,shorten >= 0pt,shorten <=30pt]
+    \\
+    (A',B') & 
+    A'+B'
+  \end{tikzcd}
+\end{center}
+and defined by:
 \begin{center}
     \begin{tikzcd}[sep=3em]
       &
@@ -3183,11 +3199,11 @@ $A, B \mapsto A + B$:
         \ar["\iota_2^{A,B}"above]{lu}
       \\
       A'
-        \ar["\iota_1^{A',B'}"above]{rd}
+        \ar["\iota_1^{A',B'}"below]{rd}
       &
       &
       B'
-        \ar["\iota_2^{A',B'}"above]{ld}
+        \ar["\iota_2^{A',B'}"below]{ld}
       \\
       &
       A' + B'
@@ -3195,43 +3211,34 @@ $A, B \mapsto A + B$:
     \end{tikzcd}\\[3mm]
 \end{center}
 
-The family $\iota_1=\Big\{ \iota_1^{A, B}: A \to A + B \Big\}_{(a,b) \in \lscat C \times \lscat C}$
-is a natural transformation.
-
-\begin{center}
-    \begin{tikzcd}[sep=6em]
-      \lscat C \times \lscat C
-        \ar[bend left=40, "\pi_1"{name=T, above}]{r}
-        \ar[bend right=40, "+"{name=B, below}]{r}
-      &
-      \lscat C
-      \\
-      \ar[Rightarrow, from=T, to=B, "{\iota_1}", shorten <= 2pt, shorten >= 2pt]
-    \end{tikzcd}\\[3mm]
-\end{center}
-
-Similarly:
-
-\begin{center}
-    \begin{tikzcd}[sep=6em]
-      \lscat C \times \lscat C
-        \ar[bend left=40, "\pi_1"{name=T, above}]{r}
-        \ar[bend right=40, "+"{name=B, below}]{r}
-      &
-      \lscat C
-      \\
-      \ar[Rightarrow, from=T, to=B, "{\iota_1}", shorten <= 2pt, shorten >= 2pt]
-    \end{tikzcd}\\[3mm]
-\end{center}
-
 \begin{exercise}
-Show that $\iota_1$ is a natural transformation.
+Show that the families 
+\[
+\iota_i
+=
+\bigsetof{\,
+  \iota_i^{A_1,A_2}: A_i \to A_1 + A_2 
+  \,}_{(A_1,A_2) \in \lscat C \times \lscat C}
+\qquad(i=1,2)
+\]
+are natural transformations:
+\begin{center}
+    \begin{tikzcd}[sep=4em]
+      \lscat C \times \lscat C
+        \ar[bend left=40, "\pi_i"{name=T, above}]{r}
+        \ar[bend right=40, "+"{name=B, below}]{r}
+      &
+      \lscat C
+      \\
+      \ar[Rightarrow, from=T, to=B, "{\iota_i}", shorten <= 2pt, shorten >= 2pt]
+    \end{tikzcd}
+\end{center}
 \end{exercise}
 
-\subsection{TODO - Not sure what to call this}
 
-For $A \in \Ob(\lscat C)$, let $\nabla_A:A + A$ be the unique map s.t.
-
+\begin{definition}[Codiagonal]
+For $A \in \Ob(\lscat C)$, we define the \emph{codiagonal} 
+$\nabla_A:A + A\to A$ as the unique map such that
 \begin{center}
     \begin{tikzcd}
       &
@@ -3240,7 +3247,7 @@ For $A \in \Ob(\lscat C)$, let $\nabla_A:A + A$ be the unique map s.t.
       &
       \\
       A
-        \ar["id"]{rd}
+        \ar["id"below]{rd}
         \ar["\iota_1^{A,A}"above]{ru}
       &
       &
@@ -3254,148 +3261,192 @@ For $A \in \Ob(\lscat C)$, let $\nabla_A:A + A$ be the unique map s.t.
     \end{tikzcd}\\[3mm]
 \end{center}
 
+\begin{exercise}
+Show that 
+$\nabla = \Big\{ \nabla_A:A + A \to A \Big\}_{A \in \lscat C}$ is a natural
+transformation:  
 \begin{center}
     \begin{tikzcd}
-      \Delta(A) \eqdef (A, A)
-      &
       &
       \lscat C \times \lscat C
         \ar["+"above]{rd}
       &
       \\
-      &
       \lscat C
         \ar[bend right=30, "\Id{\lscat C}"{name=B, below}]{rr}
         \ar["\Delta"above]{ru}
       &
       &
       \lscat C
-      \arrow[Rightarrow, from=1-3,to=B,"\nabla", shorten <= 2pt, shorten >= 2pt]
+      \arrow[Rightarrow, from=1-2,to=B,"\nabla", shorten <= 2pt, shorten >= 2pt]
     \end{tikzcd}\\[3mm]
 \end{center}
-
-\begin{exercise}
-Show that $\nabla = \Big\{ \nabla_A:A + A \to A \Big\}_{A \in \lscat C}$ is a natural transformation.
+where $\Delta:\lscat C\to\lscat C\times\lscat C$ is the 
+\emph{diagonal functor} given by $\Delta(-)\eqdef(-,-)$.
+\end{definition}
 \end{exercise}
 
 \section{Functor Categories}
 
 \begin{definition}[Functor Category]
-Given categories $\lscat X$ and $\lscat A$, the functor category
-$\lscat A^\lscat X$ (or $[\lscat X, \lscat A]$) is the category
-whose objects are functors from $\lscat X$ to $\lscat A$ and whose morphisms
-$\lscat A^\lscat X(F, G)$ are natural transformations from $F$ to $G$.
-The identity morphism $id_F : F \Rightarrow F : \lscat X \to \lscat A$ is
+Given categories $\lscat X$ and $\lscat A$, the \emph{functor category} 
+$\lscat A^\lscat X$ \big(or $[\lscat X, \lscat A]$\big) is the category whose
+objects are functors from $\lscat X$ to $\lscat A$ and whose morphisms in
+$\lscat A^\lscat X(F, G)$ are natural transformations from $F$ to $G$.  The
+identity morphism $id_F : F \Rightarrow F : \lscat X \to \lscat A$ is
 $id_F = \lbrace id_{FX}: FX \to FX \rbrace_{X \in \Ob(\lscat X)}$.
-Composition is defined as follows:
-
-$$
-\gamma \circ \varphi \eqdef
-\Big\{ (\gamma \circ \varphi)_X : F X \to H X \Big\}_{X \in \Ob(\lscat X)}
-$$
-
-\begin{center}
-    \begin{tikzcd}
-      \lscat F X
-        \ar["(\gamma \circ \varphi)_X \eqdef \gamma_X \circ \varphi_X"]{rr}
-        \ar["\varphi_X"]{rd}
-      &
-      &
-      \lscat H X
-      \\
-      &
-      \lscat G X
-        \ar["\gamma_X"]{ru}
-      &
-    \end{tikzcd}\\[3mm]
-\end{center}
-
-\begin{center}
-    \begin{tikzcd}[sep=6em]
+Composition is defined as follows: in the situation
+\[
+    \begin{tikzcd}[sep=5em]
       \lscat X
         \ar[bend left=60, "F"{name=F, above}]{r}
         \ar["G"name=G]{r}
         \ar[bend right=60, "H"{name=H, below}]{r}
       &
       \lscat A \\
-      \ar[Rightarrow, from=F, to=G, "\varphi", shorten <= 2pt, shorten >= 2pt]
+      \ar[Rightarrow, from=F, to=G, "\varphi", shorten <= 2pt, shorten >= -1pt]
       \ar[Rightarrow, from=G, to=H, "\gamma", shorten <= 2pt, shorten >= 2pt]
-    \end{tikzcd}\\[3mm]
+    \end{tikzcd}\\[-12mm]
+\]
+we let $\gamma \circ \varphi:F\Rightarrow H$ be given by
+\[
+\gamma \circ \varphi 
+\eqdef
+\bigsetof{\, 
+  \gamma_X \circ \varphi_X 
+  : F X \to H X 
+  \,}_{X \in \Ob(\lscat X)}
+\]
+that is,\\[-8mm]
+\begin{center}
+    \begin{tikzcd}
+      F X
+        \ar["(\gamma \circ \varphi)_X \,\eqdef\, \gamma_X \circ \varphi_X"]{rr}
+        \ar["\varphi_X",swap]{rd}
+      &
+      &
+      H X
+      \\
+      &
+      G X
+        \ar["\gamma_X",swap]{ru}
+      &
+    \end{tikzcd}
 \end{center}
-
-
 \end{definition}
 
 \begin{exercise}
-If $\varphi$, $\gamma$ are natural transformations, prove that $\gamma \circ \varphi$
-is also a natural transformation.
+Check that if $\varphi$ and $\gamma$ as above are natural transformations then
+so is $\gamma \circ \varphi$ as defined.
 \end{exercise}
 
 \begin{example}
-Consider the terminal category and an arbitrary locally small category
-$\lscat C$. The functor category $[\nelem 1, \lscat C]$ has:
-
+Consider the terminal category $\nelem 1$ and an arbitrary locally small
+category $\lscat C$. The functor category $\lscat C^{\nelem1}$ has:
 \begin{itemize}
-  \item Functors from $\nelem 1$ to $\lscat C$ as objects.
-
-    \begin{center}
-      \begin{tikzcd}
+  \item 
+    Functors 
+    \[
+      \framebox{\begin{tikzcd}
           * \arrow[out=150,in=210, loop, looseness=5, "id_*"left]
-      \end{tikzcd}
-      $\to \lscat C \cong \Ob(\lscat C)$
-    \end{center}
+      \end{tikzcd}}
+      \longrightarrow 
+      \lscat C
+    \]
+    from $\nelem 1$ to $\lscat C$ as objects; so that 
+    \[
+      \Ob(\lscat C^{\nelem1})\iso\Ob(\lscat C)
+      \enspace.
+    \]
 
-  \item Natural transformations between functors as morphisms.
-    $$F \xRightarrow[]{\varphi} G: \nelem 1 \to \lscat C$$
-
-    $$\varphi = \Big\{ \varphi_* : F * \to G * \Big\}$$
+  \item 
+    Natural transformations 
+    \[
+      \varphi: F \Rightarrow G: \nelem 1 \to \lscat C
+    \]
+    between functors as morphisms; so that
+    \[
+      \varphi = \bigsetof{\, \varphi_* : F * \to G * \text{ in } \lscat C \,}
+      \enspace.
+    \]
 \end{itemize}
-
-\end{example}
-
-
-\begin{example}
-Let $\cat D$ be the category with two objects and two arrows:
-
-\begin{center}
-  \begin{tikzcd}
-    *
-      \arrow[out=150,in=210, loop, looseness=5, "id_*"left]
-      \arrow[shift left=+1, "\alpha"above]{r}
-      \arrow[shift left=-1, "\beta"below]{r}
-    &
-    \bullet \arrow[out=30,in=-30, loop, looseness=5, "id_\bullet"right]
-  \end{tikzcd}
-\end{center}
-
-In the functor category $[\cat D, \catset]$, the objects are:
-
-\begin{center}
-  \begin{tikzcd}[sep=4em]
-    E
-      \arrow["\varphi_*"]{d}
-      \arrow[shift left=+1, "s"above]{r}
-      \arrow[shift left=-1, "t"below]{r}
-    &
-    N \arrow["\varphi_\bullet"]{d}
-    &
-    F
-      \arrow[Rightarrow, "\varphi"]{d}
-    \\
-    E'
-      \arrow[shift left=+1, "s'"above]{r}
-      \arrow[shift left=-1, "t'"below]{r}
-    &
-    N'
-    &
-    G
-  \end{tikzcd}
-\end{center}
-
 \end{example}
 
 \begin{exercise}
-Show that $[\cat D, \catset] \cong \catdirgraph$.
+Prove that $\lscat C^{\nelem1} \iso \lscat C$.
+\end{exercise}
+
+\begin{example}
+Let $\cat D$ be the category with two objects and a parallel pair of arrows:
+\[
+  \framebox{\begin{tikzcd}
+    E
+      %\arrow[out=150,in=210, loop, looseness=5, "id_*"left]
+      \arrow[shift left=+2, "s"above]{r}
+      \arrow[shift left=-2, "t"below]{r}
+    &
+    %N \arrow[out=30,in=-30, loop, looseness=5, "id_\bullet"right]
+    &
+    N
+    \end{tikzcd}}
+\]
+where, as it is customary, identities have been omitted from the picture.
+
+In the functor category $\catset^{\cat D}$, 
+\begin{itemize}
+\item
+the objects are functors
+\[
+  \framebox{\begin{tikzcd}
+  E \arrow[shift left=+2, "s"above]{r} \arrow[shift left=-2, "t"below]{r} 
+  & & N
+  \end{tikzcd}}
+  \overset G\longrightarrow 
+  \catset 
+\]
+and therefore essentially given by sets and functions between them as follows:
+\[
+  \begin{tikzcd}[sep=4em]
+  G(E) \arrow[shift left=+2, "G(s)"above]{r} 
+  \arrow[shift left=-2, "G(t)"below]{r} & G(N)
+  \end{tikzcd}
+\]
+
+\item
+the morphisms are natural transformations
+\[
+  \varphi : G_1 \Rightarrow G_2 : \cat D\to \catset
+\]
+and therefore given by functions 
+\[
+  \begin{align*}
+  \varphi_E &: G_1(E) \longrightarrow G_2(E)
+  \\[1mm]
+  \varphi_N &: G_1(N) \longrightarrow G_2(N)
+  \end{align*}
+\]
+such that the diagram
+\[\begin{tikzcd}[sep=4em]
+    G_1(E)
+      \arrow["\varphi_E"]{r}
+      \arrow[shift left=+2, "G_1(t)"right]{d}
+      \arrow[shift left=-2, "G_1(s)"left]{d}
+    &
+    G_2(E)
+    \arrow[shift left=+2, "G_2(t)"right]{d} 
+    \arrow[shift left=-2, "G_2(s)"left]{d}
+    \\
+    G_1(N)
+    \arrow["\varphi_N",swap]{r}
+    &
+    G_2(N)
+\end{tikzcd}\]
+commutes serially.
+\end{itemize}
+\end{example}
+
+\begin{exercise}
+Prove that $\catset^{\cat D} \iso \catdirgraph$.
 \end{exercise}
 
 \end{document}
