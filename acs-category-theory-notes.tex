@@ -3571,7 +3571,7 @@ $F (\phold, B) : \lscat A \to \lscat C$ such that:
 
 \begin{center}
 \begin{tikzcd}
-A \arrow[dd, "g"{name=L, right}] & &
+A \arrow[dd, "f"{name=L, right}] & &
     F (A, B) \arrow[dd, "F(f{,}\id{B})"{name=R, left}] \\
 \arrow[rr, from=L, to=R, mapsto] & & \\
 A^{\prime} &  & F (A^{\prime}, B)
@@ -3579,7 +3579,57 @@ A^{\prime} &  & F (A^{\prime}, B)
 \end{center}
 
 We want to apply these to the hom functor:
-\[\lscat C (\phold, \Phold): {\lscat C}^\op \times \lscat C \to \catset\]
+\[ \lscat C (\phold, \Phold): {\lscat C}^\op \times \lscat C \to \catset \]
+For a fixed $C \in \lscat C$, consider
+$\lscat{C} (\phold, C): C^\op \to \catset$:
+
+\begin{center}
+\begin{tikzcd}
+X & & \lscat C (X, C) \arrow[dd, ""{name=R, left}] & x \arrow[dd, mapsto] \\
+& & & \\
+Y \arrow[uu, "h"{name=L, right}] & & \lscat C (Y, C) & x \comp h
+\arrow[rr, from=L, to=R, mapsto]
+\end{tikzcd}
+\end{center}
+
+Now consider two fixed $A$ and $B$ in $\lscat C$. We are now interested in all
+the natural transformations $\varphi$ of the form:
+\[ \lscat C(\phold, A) \natarr{\varphi} \lscat C(\phold, B) :
+{\lscat C}^\op \to \catset \]
+Is it possible to characterise them precisely? The answer is \emph{yes} -- this
+is because naturality is a very strong property.\footnote{Naturality is almost
+like a function being polymorphic in a programming language. Think of the ML
+or System F type construct $\forall \alpha.\ \alpha \to \alpha$: the only valid
+expression of this type is the identity function.} It turns out out this is not
+that difficult. Let $\varphi$ be the following family of functions:
+\[ \varphi = \setof{\varphi_X: \lscat C (X, A) \to
+\lscat C (X, B)}_{X \in \lscat C} \]
+One of its members is $\varphi_A: \lscat C (A, A) \to \lscat C (A, B)$. Define:
+\[ \widehat{\varphi} \eqdef \varphi_A (\id{A}) : A \to B \text{ in } \lscat C \]
+We now claim that $\widehat{\varphi}$ completely determines all of $\varphi$
+(that is $\varphi_X$, $\forall X$) \emph{because of the naturality condition}.
+
+This is seen from the following commutative diagram, for any $X$:
+
+\begin{center}
+\begin{tikzcd}
+    A & \lscat C (A, A) \arrow[rrr, "\varphi_A"] \arrow[ddd, "\phold \comp f"]
+    & & & \lscat C (A, B) \arrow[ddd, "\phold \comp f"] & \\
+    & & \id{A} \arrow[lu, phantom, "\rotatebox{135}{$\in$}"] \arrow[rrr, mapsto]
+    \arrow[ddd, mapsto]
+    & & & \widehat{\varphi} \arrow[lu, phantom, "\rotatebox{135}{$\in$}"]
+    \arrow[ddd, mapsto] \\
+    & & & & & \\
+    X \arrow[uuu, "f"] & \lscat C (X, A) \arrow[rrr, "\varphi_X"]
+    & & & \lscat C (X, B) & \\
+    & & \id{A} \comp f & & & \widehat{\varphi} \comp f \\
+    & X \morpharr{f} A \arrow[rrr, mapsto]
+    \arrow[uu, phantom, "\rotatebox{90}{$\in$}"]
+    \arrow[ru, phantom, "\rotatebox{45}{$=$}"] & & &
+    \varphi_X (f) \arrow[ru, phantom, "\rotatebox{45}{$=$}"]
+    \arrow[uu, phantom, "\rotatebox{90}{$\in$}"] &
+\end{tikzcd}
+\end{center}
 
 \section{A product construction}
 
