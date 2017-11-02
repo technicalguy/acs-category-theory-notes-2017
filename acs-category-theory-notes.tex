@@ -129,6 +129,9 @@
 \newcommand{\nats}{\mathbb{N}}
 \newcommand{\morpharrow}{\longrightarrow}
 \newcommand{\morpharr}[1]{\overset{#1}{\morpharrow}}
+\newcommand{\natto}{\Rightarrow}
+\newcommand{\natarrow}{\Longrightarrow}
+\newcommand{\natarr}[1]{\overset{#1}{\natarrow}}
 \newcommand{\lscat}[1]{\mathcal{#1}} % locally small category
 \newcommand{\scat}[1]{\mathcal{#1}} % small category
 \newcommand{\univpair}[1]{\langle #1 \rangle}
@@ -137,6 +140,11 @@
 \newcommand{\verteq}{\rotatebox{90}{$\,=$}}
 \newcommand{\equalto}[2]{\underset{\displaystyle\overset{\mkern4mu\verteq}{#2}}{#1}}
 \newcommand{\mapsfrom}{\reflectbox{$\;\mapsto\;$}}
+
+\newcommand{\phold}{\text{--}}
+\newcommand{\Phold}{\text{=}}
+
+\newcommand{\op}{\mathrm{op}}
 
 \begin{document}
 
@@ -2179,15 +2187,15 @@ $\varepsilon$ are injections.
 \section{Duality}
 \begin{definition}[Duality]
 Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual}
-category, $\mathcal{C}^{\mathrm{op}}$, to be the category with:
+category, $\mathcal{C}^{\op}$, to be the category with:
     \begin{itemize}
-        \item $\Ob(\mathcal{C}^{\mathrm{op}}) = \Ob(\mathcal{C})$
-        \item $\mathcal{C}^{\mathrm{op}}(A, B) \eqdef \mathcal{C}(B, A)$
+        \item $\Ob(\mathcal{C}^{\op}) = \Ob(\mathcal{C})$
+        \item $\mathcal{C}^{\op}(A, B) \eqdef \mathcal{C}(B, A)$
     \end{itemize}
 
 \begin{minipage}[t]{0.49\textwidth}
     \begin{center}
-        In $\mathcal{C}^{\mathrm{op}}$
+        In $\mathcal{C}^{\op}$
 
         \vspace{15pt}
 
@@ -2214,22 +2222,22 @@ category, $\mathcal{C}^{\mathrm{op}}$, to be the category with:
 Identities are the same as in $\mathcal{C}$, that is:
 
 \begin{equation*}
-    \id{A}^{\mathrm{op}} \eqdef \id{A}
+    \id{A}^{\op} \eqdef \id{A}
 \end{equation*}
 
 For composition, we need:
 
 \begin{equation*}
-    \equalto{\mathcal{C}^{\mathrm{op}}(B, C)}{\mathcal{C}(C, B)} \times
-    \equalto{\mathcal{C}^{\mathrm{op}}(A, B)}{\mathcal{C}(B, A)}
-    \xrightarrow{\comp^{\mathrm{op}}_{A,B,C}}
-    \equalto{\mathcal{C}^{\mathrm{op}}(A, C)}{\mathcal{C}(C, A)}
+    \equalto{\mathcal{C}^{\op}(B, C)}{\mathcal{C}(C, B)} \times
+    \equalto{\mathcal{C}^{\op}(A, B)}{\mathcal{C}(B, A)}
+    \xrightarrow{\comp^{\op}_{A,B,C}}
+    \equalto{\mathcal{C}^{\op}(A, C)}{\mathcal{C}(C, A)}
 \end{equation*}
 
 Therefore, we define:
 
 \begin{equation*}
-    g \comp^{\mathrm{op}}_{A,B,C} f = f \comp_{C,B,A} g
+    g \comp^{\op}_{A,B,C} f = f \comp_{C,B,A} g
 \end{equation*}
 \end{definition}
 
@@ -2241,7 +2249,7 @@ $f \comp a = f \comp a' \implies a = a'$.
 
 \begin{definition}[Epimorphism]
 An \emph{epimorphism} in a category $\mathcal{C}$ is a monomorphism in
-$\mathcal{C}^{\mathrm{op}}$, \ie~$f : A \to B$ is an epimorphism if:
+$\mathcal{C}^{\op}$, \ie~$f : A \to B$ is an epimorphism if:
 \[
     \forall T \in \Ob(\mathcal{C}) . \forall t, t' : B \to T .
     t \comp f = t' \comp f \implies t = t'
@@ -2306,7 +2314,7 @@ such that it is a terminal universal solution.
 
 \begin{definition}
 \emph{Coproducts}, or \emph{sums}, in $\mathcal{C}$ are products in
-$\mathcal{C}^{\mathrm{op}}$. The coproduct of a family
+$\mathcal{C}^{\op}$. The coproduct of a family
 $\setof{A_i \suchthat i \in I}$ is given by
 
 \begin{center}
@@ -2679,15 +2687,15 @@ a free monoids.
 Firstly, we define the action of the functor on morphisms as follows:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        A \arrow[r, "{[\text{--}]_A}"] \arrow [d, "f"{left}] \&
+        A \arrow[r, "{[\phold]_A}"] \arrow [d, "f"{left}] \&
         \fnclist(A)
-        \arrow[d, "\fnclist(f)\eqdef {\big([\text{--}]_B\circ f\big){^\#}}"]
+        \arrow[d, "\fnclist(f)\eqdef {\big([\phold]_B\circ f\big){^\#}}"]
         \& \qquad \&
         (\fnclist(A), nil, @)
-        \arrow[d, "\exists!\ {\big([\text{--}]_B\circ f\big)^{\#}}
+        \arrow[d, "\exists!\ {\big([\phold]_B\circ f\big)^{\#}}
           \text{ homomorphism}" ]
            \\
-        B \arrow[r, "{[\text{--}]_B}"] \&
+        B \arrow[r, "{[\phold]_B}"] \&
         \fnclist(B) \& \& (\fnclist(B), nil, @)
     \end{tikzcd} \\[3mm]
 \end{center}
@@ -2697,18 +2705,18 @@ We now check functoriality.
 \item Preservation of identities:
 \begin{center}
     \begin{tikzcd}[ampersand replacement=\&]
-        A \arrow[r, "{[\text{--}]_A}"]
+        A \arrow[r, "{[\phold]_A}"]
         \arrow [d, "\id{A}"{left}]
         \&
         \fnclist(A)
-        \arrow[d, "{\fnclist(\id{A}) \eqdef \big([\text{--}]_A\big)^\#}"]
+        \arrow[d, "{\fnclist(\id{A}) \eqdef \big([\phold]_A\big)^\#}"]
         \& \&
         (\fnclist(A), nil, @)
         \arrow[d,
           "{\exists! \text{ homomorphism }
-              \big([\text{--}]_A\big)^\# \,= \ \id{\fnclist(A)}}"]
+              \big([\phold]_A\big)^\# \,= \ \id{\fnclist(A)}}"]
         \\
-        A \arrow[r, "{[\text{--}]_A}"] \&
+        A \arrow[r, "{[\phold]_A}"] \&
         \fnclist(A) \& \& (List(A), nil, @)
     \end{tikzcd} \\[3mm]
 \end{center}
@@ -2719,7 +2727,7 @@ We now check functoriality.
     A
     \arrow[d, "f"]
     \arrow[dd, bend right=40, "g \comp f" swap]
-    \arrow[r, "{[\text{--}]_A}"]
+    \arrow[r, "{[\phold]_A}"]
     &
     \fnclist(A)
     \arrow[d, dotted, "\fnclist(f)"]
@@ -2727,12 +2735,12 @@ We now check functoriality.
     \\
     B
     \arrow[d, "g"]
-    \arrow[r, "{[\text{--}]_B}"]
+    \arrow[r, "{[\phold]_B}"]
     &
     \fnclist(B)
     \arrow[d, dotted, "\fnclist(g)"]
     \\
-    C \arrow[r, "{[\text{--}]_C}"]
+    C \arrow[r, "{[\phold]_C}"]
     &
     \fnclist(C)
 \end{tikzcd}
@@ -2740,11 +2748,11 @@ We now check functoriality.
 
 Note that $\fnclist(g) \comp \fnclist(f)$ is an homomorphism \big(because so
 are $\fnclist(g)$ and $\fnclist(f)$\big) such that
-$\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\text{--}]_A}
- = {[\text{--}]_C} \comp (g \comp f)$.  Therefore,
+$\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\phold]_A}
+ = {[\phold]_C} \comp (g \comp f)$.  Therefore,
 \[
  \fnclist(g) \comp \fnclist(f)
- \ = \  \big( {[\text{--}]_C} \comp (g \comp f) \big)^\#
+ \ = \  \big( {[\phold]_C} \comp (g \comp f) \big)^\#
  \ \eqdef \ \fnclist(g\comp f)
   \enspace.
 \]
@@ -2754,7 +2762,7 @@ $\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\text{--}]_A}
 Show that the free commutative monoid (\ie~finite multiset) construction
 \begin{center}
     \begin{tikzcd}
-          S \arrow[r, "\setof{\text{--}}_S"]  \arrow[rd, swap, "\forall\, f"]
+          S \arrow[r, "\setof{\phold}_S"]  \arrow[rd, swap, "\forall\, f"]
         &
         \mathcal M_f(S)
         \arrow[d, "f^\#"]
@@ -3064,13 +3072,13 @@ such that the following square commutes:
 \begin{tikzcd}
 A
 \arrow[d, "f",swap]
-\arrow[r, "{[\text{--}]_A}"]
+\arrow[r, "{[\phold]_A}"]
 &
 List(A)
 \arrow[d, "List(f)"]
 \\
 B
-\arrow[r, "{[\text{--}]_B}", swap]
+\arrow[r, "{[\phold]_B}", swap]
 &
 List(B)
 \end{tikzcd}
@@ -3079,9 +3087,9 @@ List(B)
 \begin{example}[List-singletons]
 The family of list-singleton functions
 $$
-{[\text{--}]} 
+{[\phold]} 
 = 
-\bigsetof{\, {[\text{--}]}_A : A \to List(A) \,}_{A\in\catset}
+\bigsetof{\, {[\phold]}_A : A \to List(A) \,}_{A\in\catset}
 $$
 
 is a natural transformation from $\fncid{\catset}$ to $\fnclist$:
@@ -3094,7 +3102,7 @@ is a natural transformation from $\fncid{\catset}$ to $\fnclist$:
       &
       \catset
       \\
-      \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
+      \ar[Rightarrow, from=T, to=B, "{[\phold]}", shorten <= 2pt, shorten >= 2pt]
     \end{tikzcd}\\[3mm]
 \end{center}
 \end{example}
@@ -3120,7 +3128,7 @@ is a natural transformation:
       &
       \catset
       \\
-      \ar[Rightarrow, from=T, to=B, "{[\text{--}]}", shorten <= 2pt, shorten >= 2pt]
+      \ar[Rightarrow, from=T, to=B, "{[\phold]}", shorten <= 2pt, shorten >= 2pt]
     \end{tikzcd}\\[3mm]
 \end{center}
 \end{example}
@@ -3131,7 +3139,7 @@ definition as follows:
 \begin{center}
     \begin{tikzcd}[sep=6em]
       \fnclist(A)
-        \ar["{[\text{--}]}_{\fnclist(A)}"]{r}
+        \ar["{[\phold]}_{\fnclist(A)}"]{r}
         \ar["id_{\fnclist(A)}"below]{rd}
       &
       \fnclist\big(\fnclist(A)\big)
@@ -3456,9 +3464,122 @@ Prove that $\catset^{\cat D} \iso \catdirgraph$.
 
 %TODO(Dhruv, Andrej): typeset this beauty
 
+We still focus our attention to certain kinds of natural transformations, and
+are moving towards introducing \emph{representations}.
+
 \section{Definition and basic properties}
 
+\begin{definition}[Natural isomorphisms]
+Given functors $F, G : \lscat A \to \lscat B$, a natural transformation
+$\varphi: F \natto G$ is a \emph{natural isomorphism} whenever there exists a
+(necessarily unique) functor $\varphi^{-1}: G \natto F$ such that:
+\[ \varphi \comp \varphi^{-1} = \id{G} \]
+\[ \varphi^{-1} \comp \varphi = \id{F} \]
+\end{definition}
+
+\begin{theorem}
+For functors $F, G : \lscat A \to \lscat B$, a natural transformation
+$\varphi: F \natto G$ is a natural isomorphism if and only if:
+\[ \forall A \in \lscat A.\ \text{$\varphi_A: FA \to GA$ is an isomorphism} \]
+\end{theorem}
+
+\begin{proof}
+We need to prove both implications of this statement.
+
+\begin{itemize}
+
+\item[($\Rightarrow$)] Let $\varphi$ be an isomorphism. So there exists a
+$\varphi^{-1}$ that satisfies the properties from the definition:
+\[ \varphi \comp \varphi^{-1} = \id{G} \]
+Let $A \in \lscat A$. Then, since
+\[ (\varphi \comp \varphi^{-1})_A = \varphi_A \comp \varphi_A^{-1} \]
+\[ ( \id{G} )_A = \id{GA} \]
+we can conclude:
+\[ \varphi_A \comp \varphi_A^{-1} = \id{GA} \]
+
+Similarly:
+\[ \varphi_A^{-1} \comp \varphi_A = (\varphi^{-1} \comp \varphi)_A = (\id{F})_A
+= \id{FA} \]
+
+\item[($\Leftarrow$)] Suppose $\varphi_A: FA \to GA$ has an inverse
+$\varphi_A^{-1}: GA \to FA$ for all $A \in \lscat A$. Then define:
+\[ \varphi^{-1} \eqdef \setof{\varphi_A^{-1}: GA \to FA}_A \]
+Then it is clear that:
+\[ \varphi \comp \varphi^{-1} = \id{G} \]
+\[ \varphi^{-1} \comp \varphi = \id{F} \]
+It remains to show that the family $\varphi^{-1}$ is a natural transformation.
+That is, we want to prove that the following diagram commutes:
+
+\begin{center}
+\begin{tikzcd}
+    A \arrow{d}{\text{in $\lscat A$}}[swap]{\forall f} &
+    GA \arrow{r}{\varphi_A^{-1}} \arrow{d}{Gf} & FA \arrow{d}{Ff} \\
+    A & GA^{\prime} \arrow{r}{\varphi_{A^{\prime}}^{-1}} & FA^{\prime}
+\end{tikzcd}
+\end{center}
+
+This is not difficult: since $\varphi$ is natural, the following diagram
+commutes:
+\begin{center}
+\begin{tikzcd}
+    FA \arrow{r}{\varphi_A} \arrow{d}{Ff} & GA \arrow{d}{Gf} \\
+    FA^{\prime} \arrow{r}{\varphi_{A^{\prime}}} & GA^{\prime}
+\end{tikzcd}
+\end{center}
+that is, $Gf \comp \varphi_A = \varphi_{A^{\prime}} \comp Ff$. Left composing
+both sides of the equality with $\varphi_{A^{\prime}}^{-1}$ and right composing
+them with $\varphi_{A}^{-1}$, we have
+\[ \varphi_{A^{\prime}}^{-1} \comp Gf \comp \varphi_A \comp \varphi_A^{-1} =
+\varphi_{A^{\prime}}^{-1} \comp \varphi_{A^{\prime}} \comp Ff
+\comp \varphi_A^{-1} \]
+which is just
+\[ \varphi_{A^{\prime}}^{-1} \comp Gf = Ff \comp \varphi_A^{-1} \]
+which is what we wanted to prove. Therefore $\varphi^{-1}$ is a natural
+isomorphism.
+
+\end{itemize}
+\end{proof}
+
+Intuitively, this means that, for a natural transformation to be an isomorphism,
+it has to be an isomorphism at `every level' (`for every component').
+
+\begin{exercise}
+Investigate whether the analogous result holds for natural monomorphisms,
+epimorphisms, sections and retractions (which are all defined similarly to
+natural isomorphisms).
+\end{exercise}
+
 \section{A construction on functors}
+
+Given a functor $F: \lscat A \times \lscat B \to \lscat C$ (so it is a functor
+`of two variables'), define the functor $F (A, \phold): \lscat B \to \lscat C$
+for a fixed $A$:
+
+\begin{center}
+\begin{tikzcd}
+B \arrow[dd, "g"{name=L, right}] & &
+F (A, B) \arrow[dd, "F(\id{A}{,} g)"{name=R, left}] \\
+\arrow[rr, from=L, to=R, mapsto] & & \\
+B^{\prime} &  & F (A, B^{\prime})
+\end{tikzcd}
+\end{center}
+
+Intuitively, this means that we are performing a `restriction' of the arguments.
+
+Similarly, we may for a fixed $B \in \lscat B$ define the functor
+$F (\phold, B) : \lscat A \to \lscat C$ such that:
+
+\begin{center}
+\begin{tikzcd}
+A \arrow[dd, "g"{name=L, right}] & &
+    F (A, B) \arrow[dd, "F(f{,}\id{B})"{name=R, left}] \\
+\arrow[rr, from=L, to=R, mapsto] & & \\
+A^{\prime} &  & F (A^{\prime}, B)
+\end{tikzcd}
+\end{center}
+
+We want to apply these to the hom functor:
+\[\lscat C (\phold, \Phold): {\lscat C}^\op \times \lscat C \to \catset\]
 
 \section{A product construction}
 
