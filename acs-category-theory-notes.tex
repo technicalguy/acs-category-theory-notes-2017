@@ -3464,6 +3464,8 @@ Prove that $\catset^{\cat D} \iso \catdirgraph$.
 
 %TODO(Dhruv, Andrej): typeset this beauty
 
+%TODO: intro/clarification from start of the lecture?
+
 We still focus our attention to certain kinds of natural transformations, and
 are moving towards introducing \emph{representations}.
 
@@ -3551,6 +3553,8 @@ natural isomorphisms).
 
 \section{A construction on functors}
 
+\subsection{Characterising natural isomorphisms between restrictions}
+
 Given a functor $F: \lscat A \times \lscat B \to \lscat C$ (so it is a functor
 `of two variables'), define the functor $F (A, \phold): \lscat B \to \lscat C$
 for a fixed $A$:
@@ -3630,6 +3634,31 @@ This is seen from the following commutative diagram, for any $X$:
     \arrow[uu, phantom, "\rotatebox{90}{$\in$}"] &
 \end{tikzcd}
 \end{center}
+
+All these natural transformations are characterised by being \textit{exactly}
+those that are in bijective correspondence with maps
+$\widehat{\varphi}: A \to B$. Here we have only shown one direction of this
+claim.
+
+\begin{exercise}
+Show that every map $f: A \to B$ yields a natural transformation:
+\[ \lscat C (\phold, A) \morpharr{\widetilde{f}} \lscat C (\phold, B) \]
+given by:
+\[ \begin{array}{crcl}
+    \widetilde{f_X}: & \lscat C (X, A) & \to & \lscat C (X, B) \\
+    & x & \mapsto & f \comp x
+\end{array} \]
+\end{exercise}
+
+\begin{exercise}
+Show that these $\widehat{\phold}$ and $\widetilde{\phold}$ constructions are
+inverses of each other:
+\[ \varphi \mapsto \widehat{\varphi} \mapsto \widetilde{\widehat{\varphi}} =
+\varphi \]
+\[ f \mapsto \widetilde{f} \mapsto \widehat{\widetilde{f}} = f \]
+\end{exercise}
+
+\subsection{Technique for proving isomorphisms}
 
 \section{A product construction}
 
