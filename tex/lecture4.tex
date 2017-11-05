@@ -1,0 +1,308 @@
+\chapter{Categories}
+\lecturedetails{17 October 2017}{M Fiore, B Hardy}
+
+\section{Definitions}
+
+\begin{definition} Categories (internal viewpoint)
+
+  A category consists of two kinds of entities:
+  \begin{itemize}
+  \item Objects
+  \item Morphisms between objects (also called maps or arrows)
+  \end{itemize}
+
+  Every morphism comes with an assigned domain (also source) and codomain (also
+  target). We write $D \morpharr f C$ to show that the morphism $f$ has domain
+  $D$ and codomain $C$.
+
+  Every object $A$ has an associated \emph{identity} arrow $A \morpharr{\id A}
+  A$, also denoted $1_A$ or just $A$.
+
+  Arrows come with a (well-typed) \emph{composition} operation $\circ$. Given
+  $A \morpharr f B$ and $B \morpharr g C$ we have $A \morpharr{g \circ f} C$,
+  also denoted $A \morpharr{gf} B$ or $A \morpharr{f;g} B$ (read ``apply $f$ and
+  then $g$'').
+
+  Composition and identity arrows must satisfy laws similar to the monoid laws:
+
+  \begin{itemize}
+  \item Composition is associative. Given any objects and arrows as follows
+
+    \[A \morpharr h B \morpharr g C \morpharr f D\]
+
+    we require that
+
+    \[(f \circ g) \circ h = f \circ (g \circ h).\]
+
+  \item $\id X$ is an identity under composition. Given any
+
+    \[X \morpharr k Y\]
+
+    we require that
+
+    \[k \circ \id X = k = \id Y \circ k .\]
+  \end{itemize}
+\end{definition}
+
+\begin{definition} Categories (enriched viewpoint)
+
+  A category $\mathcal C$ consists of
+  \begin{itemize}
+  \item a class of objects $\Ob(\mathcal C)$ (also written $|\mathcal C|$),
+    together with
+  \item \emph{hom-sets} $\mathcal C(A, B)$ for all $A, B \in \Ob(\mathcal C)$,
+    and
+  \item identities $\id A \in \mathcal C(A, A)$ for all $A \in \Ob(\mathcal C)$,
+    in addition to
+  \item a composition operation
+    \begin{equation*}
+      \begin{matrix}
+        \mathcal C(B, C) & \times & \mathcal C(A, B) &
+        \morpharr{\circ_{A,B,C}}
+        & \mathcal C(A, C) \\
+        g & , & f & \mapsto & g \circ f
+      \end{matrix}
+    \end{equation*}
+  \end{itemize}
+
+  It must satisfy laws, written here as commutative diagrams:
+
+  \begin{itemize}
+  \item Composition is associative:
+
+    \begin{center}
+    \begin{tikzcd}
+      & \mathcal C(C, D) \times \mathcal C(B, C) \times \mathcal C(A, B)
+      \arrow[dl, "\circ_{B,C,D} \times \idfunc", swap]
+      \arrow[dr, "\idfunc \times \circ_{A,B,C}"]
+      & \\
+      \mathcal C(B, D) \times \mathcal C(A, B) \arrow[dr, "\circ_{A,B,C}",
+      swap] & &
+      \mathcal C(C, D) \times \mathcal C(A, C)
+      \arrow[dl, "\circ_{A,C,D}"] \\
+      & \mathcal C(A, D) &
+    \end{tikzcd}
+  \end{center}
+
+  \begin{framed}
+    \paragraph{NB.} Here, $\idfunc \eqdef (x \mapsto x)$ is the standard
+    identity function.  The operator $\times$ on two functions intuitively runs
+    two them in parallel.
+    Given
+
+      \[f : A_1 \rightarrow B_1
+        \enspace,\quad
+        g : A_2 \rightarrow B_2\]
+
+      we have
+      \[f \times g : A_1 \times A_2 \rightarrow B_1 \times B_2\]
+      defined by
+      \[\big(f \times g\big)(x, y) \mapsto (f x, g y) \]
+  \end{framed}
+
+  \item Identity is a left and right neutral element. First, notice that we
+    can write
+
+    \[\nelem{1} \morpharr{\id A} \mathcal C(A, A)\]
+
+    to express the idea that the identity morphism $\id A$ exists for every
+    $A$.  Then the right identity law is expressed as:
+
+    \begin{center}
+    \begin{tikzcd}
+      \mathcal C(A, B) \times \nelem{1} \arrow[rr, "\idfunc \times \id A"]
+      \arrow[dr, "\pi_1", swap] & &
+      \mathcal C(A, B) \times \mathcal C(A, A) \arrow[dl, "\circ_{A,A,B}"] \\
+      & \mathcal C(A, B)
+    \end{tikzcd}
+  \end{center}
+
+    and the left identity law is expressed similarly as:
+
+    \begin{center}
+    \begin{tikzcd}
+      \nelem{1} \times \mathcal C(A, B) \arrow[rr, "\id B \times \idfunc"]
+      \arrow[dr, "\pi_2", swap] & &
+      \mathcal C(B, B) \times \mathcal C(A, B) \arrow[dl, "\circ_{A,B,B}"] \\
+      & \mathcal C(A, B)
+    \end{tikzcd}
+  \end{center}
+\end{itemize}
+
+\end{definition}
+
+\section{Examples of categories}
+
+\subsection{Sets}
+
+$\catset$ is a category whose objects are sets and whose morphisms are standard
+set-theoretic functions. The identity is the standard identity function and
+composition is the standard composition of functions. The set of morphisms can
+be written as
+
+\[\catset(S, T) = \setof{ f \subseteq S \times T \;|\; f \text{ is a function}
+  }\]
+
+\subsection{Monoids}
+
+$\catmon$ is a category whose objects are monoids $(M,\shortmid,\star)$ and
+whose morphisms are monoid homomorphisms (\ie~functions which preserve the
+monoid structure).
+
+Identity arrows are the usual identity functions and composition is the usual
+function composition.
+
+We can check that composition of monoid homomorphisms always produces a monoid
+homomorphism. Assume we have monoids
+\[
+  (M_1, \shortmid_1, \star_1)
+  \enspace,\quad
+  (M_2, \shortmid_2, \star_2)
+  \enspace,\quad
+  (M_3, \shortmid_3, \star_3)
+  \enspace.
+\]
+and let $f : M_1 \rightarrow M_2$ and $g : M_2 \rightarrow M_3$ be monoid
+homomorphisms.
+
+Then,
+\[
+  \big(g\comp f\big)(\shortmid_1)
+  \ = \ g\big(f(\shortmid_1)\big)
+  \ = \ g(\shortmid_2)
+  \ = \ \shortmid_3
+\]
+and, for $x, y \in M_1$,
+\begin{align*}
+  \big(g \circ f\big)(x \star_1 y)
+  & = g \big(f (x \star_1 y)\big)
+    & \text{(definition of function composition)}\\
+  & = g \big(f (x) \star_2 f (y)\big) & \text{($f$ is a monoid homomorphism)}\\
+  & = g\big(f(x)\big) \star_3 g\big(f(y)\big)
+    & \text{($g$ is a monoid homomorphism)}\\
+  & = \big(g \circ f\big)(x) \star_3 \big(g \circ f\big)(y)
+    & \text{(definition of function composition)}
+\end{align*}
+
+\subsection{Preorders}
+
+$\catpreo$ is a category whose objects are preorders $(P, \le_P)$ and whose
+morphisms are monotone functions.
+
+For preorders $(P, \le_P)$ and $(Q, \le_Q)$, a function
+\[f : P \rightarrow Q\]
+is \emph{monotone} when, for every $x, y \in P$,
+$x \le_P y \implies f(x) \le_Q
+f(y)$.
+
+In this category, $\id{}$ and $\circ$ are as in $\catset$.
+
+\subsection{Partial Orders}
+
+$\catposet$ is a category whose objects are partial orders and whose morphisms
+are monotone functions.
+
+Notice that $\catposet$ is a \emph{subcategory} of $\catpreo$.
+
+\begin{framed}
+  \begin{definition} Subcategory
+
+    A subcategory $\mathcal S$ of a category $\mathcal C$ is specified by
+    \begin{itemize}
+    \item $\Ob(\mathcal S) \subseteq \Ob(\mathcal C)$ and
+    \item $\Arr(\mathcal S) \subseteq \Arr(\mathcal C)$
+    \end{itemize}
+    with identities and composition in $\mathcal S$ as in $\mathcal C$. $\Ob$ is
+    defined as above, and $\Arr$ is the set of ``arrows'' or morphisms in
+    $\mathcal S$.
+  \end{definition}
+\end{framed}
+
+\subsection{Finite sets}
+
+$\catfinset$ is the subcategory of $\catset$ whose objects are \emph{finite}
+sets.
+
+\subsection{Bijections}
+
+$\catbij$ is the subcategory of $\catfinset$ whose morphisms are all bijections.
+
+Notice that, relative to $\catset$, $\catfinset$ cut down the objects but kept
+the morphisms; and, relative to $\catfinset$, $\catbij$ cut down morphisms but
+kept the objects.
+
+\subsection{Relations}
+
+$\catrel$ is a category whose objects are sets and whose arrows are relations
+between sets:
+
+\[\catrel(A, B) = \setof{\, R \;|\; R \subset A \times B \,}\]
+
+Identities are given by the identity relations, relating every element to
+itself:
+
+\[\id A = \setof{\, (a, a) \;|\; a \in A \,}\]
+
+and composition is relational composition:
+
+\[
+  R \circ_{A,B,C} S
+  =
+  \bigsetof{\,
+    (a, c) \;|\; \exists b \in B.\; (a, b) \in S \wedge (b, c) \in R
+  \,}
+\enspace.
+\]
+
+Notice that $\catset$ is a subcategory of $\catrel$. In fact, there is an
+intermediate category $\catpfn$ whose morphisms are \emph{partial} functions.
+
+\subsection{Predicates}
+
+$\catpred$ is the category whose objects are pairs $(S, P)$ of a set $S$ and a
+predicate on $S$, $P \subseteq S$. Its morphisms are functions that respect
+the predicates, \ie
+
+\[(S_1, P_1) \morpharr{f} (S_2, P_2)\]
+
+is a function $f : S_1 \rightarrow S_2$ such that
+
+\[\forall x \in S.\; x \in P_1 \implies f(x) \in P_2 .\]
+
+Identity and composition are as for functions.
+
+\section{Exercises}
+
+Recall the following universal property from Lecture~1:
+
+\begin{center}
+\begin{tikzcd}
+    {} & P \arrow[ld, swap, "\alpha"] \arrow[rd, "\beta"] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} &
+    \stackrel{\mbox{$C$}}{\forall}
+    \arrow[uu, dashed, "\exists!"]
+    \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
+\end{tikzcd}
+\end{center}
+
+Before, we stipulated that $P, A, B, C$ were sets and $\alpha, \beta, f, g$
+were functions. However, we can generalize those assertions and instead work
+in an arbitrary category $\mathcal C$; so that $P, A, B, C$ are objects of
+$\mathcal C$ and $\alpha, \beta, f, g$ are arrows of $\mathcal C$ between the
+respective objects.
+
+\begin{exercise}
+  In $\catset$, we can take
+  $P = A \times B\eqdef \bigsetof{\, (a,b) \suchthat a\in A \wedge b\in B \,}$,
+  $\alpha = \pi_1: (a,b)\mapsto a$ and $\beta = \pi_2: (a,b)\mapsto b$ as the
+  final solution.  Check it out!
+
+  What happens for the other categories described in this lecture? (Note that in
+  some of the categories there will be no solution.) In particular, have a look
+  at $\catmon$, $\catpreo$, $\catpred$, and $\catrel$.
+\end{exercise}

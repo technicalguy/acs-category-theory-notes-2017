@@ -1,0 +1,473 @@
+\chapter{More universal problems}
+\lecturedetails{10 October 2017}{M Fiore, A Ivašković, O Richardson }
+
+The start of this lecture will provide some hints for the exercises from
+Lecture 1.  We continue with a few more examples aimed at providing
+mathematical background and building intuition.  Forming intuition is
+important because there is no general method for finding universal initial and
+final solutions.
+
+\section{Hints To Exercises}
+
+\subsection{Adding two sets}
+
+Recall that in Exercise~\ref{ex:addsets}, we were looking for a universal
+initial solution to adding sets $A$ and $B$:
+\begin{center}
+  \begin{tikzcd}
+      {} & S \arrow[dd, dashed, "\exists! u"] & {} \\
+      A \arrow[ru, "\alpha"] \arrow[rd, swap, "f"]
+      & {}
+      &
+      B \arrow[lu, swap, "\beta"] \arrow[ld, "g"]
+      \\
+      {} & C & {}
+  \end{tikzcd}
+\end{center}
+for all sets $C$, and functions $f$ and $g$.
+
+When dealing with a problem we do not know immediately how to solve, it might be
+useful to somehow `simplify' it in order to get some insight --- but not so much
+that we lose all structural information.
+
+Consider a special instance of this problem, where $B$ is a singleton set
+$\setof{\ast}$:
+
+\begin{center}
+  \begin{tikzcd}
+      {} & S & {} \\
+      A \arrow[ru]
+      & {}
+      &
+      \setof{\ast} \arrow[lu]
+  \end{tikzcd}
+\end{center}
+
+Note that $\setof{\ast} \to S$ is mapping $\ast$ to some element in $S$, and
+overall this represents the problem of adding an element to $A$
+(Subsection~\ref{add-element-set}). We want to make sure that there is a unique
+mapping to any other solution $C$, as illustrated below.
+
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[dd, dashed, "\exists!"] & {} \\
+    A \arrow[ru] \arrow[rd]
+    & {}
+    &
+    \setof{\ast} \arrow[lu] \arrow[ld]
+    \\
+    {} & C & {}
+\end{tikzcd}
+\end{center}
+
+Here $S$ has to preserve the structure of $A$ and be augmented with an
+additional element in some way. The image of elements of $A$ in $S$ have to be
+distinct from the image of $\ast$, since otherwise there would not be a unique
+way of representing the two in $C$. This is a map $a \mapsto [a]$ for $a \in A$.
+Compare this to the previous problem, where we considered
+$A \to A_\ast = \setof{\ast} \union \bigsetof{[x] \suchthat x \in A}$.
+
+Taking this `tagging' idea further and generalising, we may consider the set:
+\begin{equation*}
+A \uplus B = \bigsetof{(0, a) \suchthat a \in A} \union
+\bigsetof{(1, b) \suchthat b \in B}
+\end{equation*}
+
+We claim that $S$ should be $A \uplus B$, and that $\alpha: a \mapsto (0, a)$,
+$\beta: b \mapsto (1, b)$ should be the maps for the initial solution.
+
+\begin{exercise}
+Show that this is indeed an initial solution.
+\end{exercise}
+
+\subsection{The dual problem}
+
+In Exercise~\ref{ex:dual}, we were asked to find the dual solution to that
+described previously:
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} & C \arrow[uu, dashed, "\exists!"] \arrow[lu, "f"] \arrow[ru, swap, "g"] & {}
+\end{tikzcd}
+\end{center}
+
+This is a more involved problem than adding two sets, and simplifications might
+not immediately reveal what needs to be done. Even so, to give hints, we will test
+different structures for $B$ to gain some intuition.
+
+First, consider $B$ to be a singleton set, $B = \nelem{1}$, where one
+typically writes $\nelem{1}$ for a generic singleton set.  Then the problem
+becomes:
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    \nelem{1}
+    \\
+    {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
+\end{tikzcd}
+\end{center}
+
+There is only one function $X \to \nelem{1}$ and only one function $S \to
+\nelem{1}$ (they both map everything to the only element of $\nelem 1$), so
+the problem is reduced to:
+\begin{center}
+\begin{tikzcd}
+    {} & S \arrow[ld] \\
+    A
+    & {} \\
+    {} & X \arrow[uu, dashed] \arrow[lu]
+\end{tikzcd}
+\end{center}
+
+and the final solution to this is clear:
+$$
+\begin{tikzcd}
+    {} & A \arrow[ld, swap, "\id{A}"] \\
+    A
+    & {} \\
+    {} & X \arrow[uu, dashed, "\exists! f"] \arrow[lu, "\forall f"]
+\end{tikzcd}
+$$
+
+In general let's say $S$ is of the form $A \circledast B$ for some
+construction $\circledast$, where for $B = \nelem{1}$ we can take
+$A \circledast B$ to be $A$ (\ie~the structure matches that of of $A$).
+
+What if $B = \emptyset$?
+$$
+\begin{tikzcd}
+    {} & A \circledast \emptyset \arrow[ld] \arrow[rd] & {} \\
+    A
+    & {}
+    &
+    \emptyset
+    \\
+    {} & X \arrow[uu, dashed] \arrow[lu] \arrow[ru] & {}
+\end{tikzcd}
+$$
+This is only possible and valid when $A \circledast \emptyset = \emptyset$
+because there are no functions from a nonempty set into an empty set. Also
+recall that there is only one function from $\emptyset$ to any other set --
+namely the empty function (the function with the empty graph).
+
+Now, what if $B = \setof{0, 1} = \nelem{2}$ --- namely, what should $A
+\circledast \nelem{2}$ be? This step gives some insight into the general
+solution.
+
+\section{Isomorphism of initial solutions}
+
+Recall that in our initial solution to the problem of generating a monoid
+from a set, we actually found a number of different solutions, all of which
+seemed somehow structurally similar:
+
+\begin{enumerate}
+
+\item $S \to \mathrm{List}(S)$, where $\mathrm{List}(S)$ is the monoid of lists
+whose items have values drawn from $S$, with the empty list $[]$ being the
+neutral element and the append operator \texttt{@} being the binary
+operation.
+
+\item $S \to S^\ast$, where $S^\ast$ is the set of all strings/words on $S$.
+This is a monoid if the neutral element is $\epsilon$ (the empty word) and the
+operation is string concatenation $\cdot$\,.
+
+\item For $n \in \nats$ define $S_n$ in the following way:
+\[
+S_0 = \bigsetof{ \big(0, ()\big) }
+\]
+and for $n > 0$:
+\[
+S_n
+= \bigsetof{\big(n, (s_1, \ldots, s_n)\big) \suchthat s_1, \ldots, s_n \in S}
+\]
+
+Then $\bigcup_{n\in\nats} S_n$ is a monoid with the operation $\cdot$ defined
+as:
+\[
+\big(l, s_1, \ldots, s_l)\big)
+\cdot
+\big(k, (s_1^\prime, \ldots, s_k^\prime)\big)
+=
+\big(l + k, (s_1, \ldots, s_l, s_1^\prime, \ldots, s_k^\prime)\big)
+\]
+and with $\big(0, ()\big)$ being the neutral element.
+
+\end{enumerate}
+
+Each of these solutions are indeed `essentially the same' and this is a
+fundamental property of universal solutions. This concept (isomorphism)
+will be defined properly once we start dealing with category theory, but for
+now we can still prove that two initial solutions of the kind we've been
+dealing with are isomorphic, \ie~that they are in structural bijective
+correspondence.
+
+Given two initial solutions $M$~(Mine) and $Y$~(Yours), diagrammatically:
+$$
+\begin{tikzcd}
+    S \arrow[r, "m"] \arrow[rd, swap, "y"]
+    \arrow[rdd, swap, bend right = 20, "m"] &
+    M \arrow[d, dashed, "\exists! u"] \\
+    {} & Y \arrow[d, dashed, "\exists! v"] \\
+    {} & M
+\end{tikzcd}
+$$
+
+Note that we have also:
+$$
+\begin{tikzcd}
+    S \arrow[r, "m"] \arrow[rd, swap, "m"] &
+    M \arrow[d, dashed, "\exists! \id{M}"] \\
+    {} & M
+\end{tikzcd}
+$$
+
+Thus $v \comp u = \id{M}$. Analogously we conclude that $u \comp v = \id{Y}$
+because:
+$$
+\begin{tikzcd}
+    S \arrow[r, "y"] \arrow[rd, swap, "m"]
+    \arrow[rdd, swap, bend right = 20, "y"] &
+    Y \arrow[d, dashed, "\exists! v"]
+    \arrow[dd, dashed, bend left = 80, "\exists! \id{Y}"] \\
+    {} & M \arrow[d, dashed, "\exists! u"] \\
+    {} & Y
+\end{tikzcd}
+$$
+
+From this we conclude that \textit{any two initial solutions are isormorphic}:
+$$
+\begin{tikzcd}
+    M \arrow[r, bend left = 20, "u"] \arrow[loop left, "\id{M}"] &
+    Y \arrow[l, bend left = 20, "v"] \arrow[loop right, "\id{Y}"]
+\end{tikzcd}
+$$
+
+From the perspective of computer science, one may think of universal problems
+as implementation-independent specifications for which concrete solutions
+provide actual implementations, all of which have to necessarily be
+essentially the same --- structure should be preserved regardless of the
+underlying implementation (it doesn't matter whether we're dealing with
+strings, lists, \etc).
+
+\begin{exercise}
+From a set $S$ generate a \textit{commutative} monoid $M$, \ie~one that
+satisfies $x \cdot y = y \cdot x$ for all $x, y \in M$ --- find the initial
+solution.
+\end{exercise}
+\begin{proof}[Solution]
+The intuition behind the solution is that the free commutative monoid on a set
+is given by its \emph{set of finite multisets}.  Here is a formal
+implementation of this idea.
+
+Let $\approx$ be the binary relation on
+$S^\ast \,\eqdef\, \bigcup_{\ell\in\nats}\setof{\ell} \times S^\ell$ given by
+\begin{align*}
+  & \big(i,(s_1,\ldots,s_i)\big)
+  \approx
+  \big(j,(t_1,\ldots,t_j)\big)
+  \\
+  \iff &
+  \\
+  &
+  \text{ there exists a bijection }
+  \sigma: \setof{1,\ldots,i}\to\setof{1,\ldots,j}
+  \text{ such that } s_k = t_{\sigma(k)} \text{ for all } k = 1,\ldots,i
+  \enspace.
+\end{align*}
+
+$\blacktriangleright$ Show that $\approx$ is an equivalence relation.
+
+Define the set
+\[
+  \mathcal M_f(S) \ \eqdef \ S^\ast_{\,\raisebox{0mm}{$/\!\approx$}}
+  \enspace.
+\]
+
+$\blacktriangleright$ Show that
+\begin{align*}
+  &\big(i,(s_1,\ldots,s_i)\big)
+  \approx
+  \big(i',(s'_1,\ldots,s'_{i'})\big)
+  \text{ and }
+  \big(j,(t_1,\ldots,t_j)\big)
+  \approx
+  \big(j',(t'_1,\ldots,t'_{j'})\big)
+  \\
+  &\text{imply }
+  \big(i+j,(s_1,\ldots,s_i,t_1,\ldots,t_j)\big)
+  \approx
+  \big(i'+j',(s'_1,\ldots,s'_{i'},t'_1,\ldots,t'_{j'})\big)
+  \enspace.
+\end{align*}
+
+We therefore have a binary operation
+$\oplus: \mathcal M_f(S) \times \mathcal M_f(S) \to \mathcal M_f(S)$ given by
+\[
+  \big[\big(i,(s_1,\ldots,s_i)\big)\big]_\approx
+  \oplus
+  \big[\big(j,(t_1,\ldots,t_j)\big)\big]_\approx
+  \ \eqdef \
+  \big[\big(i+j,(s_1,\ldots,s_i,t_1,\ldots,t_j)\big)\big]_\approx
+\]
+
+$\blacktriangleright$ Prove that
+\[
+  \big(\
+    \mathcal M_f(S)
+    \ , \
+    \bigsetof{\,\big( 0 , (\,)\big)\,}
+    \ , \
+    \oplus
+    \ \big)
+\]
+is a commutative monoid.
+
+We claim that the function
+\[
+  \iota: S \to \mathcal M_f(S) : s \mapsto \bigsetof{\,\big(1,(s)\big)\,}
+\]
+is an initial universal solution.
+
+To this end, consider a commutative monoid $(M,\shortmid,\ast)$ and a function
+$f:S\to M$.
+
+$\blacktriangleright$ Prove that
+\[
+  \big(i,(s_1,\ldots,s_i)\big)
+  \approx
+  \big(i',(s'_1,\ldots,s'_{i'})\big)
+  \implies
+  \ast_i\big(f(s_1),\ldots,f(s_i)\big)
+  =
+  \ast_{i'}\big(f(s_1),\ldots,f(s'_{i'})\big)
+\]
+where $\ast_0(\,) \eqdef\ \shortmid$ and, for $n\in\nats$,
+$\ast_{n+1}(x_1,\ldots,x_n,x_{n+1})\eqdef \ast_n(x_1,\ldots,x_n)\ast x_{n+1}$.
+
+We therefore have a function $f^\#: \mathcal M_f(S)\to M$ given by
+\[
+  f^\#\big(i,(s_1,\ldots,s_i)\big)
+  \eqdef
+  \ast_i\big( f(s_1),\ldots,f(s_i)\big)
+  \enspace.
+\]
+
+$\blacktriangleright$ Prove that $f^\#$ is a monoid homomorphism.
+
+Assume that $h:\mathcal M_f(S)\to M$ is a monoid homomorphism such that
+$h\comp\iota=f$.
+
+$\blacktriangleright$ Prove that $h=f^\#$.
+\end{proof}
+
+\begin{exercise}
+From a set $S$ generate a commutative and \textit{idempotent} monoid $M$ \ie~one
+that also satisfies $x \cdot x = x$ for all $x \in M$ --- find the initial
+solution.
+\end{exercise}
+
+\section{Orders and lattices}
+
+For a set $P$ and $\leq\ \subseteq P \times P$ a binary relation, we will
+consider the following properties.
+
+\begin{definition}
+Reflexivity, transitivity, antisymmetry
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item $\leq$ is \textit{reflexive} if $\forall a \in P.\quad a \leq a$
+    \item $\leq$ is \textit{transitive} if
+      $\forall a,b,c \in P. \quad a \leq b \wedge b \leq c \Rightarrow a \leq c$
+    \item $\leq$ is \textit{antisymmetric} if $\forall a,b \in P. \quad
+      a \leq b \wedge b \leq a \Rightarrow a = b$
+\end{itemize}
+\end{definition}
+
+There is standard terminology for binary relations subject to such axioms.
+
+\begin{definition} Partial orders and preorders
+\begin{itemize}[noitemsep,topsep=0pt]
+\item $(P, \leq)$ is a \emph{preorder} (or \emph{quasiorder}) if $\leq$ is
+reflexive and transitive
+\item $(P, \leq)$ is a \emph{partial order} if is a preorder ($\leq$ is
+  reflexive and transitive) and $\leq$ is also antisymmetric
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+A partial order $(P, \leq)$ equipped with an associative, commutative, and
+idempotent binary operation $\lor$, typically referred to as \emph{join} (or
+\emph{sup}), that satisfies $x \leq y \iff x \vee y = x$ is a \emph{join (or
+sup) semilattice}.
+
+(It may also have a least (or bottom) element $\bot \in L$ satisfying
+$\forall x \in L,~\bot\lor x = \bot$.)
+\end{definition}
+
+\subsection{Exercises}
+
+We can now consider the problem of generating a join semilattice.  For a set
+$S$, we want to freely construct a join
+semilatice~$(\widetilde S,\vee_{\widetilde S})$ as follows:
+% Create an example environment?
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "\iota"] \arrow[dr, swap, "\forall\ f"] \&
+        \tilde{S}
+        \arrow[d, "\exists ! f^\#"]
+        \& (\widetilde{S},\lor_{\widetilde{S}})
+        \arrow[d, "\text{$f^\#$ a homomorphism}"]
+        \& \text{a universal initial join semilatice}
+        \\
+        {}
+        \& L \& (L,\lor_L) \& \text{any join semilatice}
+    \end{tikzcd}\\[2mm]
+    \text{where $h$ must preserve structure,
+      \ie~$f^\#(x\lor_{\tilde{S}} y) = f^\#(x) \lor_L f^\#(y)$}
+\end{center}
+The exercise is to find the initial solution here, but we will start with some
+intuition. The join semilatice generated from $S$ must contain each element
+$x\in S$. Similarly, for any two, three, or, more generally, any finite
+number of distinct elements of $S$, it must contain the join or union of all
+of them.  Since the operator is commutative, the order doesn't matter, and
+since it's idempotent, only one copy of each element of $S$ can exist. The
+picture looks something like this:
+\begin{align*}
+&
+&
+x  & \quad\leftrightarrow\quad \setof{x} \subseteq S
+\\
+& x\not= y
+& x \lor y & \quad\leftrightarrow\quad \setof{x,y} \subseteq S
+\\
+& x\not= y \not= z \not= x
+&
+x \lor y \lor z & \quad\leftrightarrow\quad \setof {x,y,z} \subseteq S
+\\
+& &
+& \,\enspace\quad\vdots &
+\\
+&
+x_i \not= x_j\ \forall i,j
+& x_1 \lor \cdots \lor x_n & \quad\leftrightarrow\quad \setof{x_1, \ldots, x_n}
+\subseteq S
+\end{align*}
+
+Thus, we might guess that the universal initial solution $\widetilde{S}$ is
+the collection of finite subsets of $S$: $\mathcal{P}_{\mathrm{fin}}(S) =
+\setof{X \suchthat
+X \subseteq_\mathrm{fin} S}$, with the join operator $X \lor Y = X \cup Y$.
+This is close, but not entirely correct.
+
+\begin{exercise}
+There is a `bug' in the above proposed solution. Find the actual initial
+solution.\label{ex:bug}
+\end{exercise}
+

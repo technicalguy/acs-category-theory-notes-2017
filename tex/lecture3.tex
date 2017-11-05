@@ -1,0 +1,523 @@
+\chapter{Even more universal problems}
+\lecturedetails{12 October 2017}{M Fiore, S Borgeaud, R Kusztos}
+
+In this lecture we introduce mathematical terminology and concepts to then
+consider more interesting universal properties.
+
+We begin by further analysing the definitions of joins and meets.
+
+\section{Joins and Meets}
+
+Consider $(P, \leq)$ to be a preorder. For any subset $S \subseteq P$ we can
+define $\bigvee S$, which is known as the \emph{join}, \emph{sup} (supremum),
+or \emph{lub} (least upper bound) of the subset $S$, as well as $\bigwedge S$,
+the \emph{meet}, \emph{inf} (infimum) or \emph{glb} (greatest lower bound)  of
+the subset $S$.
+
+\begin{definition}[Joins]
+\label{defjoins}
+    For a subset $S \subseteq P$, if it exists, $\bigvee S \in P$ is the join
+    of S if it satisfies the universal properties:
+        \begin{enumerate}
+            \item $\forall x \in S$ it must be the case that $x \leq \bigvee S$
+            \item $\forall u \in P$ we have $(\forall x \in S \ldotp x \leq u)
+                \Rightarrow \bigvee S \leq u$
+        \end{enumerate}
+\end{definition}
+
+The concept of a meet is dual to that of a join, so the definition is obtained
+by reversing the preorder.
+
+\begin{definition}[Meets]
+\label{defmeets}
+    For a subset $S \subseteq P$, if it exists, $\bigwedge S \in P$ is the meet
+    of S if it satisfies the universal properties:
+    \begin{enumerate}
+    \item $\forall x \in S$ it must be the case that $ \bigwedge S \leq x$
+    \item $\forall l \in P$ we have $(\forall x \in S \ldotp l \leq x)$, $
+      \Rightarrow l \leq \bigwedge S$
+    \end{enumerate}
+\end{definition}
+For a better understanding of these universal properties, we can consider some
+special cases:
+\begin{itemize}
+\item $S = \{a, b\}$, we can use the notations $\bigvee S = (a \vee b)$ and,
+  analogously $\bigwedge S = (a \wedge b)$
+\item $S = \{a\}$. In this case, we are guaranteed that the meet and join exist:
+  $\bigvee S = \bigwedge S = a$
+\item $S = \emptyset$. Considering the definition of joins, the first property
+  becomes true due to the inability to pick an $x \in S$. With the same
+  reasoning, the second property reduces to $\forall u \in P \Rightarrow \bigvee
+  S \leq u$. Therefore the solution is $\bigvee S = \bot$, the bottom element in
+  P. Analogously, $\bigwedge S = \top$, the top element of P.
+\end{itemize}
+
+We can relate the case where S has two elements, $S = \{a, b\}$ to previous
+examples by analysing them categorically.
+
+For $S = \{a, b\}$, we can write the universal property as a commutative diagram
+
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        {} \& a \vee b \arrow[dd, dashed, "\exists ! "] \& {} \\
+        a \arrow[ru, "\leq"] \arrow[rd, swap]
+        \& {}
+        \&
+        b \arrow[lu, swap, "\leq"] \arrow[ld]
+        \\
+        {} \& c \& {}
+    \end{tikzcd}
+\end{center}
+
+If instead of $\leq$ we would write $\rightarrow$, we can interepret the
+diagram in the world of sets and functions, obtaining the properties of the
+disjoint union of sets.
+
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        {} \& A \uplus B \arrow[dd, dashed, "\exists ! "] \& {} \\
+        A \arrow[ru] \arrow[rd, swap]
+        \& {}
+        \&
+        B \arrow[lu, swap] \arrow[ld]
+        \\
+        {} \& C \& {}
+    \end{tikzcd}
+\end{center}
+
+Since we picked an arbitrary subset of P, we can apply this reasoning to
+the world of sets and functions, by introducing a universal initial solution
+for the problem of adding a family of sets.
+
+\subsection{Adding families of sets}
+
+Given a family of sets $\setof{A_i}_{i\in I}$ \big(also denoted as
+$\setof{ A_i \suchthat i \in I }$ or $(A_i\suchthat i\in I)$\big) indexed by a
+set $I$, we seek:
+\begin{itemize}
+\item
+  a set $\biguplus_{i \in I} A_i$ and a family of functions
+  $\setof{ in_k: A_k\to \biguplus_{i \in I} A_i }_{k\in I}$ such that,
+\item
+  for every set $C$ and family of functions
+  $\setof{ f_k: A_k\to C }_{k\in I}$, there is a unique $u$ such that the
+  diagram below commutes for all $k\in I$:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        {} \& \biguplus_{i \in I} A_i \arrow[dd, dashed, "\exists ! u"] \& {} \\
+        A_k \arrow[ru, "in_k"] \arrow[rd, swap, "f_k"]
+        \& {}
+        \\
+        {} \& C \& {}
+    \end{tikzcd}
+\end{center}
+\end{itemize}
+
+An example of such initial universal solution is given by
+\[ \biguplus_{i \in I} A_i \,=\, \bigcup_{i \in I}\ \{i\} \times A_i \]
+In which case the functions $in_k$ are given by
+\[ in_k(x) = (k, x)\]
+
+We can try to find further analogies in the case where P is a poset. Consider
+the following properties of joins in a poset: $\forall a, b, c \in P \ldotp$
+\begin{align*}
+    a \vee b &= b \vee a \\
+    (a \vee b) \vee c &= a \vee (b \vee c) \\
+    a \vee a &= a \\
+\end{align*}
+
+We can try to reinterpret these equations in the world of sets and functions,
+by replacing $\vee$ (join) with $\uplus$~(sum) and equality with $\cong$
+(isomorphism).  We obtain:
+\begin{align*}
+    A \uplus B &\cong B \uplus A  \\
+    (A \uplus B) \uplus C &\cong A \uplus (B \uplus C) \\
+    A \uplus A &\ncong A \\
+\end{align*}
+
+Note that \emph{idempotency} is a property particular to posets, because the
+arrows~(\ie, the $\leq$ relation) between elements of a poset is unique.
+However, we always have:
+\begin{center}
+  $A \to A\uplus A$
+  \quad and \quad
+  $A\uplus A \to A$
+  \enspace.
+\end{center}
+
+\begin{exercise}
+    Construct the bijections from the universal properties. \\
+    Hint: For the first property, recall that
+    \begin{align*}
+        A \uplus B &= (\{0\} \times A) \cup (\{1\} \times B)
+    \end{align*}
+    Thus we can define the bijections:
+    \begin{align*}
+        (0, a) &\mapsto (1, a)  \\
+        (1, b) &\mapsto (0, b)
+    \end{align*}
+\end{exercise}
+
+\section{Solution for Exercise \ref{ex:bug}}
+
+Consider whether the following holds:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "x \mapsto \{x\}"] \arrow[dr, swap, "\forall\ f"] \&
+        \mathcal{P}_{\mathrm{fin}}(S) \arrow[d, "\exists ! h"]
+        \& (\mathcal{P}_{\mathrm{fin}}(S), \cup)
+        \arrow[d, "\text{$h$homomorphism}"]
+        \&
+        \\
+        {}
+        \& L \& (L, \vee) \&
+    \end{tikzcd}\\[2mm]
+\end{center}
+Since this diagram commutes
+\begin{align*}
+    h(\{x_1, x_2 ..., x_n \}) = f(x_1) \vee f(x_2) \vee ... f(x_n)
+    \qquad (n\in\nats)
+\\
+\intertext{Since}
+    \{x_1, x_2 ..., x_n \} = \bigcup_i \{x_i\}
+\intertext{and}
+    h\big(\bigcup_i \{x_i\}\big) = \bigvee_i h(\{x_i\})
+\intertext{we get that}
+    f(x_i) = h(\{x_i\})
+\end{align*}
+
+Since this is not defined for the empty set, we need restrict our $\tilde{S}$
+to be $\mathcal{P}_{\mathrm{fin}}^{+}(S)$
+
+\section{Suplattice}
+
+\begin{definition}
+A suplattice is a poset $(L, \le)$ with the property that there exists a join
+${\bigvee}S$ for every subset $S \subseteq L$.
+\end{definition}
+
+Note, that as $\emptyset \subseteq L$, a suplattice always has a least
+element.
+
+Consider the following problem,
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r] \arrow[dr, swap, "\forall\ f"] \&
+        \tilde{S} \arrow[d, "\exists ! h"] \&
+        (\tilde{S},\bigvee_{\tilde{S}}) \arrow[d, "h"] \&
+        \text{a suplattice}
+        \\
+        \&
+        L \&
+        (L,\bigvee_L) \&
+        \text{a suplattice}
+    \end{tikzcd} \\[3mm]
+    \text{where $h$ must preserve structure, \ie}
+      \[
+        \forall X \subseteq S\ldotp
+          h(\bigvee_{\tilde{S}}X) = \bigvee_L \setof{h(x) \suchthat x \in X}
+      \]
+\end{center}
+
+\begin{exercise}
+    Show that for $\widetilde{S} = \mathcal{P}(S)$ with
+    $\bigvee_{\widetilde{S}}=\bigcup$ the function
+    $S \to \widetilde{S}: x \mapsto \setof{ x }$ is an initial solution.
+\end{exercise}
+
+\section{Two more universal problems}
+
+\subsection{Problem 1}
+
+For $S$ a set, consider
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        s \in S \arrow[r, "\sigma"] \&
+        S \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+How can we compare two such gadgets $(s_1, S_1, \sigma_1)$ and $(s_2, S_2, \sigma_2)$?
+We need a function $f: S_1 \to S_2$ such that
+\begin{enumerate}
+    \item $f(s_1) = s_2$
+    \item $\forall x \in S \ldotp f(\sigma_1(x)) = \sigma_2(f(x))$
+\end{enumerate}
+We can express the second condition in the usual diagrammatic notation as
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            S_1 \arrow[r, "f"] \arrow [d, "\sigma_1"] \&
+            S_2 \arrow[d, "\sigma_2"] \&
+               \\
+            S_1 \arrow[r, "f"] \&
+            S_2 \&
+        \end{tikzcd} \\[3mm]
+    \end{center}
+
+\subsubsection{Similarity to the problem on monoids}
+
+Note that this problem is not too different from problem
+\ref{section_generate_monoid} for monoids. Recall, a monoid $(M, e, \star)$
+consists of a set $M$, a neutral
+element $e \in M$ and a binary operation $\star: M\times M \to M$.
+Homomorphisms between $(M_1,e_1,\star_1)$ and $(M_2,e_2,\star_2)$ are
+functions $h: M_1 \to M_2$ such that \[ h(e_1) = e_2 \]
+and
+    \[ h(x \star_1 y) = h(x) \star_2 h(y) \]
+Rewriting the second condition as a diagram, the connection between the two
+problems arises:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        M_1 \times M_1 \arrow[r, "h \times h"] \arrow [d, "\star_1"] \&
+        M_2 \times M_2 \arrow[d, "\star_2"] \&
+           \\
+        M_1 \arrow[r, "h"] \&
+        S_2 \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+where
+\[\big(h \times h\big)(x,y) = \big(h(x), h(y)\big)\]
+
+\subsubsection{Intuition}
+For the intial solution of the posed problem on sets, we need the following
+\[s \in S \]
+\[\sigma(s) \in S \]
+Thus, as $\sigma(s) \in S$, we need to add
+\[\sigma(\sigma(s)) \in S\]
+and similarly, we need to add the following elements
+\[\sigma(\sigma(\sigma(s))) \in S\]
+\[\vdots\]
+This structure suggests a connection to the natural numbers $\nats$.
+\begin{exercise}
+    Show that
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            0 \in \nats \arrow[r, "\mathrm{succ}"] \&
+            \nats \&
+        \end{tikzcd} \\[3mm]
+    \end{center}
+    is the initial solution. That is the natural numbers $\nats$ with 0 and
+    the successor function $\mathrm{succ} = \lambda x\in\nats.\ x + 1$.
+\end{exercise}
+\begin{proof}[Solution]
+    We want to show that there is a unique $h: \nats \to S$ such that for any
+    data
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            s \in S \arrow[r, "\sigma"] \&
+            S \&
+        \end{tikzcd}
+    \end{center}
+    the following diagram commutes:
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            0 \arrow[d, mapsto, "h"] \& \in \&
+            \nats \arrow[r, "\mathrm{succ}"] \arrow[d, "h"] \&
+            \nats \arrow[d, "h"] \\
+            s \& \in \& S \arrow[r, "\sigma"] \& S
+        \end{tikzcd}
+    \end{center}
+    That is, we want to have $h \comp \mathrm{succ} = \sigma \comp h$ and
+    $h(0) = s$.
+
+    Consider the map $h(n) = \sigma^n (s)$, where $\sigma^0(s)\eqdef s$ and
+    $\sigma^{n+1}(s)\eqdef\sigma\big(\sigma^n(s)\big)$.  It is clear that
+    $h(0) = s$; also, for every $n \in \nats$,
+    \[ (h \comp \mathrm{succ})(n) = h(n+1) = \sigma^{n+1}(s) =
+    \sigma(\sigma^{n}(s)) = (\sigma \comp h)(n) \]
+    and therefore $h \comp \mathrm{succ} = \sigma \comp h$.
+
+    Let us show that $h$ is unique with the above property, \ie~for any
+    $k:\nats\to S$ such that $k(0) = s$ and $k \comp \mathrm{succ} = \sigma
+    \comp k$ we have $k = h$, by establishing that, for all $n \in \nats$,
+    $k(n) = \sigma^{n} (s)$ by induction:
+
+    \begin{itemize}
+
+    \item When $n=0$, we have $k(0) = s = \sigma^0(s)$ by assumption.
+
+    \item Assume that $k(n) = \sigma^n(s)$ for $n \in \nats$, and consider
+    $k(n+1)$:
+    \[ k(n + 1) = (k \comp \mathrm{succ})(n) = (\sigma \comp k)(n) =
+    \sigma(k(n)) = \sigma(\sigma^{n}(s)) = \sigma^{n+1}(s) \]
+    Thus, $k(n + 1) = \sigma^{n + 1}(s)$.
+
+    \end{itemize}
+
+    By induction, we conclude $k(n) = h(n)$ for all $n\in\nats$; so that
+    $k = h$, and the function is unique.  Therefore this is the initial
+    solution.
+\end{proof}
+
+
+\subsubsection{Relation to automata theory}
+
+This problem can be seen from an automata-theoretic point of view, $s$ being
+the start state and $\sigma$ the transition function. Unfortunately, due to
+time constraints, we will not be exploring this relation further in the
+course.
+
+\subsection{Problem 2}
+Consider the following gadget for $S$ a set
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \&
+        \{0,1\} \&
+        \\
+        S \arrow[ur, "\theta"] \arrow[r, "\sigma"]\&
+        S
+    \end{tikzcd} \\[3mm]
+\end{center}
+We compare two such gadgets $(S_1, \theta_1, \sigma_1)$ and $(S_2, \theta_2, \sigma_2)$
+with the function $h: S_1 \to S_2$ such that
+\begin{enumerate}
+    \item $\theta_2 \comp h = \theta_1$
+    \item $\sigma_2 \comp h = h \comp \sigma_1$
+\end{enumerate}
+Diagrammatically, this is equivalent to
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \&
+        \{0,1\}
+        \&
+        \&
+        \&
+        \\
+        S_1
+        \arrow[ur, "\theta_1"]
+        \arrow[d, swap, "\sigma_1"]
+        \arrow[rr, "h"]
+        \&
+        \&
+        S_2
+        \arrow[ul, swap, "\theta_2"]
+        \arrow[d, "\sigma_2"]\&
+        \\
+        S_1 \arrow[rr,"h"]
+        \&
+        \&
+        S_2 \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+\subsubsection{Relation to automata theory}
+Again, we can view this problem from an automata point of view. As before, $S$
+is the set of states and $\sigma$ is the transition function. Additionally, we
+have $\theta$ which acts as an observing (or output) function that accepts a
+state $s \in S$ if $\theta(s) = 1$ and rejects it otherwise.
+
+The mapping $h$ tells us how a state $s_1 \in S_1$ is interpreted in $S_2$.
+
+\begin{exercise}
+    Find the final solution.
+
+    Intuition: we need to find a set $S$ with the following structure:
+    \begin{center}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \&
+            0/1 \&
+            0/1 \&
+            0/1 \&
+            \dots \&
+            \\
+            s \in S \arrow[ur, mapsto, "\theta"]
+                    \arrow[r, mapsto, "\sigma"]\&
+            \sigma(s) \in S \arrow[ur, mapsto, "\theta"]
+                            \arrow[r, mapsto, "\sigma"]\&
+            \sigma(\sigma((s)) \in S \arrow[ur, mapsto, "\theta"]
+                                     \arrow[r, mapsto, "\sigma"]\&
+            \sigma(\sigma(\sigma(s))) \in S
+                                    \arrow[ur, mapsto, "\theta"]
+                                    \arrow[r, mapsto, "\sigma"]\&
+            \dots \&
+        \end{tikzcd}
+    \end{center}
+\end{exercise}
+\begin{proof}[Solution]
+    Consider the set of all functions from natural numbers to $\setof{0,1}$,
+    written here as ${[\nats\Rightarrow\setof{0,1}]}$, and also the
+    functions
+    \[
+      \mathrm{hd}: [\nats\Rightarrow\setof{0,1}] \to \setof{0,1}
+      \enspace,\quad
+      \mathrm{tl}
+      : [\nats\Rightarrow\setof{0,1}] \to [\nats\Rightarrow\setof{0,1}]
+    \]
+    defined by
+    \begin{align*}
+      \mathrm{hd} (f) &= f(0)
+      \\[1mm]
+      \mathrm{tl} (f) &= \lambda x \in \nats.\ f (x + 1)
+    \end{align*}
+    This clearly provides data as desired, it remains to show it is a final
+    solution.
+
+    Consider any other data with set $S$, and functions
+    $\theta: S \to \setof{0, 1}$ and $\sigma: S \to S$.
+    Let ${h: S \to [\nats\Rightarrow\setof{0,1}]}$ be the following function:
+    \[ h (x) \eqdef \lambda n \in \nats.\ \theta\big(\sigma^n (x)\big) \]
+    It satisfies the required conditions:
+
+    \begin{itemize}
+
+    \item
+    $\theta = \mathrm{hd} \comp h$ because
+    \[
+      \big(\mathrm{hd} \comp h\big)(x)
+      = \mathrm{hd}
+          \big( \lambda n \in \nats.\ \theta\big(\sigma^n(x)\big) \big)
+      = \theta\big(\sigma^0(x)\big)
+      = \theta(x)
+    \]
+
+    \item
+    $h \comp \sigma = \mathrm{tl} \comp h$ because
+    \[
+      \big(h \comp \sigma\big)(x)
+      = h \big( \sigma (x) \big)
+      = \lambda n \in \nats.  \, \theta\big(\sigma^n\big(\sigma(x)\big)\big)
+      = \lambda n \in \nats.  \, \theta\big(\sigma^{n+1}(x)\big)
+    \]
+    and
+    \[
+      \big(\mathrm{tl} \comp h\big)(x)
+      = \mathrm{tl}
+          \big(\lambda m \in \nats.\, \theta\big(\sigma^m (x)\big)\big)
+      = \lambda n \in \nats.\, \theta\big(\sigma^{n+1} (x)\big)
+    \]
+
+    \end{itemize}
+
+    This function $h$ is also the unique with the above properties. To see
+    this, let $k: S\to[\nats\Rightarrow\setof{0,1}]$ be any other function
+    such that $\theta = \mathrm{hd} \comp k$ and
+    $k \comp \sigma = \mathrm{tl} \comp k$.
+    Then for any $x \in S$:
+    \[
+      \big(\mathrm{hd} \comp k\big) (x) =  \theta(x)
+    \]
+    which, by definition of $\mathrm{hd}$, implies
+    \[ k(x)(0) = \theta(x) \]
+    So $k(x)$ has to map $0$ to $\theta(x)$.
+
+    Also, for $n\in\nats$, we have:
+    \[
+      \big(\mathrm{tl} \comp k\big) (x) (n)
+      = \mathrm{tl} \big(k(x)\big) (n)
+      = k(x)(n + 1)
+    \]
+    and, by assumption,
+    \[
+      \big(\mathrm{tl} \comp k\big) (x) (n)
+      = \big(k \comp \sigma\big) (x) (n)
+      = k \big(\sigma (x)\big)(n)
+      \enspace;
+    \]
+    from which we conclude that $k(x)(0) = \theta(x)$ and, for all $n\in\nats$,
+    $k(x)(n+1) = k\big(\sigma(x)\big)(n)$.
+
+    Finally, one shows by induction, that
+    $k(x)(n) = \theta(\sigma^n (x))$.  So that $k(x)=h(x)$ for all $x\in S$,
+    and thus $k=h$.
+  \end{proof}
+

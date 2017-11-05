@@ -1,0 +1,247 @@
+\chapter{How to think Categorically}
+\lecturedetails{5 October 2017}{M Fiore, D Makwana, S Steenkamp, O Richardson}
+
+Introduction to Category Theory with applications to Logic and Type Theory.
+
+\emph{Not a spectator sport.}
+
+The approach is to find an understanding somewhere between the concrete
+(examples) and the abstract (``nonsense''). The heart of category theory are
+universal properties, `initial' and `final'.
+Rather than giving a definition of a category straight away, we will first
+explore \emph{Universal Properties} through example problems; this will
+constitute the first few lectures.
+
+\section{Examples}
+We will begin with known mathematical constructions, viewed from a universal,
+categorical point of view.
+
+\subsection{Adding an element to a set}
+\label{add-element-set}
+
+Given a set $S$, consider
+
+\begin{align*}
+    \textbf{data:}&\qquad S \overset{f}{\rightarrow} S^\prime \ni x \\
+    \textbf{criteria:}& \qquad
+    \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "f_1"]
+          \arrow[dr, swap, "f_2"]
+          \&
+        S_1 \arrow[d, "h"] \& \ni \& x_1 \arrow[d, mapsto]
+          \\
+          {}\&
+        S_2 \& \ni \& x_2
+    \end{tikzcd}
+\end{align*}
+
+The function $h : S_1 \rightarrow S_2$ must satisfy $h(x_1) = x_2$ and
+$\forall x \in S .\; h(f_1(x)) = f_2(x)$.
+
+\begin{framed}
+Diagrams such as the above implicitly assume that compositions commute (that's
+why they're called commutative diagrams). We can express the above more
+concisely as:
+\begin{center}
+$h\comp f_1 = f_2$
+\quad or \quad
+$h\icomp f_1 = f_2$
+\end{center}
+where
+$$
+\begin{tikzcd}
+    A \arrow[r, "f"] \arrow[rr, swap, bend right=40, "g \circ f"] & B \arrow[r, "g"] & C
+\end{tikzcd}
+$$
+with $(g\comp f)(a)\eqdef g(f(a))$ for all $a\in A$.
+\end{framed}
+
+\subsubsection*{Initial (Universal) Solution}
+
+An \emph{initial} solution is one that uniquely maps to any other solution.
+Note that such a solution doesn't always exist. In the case of adding a single
+element to a set, the problem can be specified in terms of finding an
+appropriate $S \overset{f}{\rightarrow} T \ni t$ such that
+
+\begin{equation*}
+  \forall S \overset{f'}{\rightarrow} S' \ni x \ .\
+  \exists!\ h : T \rightarrow S' \text{ such that }
+  h(t) = x \text{ and }
+  h \circ f = f'
+\end{equation*}
+
+We present our solution:
+\begin{center}
+    \begin{tikzcd}
+        S \arrow[r, "\iota"]
+          \arrow[dr, swap, "f"]
+          &
+        S_{\ast}
+        \arrow[d, "h"]
+        & \ni & \ast
+        \arrow[d, mapsto]
+          \\
+        {}
+          &
+        T & \ni & t
+    \end{tikzcd}
+\end{center}
+
+where $S_\ast$ is defined as
+$\setof{ \ast } \union \bigsetof{ \lbrack x\rbrack \suchthat x \in S }$
+and $\iota: S \to S_\ast$ as $\iota(x)=[x]$ for all $x\in S$.
+%
+(The set $S_\ast$ is an \emph{implementation} of the disjoint union of
+$\setof{*}$ and $S$; the square brackets tag the elements from $S$.)
+
+Define $h$, for $z\in S_\ast$, as
+\begin{equation*}
+    h(z) = \begin{cases}
+        t & \text{if } z = \ast\\
+        f(x) & \text{if } z = \lbrack x \rbrack
+    \end{cases}
+\end{equation*}
+
+For universality we must also prove that this is a unique solution.
+Consider $k:S_\ast\to T$ that satisfies $k \circ \iota = f$ and
+$k(\ast) = t$. Then, we are required to prove (RTP):
+$k(z) = h(z)\ \forall z \in S_\ast$.
+
+\subsubsection*{Final solution}
+
+There is a second kind of universal property, callled a final solution: any
+other solution admits a unique map to the final one, again examining the case
+of adding an element to a set, our criteria now is inverted. As we are looking
+for a final solution, any $U\ni u$ must admit a unique map to our solution
+$T\ni t$, as shown below.
+\begin{center}
+    \begin{tikzcd}
+        S \arrow[r, "f"]
+          \arrow[dr, swap, "\forall g"]
+          &
+        T & \ni & t
+          \\
+        {}
+          &
+          U
+          \arrow[u, swap, "\exists! h"]
+          & \ni & u
+          \arrow[u, swap, mapsto]
+    \end{tikzcd}
+\end{center}
+
+For a set $A$, let $!_A$ be the unique function $A\to \setof{\ast}$ given by
+the constantly $\ast$ function, that is, $!_A(a) = \ast$ for all $a\in A$.
+
+Then, $T=\setof{\ast}$, $t=\ast$, and $f=\ !_S$ is a final solution.
+
+(Note the correspondence between $\ast \in \{ \ast \}$ and \texttt{():unit}
+in most functional programming languages.)
+
+\subsection{Adding two sets}
+
+Given $A$ and $B$ sets.
+
+\begin{align*}
+    \textbf{data:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
+            A \arrow[r, "f"] \& C \& B \arrow[l, swap, "g"]
+        \end{tikzcd}\\
+    \textbf{criteria:} \qquad& \begin{tikzcd}[ampersand replacement=\&]
+        {} \& C_1 \arrow[dd, "h"] \& {} \\
+        A \arrow[ru, "f_1"] \arrow[rd, swap, "f_2"]
+        \& {}
+        \&
+        B \arrow[lu, swap, "g_1"] \arrow[ld, "g_2"]
+        \\
+        {} \& C_2 \& {}
+    \end{tikzcd}
+\end{align*}
+
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_1 = f_2$ and $h \circ g_1 = g_2$).
+
+\begin{exercise}
+    Find the initial solution. \label{ex:addsets}
+\end{exercise}
+
+\subsection{Duality}
+
+When you have a problem in ``one direction'' you can turn it around and get a
+problem in ``the other direction''. This involves flipping the directions of
+the arrows in the commutative diagrams.
+
+\subsubsection*{Example: Dual form of adding two sets}
+
+Given two sets $A$ and $B$.
+
+\begin{align*}
+     \textbf{data:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
+            A \& C \arrow[l, swap, "f"] \arrow[r, "g"] \& B
+        \end{tikzcd} \\
+    \textbf{criteria:}\qquad & \begin{tikzcd}[ampersand replacement=\&]
+          {} \& C_1 \arrow[dd, "h"] \arrow[ld, swap, "f_1"] \arrow[rd, "g_1"]
+          \& {} \\ A \& {} \& B \\
+          {} \& C_2 \arrow[lu, "f_2"] \arrow[ru, swap, "g_2"] \& {}
+      \end{tikzcd}
+\end{align*}
+
+
+
+That is, such that (1)~$h$ is a function $C_1 \rightarrow C_2$ and (2)~it
+makes the diagram commute~(\ie~$h \circ f_2 = f_1$ and $h \circ g_2 = g_1$).
+
+\begin{exercise}
+    Find the final solution. \label{ex:dual}
+\end{exercise}
+
+%%% MF ???
+%It is worth noting that a dual solution can be easier to solve and allow
+%insight into the original problem, or vice versa.
+
+\subsection{Generating a monoid}
+\label{section_generate_monoid}
+
+\subsubsection*{Background on Monoids}
+
+A \emph{monoid} is a triple $(M, e, \ast)$ where $M$ is a set, $e \in M$ is a
+neutral element, and $\ast$ is a binary operation on $M$; where $e$ and $\ast$
+obey:
+\begin{align*}
+    & \forall x \in M\ .\
+    e \ast x = x \text{ and } x \ast e = x && \text{(neutral
+    element)} \\
+    & \forall x,y,z \in M\ .\
+    (x \ast y) \ast z = x \ast (y \ast z) && \text{(associativity)}
+\end{align*}
+
+\subsubsection*{Monoid homomorphism}
+
+A monoid homomorphism is a function between (the underlying sets of) two
+monoids that preserves the unit and the multiplication. Formally,
+$h : (M_1, e_1, \ast_1) \rightarrow (M_2, e_2, \ast_2)$ is a function
+$h: M_1\to M_2$ such that $h(e_1) = e_2$ and
+$\forall x, y \in M_1\ .\ h(x \ast_1 y) = h(x) \ast_2 h(y)$.
+
+Our next exercise will deal with the \emph{free monoid} on a set.
+Given a set $S$, we would like to construct a monoid. In the language we've
+been using, we can present it as follows:
+
+\begin{align*}
+    \textbf{data:}\qquad& S \overset{f_1}{\longrightarrow}M
+    \qquad \text{$(M,e,\ast)$ a monoid}\\
+    \textbf{criteria:}\qquad& \begin{tikzcd}[ampersand replacement=\&]
+        S \arrow[r, "f_1"] \arrow[dr, swap, "f_2"] \&
+        M_1
+        \arrow[d, "h"]
+        \& (M_1,e_1,\ast_1)
+        \arrow[d, "\text{$h$ an homomorphism}"]
+        \& \text{a monoid}
+        \\
+        {}
+        \& M_2 \& (M_2,e_2,\ast_2) \& \text{a monoid}
+    \end{tikzcd}
+\end{align*}
+
+\begin{exercise}
+    Find the initial solution in this case.
+\end{exercise}
