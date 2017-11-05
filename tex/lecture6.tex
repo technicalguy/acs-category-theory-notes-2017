@@ -1,0 +1,341 @@
+\chapter{Functors (definition)}
+\lecturedetails{24 October 2017}{M Fiore, J Clarke, T Parks}
+
+\section{Duality}
+\begin{definition}[Duality]
+Given a category $\mathcal{C}$, we define the \emph{opposite} or \emph{dual}
+category, $\mathcal{C}^{\op}$, to be the category with:
+    \begin{itemize}
+        \item $\Ob(\mathcal{C}^{\op}) = \Ob(\mathcal{C})$
+        \item $\mathcal{C}^{\op}(A, B) \eqdef \mathcal{C}(B, A)$
+    \end{itemize}
+
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}^{\op}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \arrow[d, swap, "f"] \\
+            B
+        \end{tikzcd}
+    \end{center}
+\end{minipage}%
+\vline%
+\begin{minipage}[t]{0.49\textwidth}
+    \begin{center}
+        In $\mathcal{C}$
+
+        \vspace{15pt}
+
+        \begin{tikzcd}
+            A \\
+            B \arrow[u, "f"]
+        \end{tikzcd}
+    \end{center}
+\end{minipage}
+
+Identities are the same as in $\mathcal{C}$, that is:
+
+\begin{equation*}
+    \id{A}^{\op} \eqdef \id{A}
+\end{equation*}
+
+For composition, we need:
+
+\begin{equation*}
+    \equalto{\mathcal{C}^{\op}(B, C)}{\mathcal{C}(C, B)} \times
+    \equalto{\mathcal{C}^{\op}(A, B)}{\mathcal{C}(B, A)}
+    \xrightarrow{\comp^{\op}_{A,B,C}}
+    \equalto{\mathcal{C}^{\op}(A, C)}{\mathcal{C}(C, A)}
+\end{equation*}
+
+Therefore, we define:
+
+\begin{equation*}
+    g \comp^{\op}_{A,B,C} f = f \comp_{C,B,A} g
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Monomorphism]
+A \emph{monomorphism} in a category $\mathcal{C}$ is a map $f : A \to B$ such
+that for all $X \in \Ob(\mathcal{C})$ and for all $a, a' : X \to A$,
+$f \comp a = f \comp a' \implies a = a'$.
+\end{definition}
+
+\begin{definition}[Epimorphism]
+An \emph{epimorphism} in a category $\mathcal{C}$ is a monomorphism in
+$\mathcal{C}^{\op}$, \ie~$f : A \to B$ is an epimorphism if:
+\[
+    \forall T \in \Ob(\mathcal{C}) . \forall t, t' : B \to T .
+    t \comp f = t' \comp f \implies t = t'
+\]
+Here, $T$ can be thought of as an object of ``tests''.
+\end{definition}
+
+\begin{exercise}
+Show that, in $\catset$, epimorphisms are the same as surjections.
+\end{exercise}
+
+\begin{exercise}
+Show that each of isomorphisms, epimorphisms, monomorphisms, sections and
+retractions are closed under composition; \ie~if $f : A \to B$ and
+$g : B \to C$ are in one of these classes, then so is $g \comp f : A \to C$.
+\end{exercise}
+
+\begin{exercise}
+Prove the labelled inclusions:
+
+\begin{center}
+    \begin{tikzpicture}
+        \matrix[matrix of math nodes, name=m, column sep=0.6em, row sep=1.2em] {
+            &
+            |[alias=Sec]| \mathcal{C}_{\mathrm{sections}} &
+            |[alias=Mono]| \mathcal{C}_{\mathrm{monos}} &
+            \\
+            |[alias=Cong]| \mathcal{C}_{\mathrm{isos}} &
+            |[alias=Ex1]| &
+            |[alias=Ex2]| &
+            |[alias=C]| \mathcal{C}
+            \\
+            &
+            |[alias=Ret]| \mathcal{C}_{\mathrm{retractions}} &
+            |[alias=Epi]| \mathcal{C}_{\mathrm{epis}} &
+            \\
+        };
+
+        \node (Ex) [fit=(Ex1)(Ex2)]{exercises};
+
+        \path (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Sec)
+              (Cong) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (Ret)
+              (Sec) edge[draw=none] node (SecMono) [sloped, allow upside down, auto=false] {$\subseteq$} (Mono)
+              (Ret) edge[draw=none] node (RetEpi) [sloped, allow upside down, auto=false] {$\subseteq$} (Epi)
+              (Mono) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Epi) edge[draw=none] node[sloped, allow upside down, auto=false] {$\subseteq$} (C)
+              (Ex) edge (SecMono)
+              (Ex) edge (RetEpi);
+    \end{tikzpicture}
+\end{center}
+\end{exercise}
+
+Recall that the product of a family of objects $\setof{A_i \suchthat i \in I}$
+is given by:
+
+\begin{equation*}
+    \left(\prod_{i\in I} A_i\right) \xrightarrow{\pi_k} A_k
+    \qquad (k\in I)
+\end{equation*}
+
+such that it is a terminal universal solution.
+
+\begin{definition}
+\emph{Coproducts}, or \emph{sums}, in $\mathcal{C}$ are products in
+$\mathcal{C}^{\op}$. The coproduct of a family
+$\setof{A_i \suchthat i \in I}$ is given by
+
+\begin{center}
+    \begin{tikzcd}
+        A_k \arrow[r, "\iota_k"] \arrow[dr, swap, "\forall f_k"] &
+        \left(\coprod_{i \in I} A_i\right) \arrow[d, "\exists!f_k"]
+        \\
+        &
+        X
+    \end{tikzcd}
+    \qquad$(k\in I)$
+\end{center}
+\end{definition}
+
+In $\catset$, coproducts are disjoint unions:
+
+\begin{equation*}
+    \begin{aligned}
+        \coprod_{i \in I} A_i \ = \ \bigcup_{i \in I}\, \setof{i} \times A_i &
+        \overset{\iota_k}{\leftarrow} A_k
+        \\
+        (k, a) &
+        \mapsfrom a
+    \end{aligned}
+\end{equation*}
+
+\begin{exercise}
+Calculate coproducts/sums in the categories introduced so far ($\catpfn$,
+$\catrel$, $\catpred$, $\catpreo$, $\catmon$, \dots).
+\end{exercise}
+
+\begin{exercise}
+Prove or disprove whether bijections ($\iffdef$ monomorphic and epimorphic) are
+the same as isomorphisms.
+\end{exercise}
+
+\section{Functors}
+
+Categories are mathematical structures with their own morphisms,
+\emph{functors}:
+\begin{center}
+\begin{tikzcd}
+    \mathcal{A} \arrow[r, "F"]  & \mathcal{B}
+\end{tikzcd}
+\end{center}
+We will motivate their definition by considering two special kinds of
+categories, monoids and preorders, together with their respective morphisms.
+
+\subsection{Monoids can be regarded as categories}
+
+A monoid $(M, \shortmid, \star)$ maybe seen as the category $\mathcal M$ with
+a single object:
+\begin{align*}
+\Ob(\mathcal M) &\eqdef \setof{ \bullet }
+\end{align*}
+for which the hom-set consists of the elements of the monoid:
+\begin{align*}
+\mathcal{M}(\bullet, \bullet) &\eqdef M
+\end{align*}
+The identity is the neutral element of the monoid:
+\begin{align*}
+\id{\bullet} &\eqdef\ \shortmid
+\end{align*}
+and the composition of morphisms is the monoid multiplication:
+\begin{align*}
+f \comp g &\eqdef f \star g
+\enspace.
+\end{align*}
+
+Conversely, every category $\mathcal C$ with a singleton set of objects, say
+$\setof{\bullet}$, has an underlying monoid structure given by
+\[
+  \big(\, \mathcal{C}(\bullet,\bullet) \,,\, \id{\bullet} \,,\, \comp \,\big)
+\]
+
+The above two constructions are in bijective correspondence.
+
+\subsection{Preorders can be regarded as categories}
+
+For a preorder $(P, \leq)$, consider the category $\mathcal P$ with
+$\Ob(\mathcal P) = P$ and hom-sets
+\[
+\mathcal{P}(p, q)
+= \begin{cases}
+    \bigsetof{\, (p,q) \,} & \text{if } p \leq q
+    \\[1mm]
+    \emptyset & \text{otherwise }
+  \end{cases}
+\qquad
+(p,q \in P)
+\]
+
+As $p \leq p$, the identity is given by
+\begin{align*}
+\id{p} &\eqdef (p,p)
+\end{align*}
+
+We also need to consider the operation of composition:
+\[
+\mathcal{P}(q, r) \times \mathcal{P}(p, q) \to \mathcal{P}(p, r)
+\]
+We can determine it by cases:
+\begin{itemize}
+\item
+If either $\mathcal{P}(q, r)$ or $\mathcal{P}(p, q)$ are empty, then so is
+$\mathcal{P}(q, r) \times \mathcal{P}(p, q)$ and the composition map is
+uniquely determined.
+
+\item
+Otherwise, both $\mathcal{P}(q, r)$ and $\mathcal{P}(p, q)$ are singleton
+sets so that, by the transitivity property of preorders, so is
+$\mathcal{P}(p, r)$; and the composition map is again uniquely determined.
+\end{itemize}
+
+Conversely, every category $\mathcal C$ with a set of objects and
+subsingleton~(\viz,~a subset of a singleton) hom-sets has an underlying
+preorder structure given by
+\[
+  \big(\, \Ob(\mathcal C) \,,\, \leq \,\big)
+\]
+where $X \leq Y \iffdef ( \mathcal{C}(X, Y) \iso \nelem 1 )$.
+
+\paragraph{Locally small and small categories.}
+%
+The notion of category we have considered, with a class of objects and
+hom-sets, is technically referred to as \emph{locally small}.  Categories with
+a set of objects are referred to as \emph{small}.  The categories associated
+to monoids and preorders are small.
+
+\subsection{Morphisms of monoids, preorders, and categories}
+
+We recall the notions of morphism between monoids and preorders, and
+generalize them to categories.
+
+\begin{center}\begin{tabular}{ccc}
+Monoids and homomorphisms & \qquad\qquad\qquad & Preorders and monotone
+functions
+\\[3mm]
+$(M_1, \shortmid_1, \star_1)
+ \stackrel{h}{\longrightarrow}
+ (M_2, \shortmid_2, \star_2)$
+&&
+$(P_1, \leq_1) \stackrel{f}{\longrightarrow} (P_2, \leq_2)$
+\\[3mm]
+\begin{tabular}{l}
+$h: M_1 \to M_2$
+\\[1mm]
+s.t.~$h(\shortmid_1) =\ \shortmid_2$
+\\[1mm]
+\phantom{s.t.~}$h(x \star_1 y) = h(x) \star_2 h(y)$
+\end{tabular}
+&&
+\begin{tabular}{l}
+$f: P_1 \to P_2$
+\\[1mm]
+s.t.~$p \leq_1 q \implies f(p) \leq_2 f(q)$
+\end{tabular}
+\end{tabular}
+\end{center}
+
+\begin{center}\begin{tabular}{c}
+Categories and functors
+\\[3mm]
+$\mathcal{C}_1 \stackrel{F}{\longrightarrow} \mathcal{C}_2$
+\\[4mm]
+$\left\{
+\begin{array}{l}
+F_{\textrm{obj}} : \Ob(\mathcal{C}_1) \to \Ob(\mathcal{C}_2)
+\\[3mm]
+F_{\textrm{arr}} : \Arr(\mathcal{C}_1) \longrightarrow \Arr(\mathcal{C}_2)
+\end{array}
+\right.$
+\\[8mm]
+\begin{tabular}[t]{lc}
+s.t. &
+\\
+&
+% the yshift is needed to make the F_arrow level.
+\begin{tikzcd}
+P
+\arrow[dd, "f"{name=L, right}] & & F_{obj}(P)
+\arrow[dd, "F_{\text{arr}}(f)"{name=R, left}]
+\\
+\arrow[rr, "F_{arr}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto]
+&  &
+\\
+Q &  & F_{obj}(Q)
+\end{tikzcd}
+\\[20mm]
+&
+$F_{\textrm{arr}}( \id{X} ) \,=\, \id{ F_{\textrm{obj}}(X) }$
+\\[6mm]
+&
+\begin{tikzcd}
+A \arrow[d, "f"] \arrow[dd, "g \comp f"', bend right=50]
+&
+F_\text{obj}(A)
+\arrow[d, "F_\text{arr}(f)"{left}]
+\arrow[dd, "F_\text{arr}(g \comp f)", bend left=55]
+\\
+B \arrow[d, "g"] & F_\text{obj}(B) \arrow[d, "F_\text{arr}(g)"{left}]
+\\
+C & F_\text{obj}(C)
+\end{tikzcd}
+\end{tabular}
+\end{tabular}\end{center}
+

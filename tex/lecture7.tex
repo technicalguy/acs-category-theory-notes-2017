@@ -1,0 +1,456 @@
+\chapter{Functors (examples)}
+\lecturedetails{26 October 2017}{M Fiore, N Alcock, Z Yuan}
+
+\section{Functors (enriched viewpoint)}
+
+\begin{definition}
+A functor \(F: \mathcal{A} \rightarrow \mathcal{B}\) is given by a mapping
+\(F: \Ob(\mathcal{A}) \rightarrow \Ob(\mathcal{B})\) together with a family of
+functions \(F_{X,Y}: \mathcal{A}(X, Y) \rightarrow \mathcal{B}(FX, FY)\) for
+all \(X, Y \in \Ob(\mathcal{A})\), so that
+
+\begin{center}
+\begin{tabular}[t]{lc}
+\\
+&
+% the yshift is needed to make the F_arrow level.
+\begin{tikzcd}
+X
+\arrow[dd, "\mathcal{A}\ni f"{name=L, right}]
+& \qquad & FX
+\arrow[dd, "F_{X,Y}(f)\in\mathcal{B}"{name=R, left}]
+\\
+&
+\arrow[rr, "F_{X,Y}", from=L, to=R, %start anchor={[yshift=-0.2ex]},
+mapsto]
+& &
+\\
+Y &  & FY
+\end{tikzcd}
+\\[20mm]
+\end{tabular}
+\end{center}
+
+such that the following two diagrams commute:
+
+\begin{center}
+    \begin{tikzcd}
+        \nelem{1} \arrow[r, "id^{(\mathcal{A})}_A"]
+        \arrow[dr, swap, "id^{(\mathcal{B})}_{FA}"] &
+        \mathcal{A}\left(A,A\right) \arrow[d, "F_{A,A}"]
+        \\
+        &
+         \mathcal{B}\left(FA,FA\right)
+    \end{tikzcd}
+\end{center}
+
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \mathcal{A}(Y,Z) \times  \mathcal{A}(X,Y)
+        \arrow[r, "\circ_{X,Y,Z}^{(\mathcal{A})}"]
+        \arrow [d, "F_{Y,Z} \times F_{X,Y}"{left}] \&
+        \mathcal{A}(X,Z)
+        \arrow[d, "F_{X,Z}"] \&
+        \\
+        \mathcal{B}(FY,FZ) \times  \mathcal{B}(FX,FY)
+        \arrow[r, "\circ_{FX,FY,FZ}^{(\mathcal{B})}"] \&
+        \mathcal{B}(FX,FZ) \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+\end{definition}
+
+\begin{remark}
+Compare the above with the notion of monoid homomorphism:
+\begin{center}
+    \begin{tikzcd}
+        \nelem{1} \arrow[r, "\shortmid_1"] \arrow[dr, swap, "\shortmid_2"] &
+       M_1 \arrow[d, "h"]
+        \\
+        &
+         M_2
+    \end{tikzcd}
+\end{center}
+
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        M_1 \times M_1 \arrow[r, "\star_1"] \arrow [d, "h \times h"{left}] \&
+        M_1 \arrow[d, "h"] \&
+        \\
+        M_2 \times M_2 \arrow[r, "\star_2"] \&
+        M_2 \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+\end{remark}
+
+\section{Examples}
+
+\subsection{Identity functor}
+
+For any category $\lscat{C}$, $\fncid{\lscat{C}}: \lscat{C} \to \lscat{C}$ is
+the functor that maps both objects and morphisms to themselves.
+
+\begin{center}
+\begin{tikzcd}
+A \arrow[dd, "f" swap] & A \arrow[dd, "f"] \\
+{} \arrow[r, mapsto, "\fncid{}"] & {}\\
+B & B
+\end{tikzcd}
+\end{center}
+
+\subsection{List functor}
+
+Recall the universal property of the free monoid on a set
+\begin{center}
+\begin{tikzcd}
+  S \arrow[r, "\eta_S"]  \arrow[rd, swap, "\forall\, f"]
+  &
+  \fnclist(S)
+  \arrow[d, "f^\#"]
+  & (\fnclist(S), nil, @)
+  \arrow[d, "\exists!\, f^\# \text{ homomorphism}"]
+  \\
+  {} & M & \forall (M, \shortmid, \star) \text{ monoid}
+\end{tikzcd}
+\end{center}
+giving rise to the list construction.
+
+We have a \emph{list functor} \(\fnclist: \catset \to \catset\) informally
+given as follows:
+\begin{center}
+\begin{tabular}[t]{lc}
+\\
+&
+% the yshift is needed to make the F_arrow level.
+\begin{tikzcd}
+A
+\arrow[dd, "f"{name=L, right}] & & List(A)
+\arrow[dd, "\fnclist(f)"{name=R, left}]
+\\
+\arrow[rr, "\fnclist{}", from=L, to=R, start anchor={[yshift=-0.2ex]}, mapsto]
+&  &
+\\
+B &  & \fnclist(B)
+\end{tikzcd}
+where $\fnclist(f) \eqdef \map{f}$
+\begin{tikzcd}
+        \big[\, a_1, ... ,a_n \,\big]
+        \arrow[d, "",mapsto]
+        \\
+        \big[\, f(a_1), ... , f(a_n) \,\big]
+    \end{tikzcd}
+\\[20mm]
+\end{tabular}
+\end{center}
+
+Functoriality amounts to checking that
+\[\map{\,\id{A}} = \id{\fnclist(A)}\]
+and
+\[\map{g} \comp \map{f} = \map{g \comp f}\enspace.\]\\
+By definition of \(\map\), it is easy to show that
+\(\map{\,\id{A}} = \id{\fnclist(A)}\), and we also have:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \big[\, a_1, ... ,a_n \,\big] \arrow [d, "map(f)" ,start anchor={[yshift=-0.2ex]}, mapsto]  \arrow[rd, "map(g \circ f)", mapsto]\&
+           \\
+        \big[\, f(a_1), ... , f(a_n) \,\big] \arrow[r, "map(g)", mapsto] \&
+         \big[\, g(f(a_1)), ... , g(f(a_n)) \,\big] =  \big[\, (g\circ f)(a_1), ... , (g\circ f)(a_n) \,\big] \&
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+Let us show that $\fnclist$ is a functor solely from the universal property of
+a free monoids.
+
+Firstly, we define the action of the functor on morphisms as follows:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        A \arrow[r, "{[\phold]_A}"] \arrow [d, "f"{left}] \&
+        \fnclist(A)
+        \arrow[d, "\fnclist(f)\eqdef {\big([\phold]_B\circ f\big){^\#}}"]
+        \& \qquad \&
+        (\fnclist(A), nil, @)
+        \arrow[d, "\exists!\ {\big([\phold]_B\circ f\big)^{\#}}
+          \text{ homomorphism}" ]
+           \\
+        B \arrow[r, "{[\phold]_B}"] \&
+        \fnclist(B) \& \& (\fnclist(B), nil, @)
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+We now check functoriality.
+\begin{itemize}
+\item Preservation of identities:
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+        A \arrow[r, "{[\phold]_A}"]
+        \arrow [d, "\id{A}"{left}]
+        \&
+        \fnclist(A)
+        \arrow[d, "{\fnclist(\id{A}) \eqdef \big([\phold]_A\big)^\#}"]
+        \& \&
+        (\fnclist(A), nil, @)
+        \arrow[d,
+          "{\exists! \text{ homomorphism }
+              \big([\phold]_A\big)^\# \,= \ \id{\fnclist(A)}}"]
+        \\
+        A \arrow[r, "{[\phold]_A}"] \&
+        \fnclist(A) \& \& (List(A), nil, @)
+    \end{tikzcd} \\[3mm]
+\end{center}
+
+\item Preservation of composition:
+\begin{center}
+\begin{tikzcd}
+    A
+    \arrow[d, "f"]
+    \arrow[dd, bend right=40, "g \comp f" swap]
+    \arrow[r, "{[\phold]_A}"]
+    &
+    \fnclist(A)
+    \arrow[d, dotted, "\fnclist(f)"]
+    \arrow[dd, bend left=80, dotted, "\fnclist(g) \comp \fnclist(f)"]
+    \\
+    B
+    \arrow[d, "g"]
+    \arrow[r, "{[\phold]_B}"]
+    &
+    \fnclist(B)
+    \arrow[d, dotted, "\fnclist(g)"]
+    \\
+    C \arrow[r, "{[\phold]_C}"]
+    &
+    \fnclist(C)
+\end{tikzcd}
+\end{center}
+
+Note that $\fnclist(g) \comp \fnclist(f)$ is an homomorphism \big(because so
+are $\fnclist(g)$ and $\fnclist(f)$\big) such that
+$\big(\fnclist(g) \comp \fnclist(f) \big)\comp {[\phold]_A}
+ = {[\phold]_C} \comp (g \comp f)$.  Therefore,
+\[
+ \fnclist(g) \comp \fnclist(f)
+ \ = \  \big( {[\phold]_C} \comp (g \comp f) \big)^\#
+ \ \eqdef \ \fnclist(g\comp f)
+  \enspace.
+\]
+\end{itemize}
+
+\begin{exercise}\label{ex:fcmonoidfunctor}
+Show that the free commutative monoid (\ie~finite multiset) construction
+\begin{center}
+    \begin{tikzcd}
+          S \arrow[r, "\setof{\phold}_S"]  \arrow[rd, swap, "\forall\, f"]
+        &
+        \mathcal M_f(S)
+        \arrow[d, "f^\#"]
+        & (\mathcal M_f(S),\emptyset,\oplus)
+        \arrow[d, "\exists!\text{ homomorphism } f^\#"]
+        \\
+        {} & C & (C,\shortmid,\star) & \forall\ \text{commutative monoid}
+    \end{tikzcd}
+    \end{center}
+yields a functor.
+\end{exercise}
+
+\begin{exercise}\label{ex:fsemilatticefunctor}
+Show that the free semilattice [equivalently, free commutative and idempotent
+monoid] (\ie~finite powerset) construction yields a functor.
+\end{exercise}
+
+\section{Products and coproducts}
+
+\subsection{$\catcat$}
+
+\begin{definition}
+The (locally small) category \(\catcat\) has as objects small categories and
+as morphisms functors.  Identities are given by the identity functors
+\(\Id{\mathbb{C}}\) and the composition of
+\(\mathbb{A} \morpharr{F} \mathbb{B} \morpharr{G} \mathbb{C}\) is the functor
+$G\comp F:\mathbb A\to \mathbb C$ defined by setting
+\((G \comp F)(-) \eqdef G(F(-))\) both on objects and morphisms.
+\end{definition}
+
+The terminal object in \(\catcat\) is the one-object one-arrow category:
+\begin{center}
+\begin{tikzcd}
+    \star \arrow["\id{\Large\star}", out=150,in=210, swap, looseness=5]
+\end{tikzcd}
+\end{center}
+
+\begin{definition}[Product category]
+The product of two categories $\lscat{A}$ and $\lscat{B}$, denoted
+$\lscat{A}\times\lscat{B}$, is the category whose objects are pairs $(A, B)$
+with $A \in \Ob(\lscat{A})$ and $B \in \Ob(\lscat{B})$, and whose morphisms
+$(A', B') \to (A', B')$ are pairs $(f,g)$ of arrows with $f:A\to A'$ in
+$\lscat A$ and $g:B\to B'$ in $\lscat B$.  Identities and composition are
+given pointwise: $\id{(A, B)} = (\id{A}, \id{B})$ and
+$(f, g) \comp (f', g') = (f \comp f', g \comp g')$.
+\end{definition}
+
+\begin{center}
+\begin{tikzcd}
+  (A_1,B_1)
+  \arrow[r, "{(f,g)}"]
+  \arrow[rr, swap, bend right=30,
+    "{(f',g')\circ(f,g) \ \eqdef \ (f'\circ f, g'\circ g)}"]
+  &
+  (A_2,B_2)
+  \arrow[r, "{(f',g')}"]
+  &
+  (A_3,B_3)
+\end{tikzcd}
+\end{center}
+
+Recall the definition of binary products in a category:
+\begin{equation}\label{UniversalPairingMap}
+\begin{tikzcd}
+    {} & P \arrow[ld, swap, "\pi_1"] \arrow[rd, "\pi_2"] & {} \\
+    A
+    & {}
+    &
+    B
+    \\
+    {} &
+    \stackrel{\mbox{$C$}}{\forall}
+    \arrow[uu, dashed, "\exists!", "{\univpair{f,g}}" swap]
+    \arrow[lu, "\forall\, f"] \arrow[ru, swap, "\forall\, g"] & {}
+\end{tikzcd}
+\end{equation}
+
+\begin{exercise}\label{ex:produnivconstr}
+Show that the product of categories $\lscat A\times\lscat B$ equipped with the
+projection functors
+\begin{center}
+\begin{tikzcd}
+    {} & {\lscat{A}\times\lscat{B}}
+    \arrow[ld, swap, "\pi_1"] \arrow[rd, "\pi_2"] & {}
+    \\
+    \lscat{A} & {} & \lscat{B}
+\end{tikzcd}
+\end{center}
+given by
+\begin{center}
+\begin{tikzcd}
+  &
+  {(A, B)}
+  \arrow[dd, "{(f, g)}"]
+  \arrow[rd, "\pi_2", mapsto ,
+    start anchor={[yshift=-6.5ex]},
+    end anchor={[yshift=-6.5ex]}
+    ]
+  &
+  \\
+  A \arrow[dd, "f"{name=L}]
+  &
+    \arrow[l, "\pi_1"{left}, mapsto, to=L]
+  &
+  B \arrow[dd, "g"{left, name=R}]
+  \\
+  & {(A', B')} &
+  \\
+  A' & & B'
+\end{tikzcd}
+\end{center}
+is universal.
+\end{exercise}
+
+\subsection{Product and coproduct functors}
+
+\begin{remark}
+The product and coproduct constructions are functors.
+\end{remark}
+
+Let \(\lscat{C}\) be a category with binary products for all pairs of objects,
+and write
+\begin{center}\begin{tikzcd}
+    &
+    \mathrm{Prod}(A, B)
+    \arrow[ld, swap, "\pi^{A,B}_1"]
+    \arrow[rd, "\pi^{A,B}_2"]
+    &
+    \\
+    A & & B
+\end{tikzcd}\end{center}
+for a specified product of $A, B \in \Ob(\lscat{C})$.\
+
+\begin{exercise}\label{ex:prodfunc}
+For $f: A\to A'$ and $g:B\to B'$ in $\lscat C$, define
+$\textrm{Prod(f,g)}:\textrm{Prod}(A,B)\to\textrm{Prod}(A',B')$ in $\lscat C$
+to be the unique morphism (guaranteed to exist by the universal property of
+products) as follows:
+\begin{center}
+\begin{tikzcd}
+    {}
+    & \mathrm{Prod}(A, B)
+    \arrow[ld, swap, "\pi^{A,B}_1"]
+    \arrow[rd, "\pi^{A,B}_2"]
+    \arrow[ddd, dashed, "\exists!" swap, "{\textrm{Prod}(f, g)}"]
+    & {}
+    \\
+    A \arrow[d, swap, "f"]
+    & {} &
+    B  \arrow[d, "g"]
+    \\
+    A' & {} & B'
+    \\
+    {} &
+    \mathrm{Prod}(A', B') \arrow[lu, "\pi^{A',B'}_1"]
+    \arrow[ru, swap, "\pi^{A',B'}_2"]
+    & {}
+\end{tikzcd}
+\end{center}
+that is, using the notation of~(\ref{UniversalPairingMap}),
+\[
+  \textrm{Prod}(f,g)
+  \ \eqdef \
+  \bigunivpair{\, f\comp\pi^{A,B}_1 \, , \, g\comp\pi^{A,B}_2 \,}
+  \enspace.
+\]
+Show that the above definition yields a functor
+$\textrm{Prod}:\lscat C\times\lscat C\to \lscat C$; \ie~show that
+$\mathrm{Prod}(\id{A}, \id{B}) = \id{\mathrm{Prod}(A,B)}$ and that
+$\mathrm{Prod}(f, g) \comp \mathrm{Prod}(f', g')
+ = \mathrm{Prod}(f \comp f', g \comp g')$.
+\end{exercise}
+
+\subsection{Hom functor}
+
+For a locally small category $\lscat C$, we define the \emph{hom functor}
+$\lscat C(-, =): \lscat C^{op} \times \lscat C \to \catset$ mapping objects
+from $\lscat C^{op} \times \lscat C$ to the set of morphisms between them:
+$$
+  A, B \mapsto \lscat C(A, B)
+$$
+and given on morphisms as follows
+\begin{center}
+  \begin{tikzcd}
+    A 
+    &
+    B \ar["g"]{d}
+    &
+    &
+    (A, B) \ar["{(f, g)}"{name=L}]{d}
+    &
+    \lscat C (A, B) 
+    \ar["{\lscat C(f, g) \eqdef \lambda h. g \circ h \circ f}"{name=R}]{d}
+    &
+    &
+    &
+    A \overset h \longrightarrow B
+    \\
+    A' \ar["f"]{u}
+    &
+    B'
+    &
+    &
+    (A', B')
+    &
+    \lscat C (A', B')
+    &
+    &
+    &
+    A' \overset  {g \circ h \circ f} \longrightarrow B'
+    \ar[from=L, to=R, mapsto, shorten <= 2pt, shorten >= 2pt]
+    \ar[from=1-8, to=2-8, mapsto, shorten <= 2pt, shorten >= 2pt]
+  \end{tikzcd}
+\end{center}
+
