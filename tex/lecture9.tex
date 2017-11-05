@@ -215,71 +215,59 @@ $\widehat{\varphi}$.
 Fix a shape: $ A \overset{\alpha}{\longleftarrow} P \morpharr{\beta} B $. 
 Define the functor $ K = \lscat C (\phold, A) \times \lscat C
 (\phold, B)$ (the product of two functors is a a functor) and the infranatural
-transformation $\varphi = \lscat C (\phold, P) \natarrow K $. Hence, for each $X
+transformation (an arbitrary mapping between two functors that does not
+necessarily satisfy the naturality constraints) $\varphi = \lscat C (\phold, P)
+\natarrow K $. Hence, for each $X
 \in \lscat C^\op $, we have: 
 
 \begin{center}
 \begin{tikzcd}
-    \lscat C(X, P) \arrow[rr] & & \lscat C (X, A) \times \lscat C (X, B) \\
-    X \arrow[dd, "p", swap] & & X\arrow[dd, "\alpha \circ p", end anchor={[xshift=1em]north west}, swap] \arrow[dd, "\beta \circ p", end anchor ={[xshift=-1em]north east}] \\
+    \lscat C(X, P) \arrow[rr, "{(\alpha \comp \phold, \beta \comp \phold)}_X"]
+        & & \lscat C (X, A) \times \lscat C (X, B) \\
+    X \arrow[dd, "p", swap]
+        & & X\arrow[dd, "\alpha \comp p", end anchor={[xshift=1em]north west}, swap]
+            \arrow[dd, "\beta \comp p", end anchor ={[xshift=-1em]north east}] \\
     \arrow[rr, mapsto, "\varphi(p)", start anchor={[xshift=2em]}, end anchor={[xshift=-4em]}] & & \  \\
     P & & A \hskip 4em B
 \end{tikzcd}
 \end{center}
 
-We now claim that $\varphi = (\alpha \circ \phold, \beta \circ \phold) = \setof{
-{(\alpha \circ \phold, \beta \circ \phold)}_X }_{X \in \lscat C^\op}$ satisifies
+We now claim that $\varphi = (\alpha \comp \phold, \beta \comp \phold) = \setof{
+{(\alpha \comp \phold, \beta \comp \phold)}_X }_{X \in \lscat C^\op}$ satisifies
 the naturality condition.
-
-% Dhruv: The diagram presented in lectures did not include the C(X,P)/C(Y,P) row
-% or the C(-,P) arrows. It also said (alpha o g, beta o g), which I believe was
-% incorrect, so wrote it as followed.
 
 \begin{center}
 \begin{tikzcd}
     X \arrow[rr, "{\lscat C (\phold, P)}"]
-        && \lscat C(X, P) \arrow[rr, "{(\alpha \circ\;\phold,\;\beta \circ\;\phold)}_X"]
+        && \lscat C(X, P) \arrow[rr, "{(\alpha \comp\;\phold,\;\beta \comp\;\phold)}_X"]
             \arrow[dd, "{C(g,P)}"]
         && K (X) \arrow[dd, "K(g)"]
         & (a,b) \arrow[dd, mapsto] \\
     & & & & & \\
     Y \arrow[uu, "g"] \arrow[rr, "{\lscat C (\phold, P)}"]
-        && \lscat C (Y, P) \arrow[rr, swap, "{(\alpha \circ\;\phold,\;\beta \circ\;\phold)}_Y"]
+        && \lscat C (Y, P) \arrow[rr, swap, "{(\alpha \comp\;\phold,\;\beta \comp\;\phold)}_Y"]
         && K(Y)
-        & (a \circ g, b \circ g)
+        & (a \comp g, b \comp g)
 \end{tikzcd}
 \end{center}
 
 We can determine what $\varphi$ looks like by calculating what $id_P$ is mapped
 to:
-
-\begin{center}
-\begin{tikzcd}
-    \varphi_P : & \lscat C (P, P) \arrow[rr, Rightarrow] && \lscat C (P, A) \times \lscat C (P, B)
-\end{tikzcd}
-\begin{tikzcd}
-              & id_P \arrow[rr, mapsto] && (P \morpharr{\alpha} A,\quad P \morpharr{\beta} B)
-\end{tikzcd}
-\end{center}
+\[\varphi_P : \lscat C (P, P) \morpharrow \lscat C (P, A) \times \lscat C (P,
+    B) \textrm{ and } id_P \mapsto (P \morpharr{\alpha} A,\quad P \morpharr{\beta} B).\]
 
 \begin{exercise}
-
-% Dhruv: The original phrasing was something along the lines of: "Can we
-% reconstruct phi from A <-(a)- P -(b)-> B but I was unsure what that meant.
-
-Prove $\varphi$ is natural. Finish the diagram such that it commutes, that is,
-define $\lscat C (g,P)$ and $K(g)$ for $g : Y \to X$ in terms of $\alpha$ and
-$\beta$ alone.
+Reconstruct the rest of $\varphi$ and prove it is natural. That is, finish the
+diagram such that it commutes: define $\lscat C (g,P)$ and $K(g)$ for
+arbitrary $g : Y \to X$ (the above was the case $g=id_X$ and $Y=X$) in terms of
+only $\alpha$ and $\beta$/the above result.
 \end{exercise}
 
 Having shown $\varphi$ is natural, we can then ask when $\varphi$ is a natural
 isomorphism.
 
-% Dhruv: There was an "exercise" here but I'm unsure what's left to do after
-% the following was presented in the lecture.
-
 \begin{align*}
-    & \lscat C (\phold, P) \natarrow \lscat C (\phold, A) \times \lscat C (\phold, B)\\
+    & \lscat C (\phold, P) \natarrow \lscat C (\phold, A) \times \lscat C (\phold, B) \textrm{ natural isomorphism}\\
     \textrm{iff  } & \forall X.\;\lscat C (X, P) \morpharrow \lscat C (X, A) \times \lscat C (X, B)
                         \textrm{ isomorphisms}\\
     \textrm{iff  } & \forall X.\;\forall f: X \to A,\;g : X \to B.\ 
