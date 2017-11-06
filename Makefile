@@ -14,16 +14,18 @@ SRC := lecture1.tex \
 
 SRC_DIR := tex
 SRC := $(addprefix $(SRC_DIR)/,$(SRC))
+BUILD_AUX := $(BUILD)/$(SRC_DIR)
 TARGETS := acs-category-theory-notes.pdf
 
 all: $(TARGETS)
 
-%.pdf: %.tex $(SRC) | $(BUILD)
+%.pdf: %.tex $(SRC) | $(BUILD) $(BUILD_AUX)
 	latexmk -pdf -output-directory=$(BUILD) -pdflatex="pdflatex -interaction=nonstopmode" $< $(FLAGS) > build.log
 	mv $(BUILD)/$@ ./$@
 
-$(BUILD):
-	mkdir -p $(BUILD)
+$(BUILD_AUX): $(BUILD)
+$(BUILD) $(BUILD_AUX): %:
+	mkdir -p $@
 
 clean:
 	git clean -xfd $(foreach target, $(TARGETS), --exclude="$(target)")
