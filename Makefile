@@ -17,6 +17,7 @@ SRC := $(addprefix $(SRC_DIR)/,$(SRC))
 BUILD_AUX := $(BUILD)/$(SRC_DIR)
 TARGETS := acs-category-theory-notes.pdf
 
+.PHONY: all
 all: $(TARGETS)
 
 %.pdf: %.tex $(SRC) | $(BUILD) $(BUILD_AUX)
@@ -27,5 +28,6 @@ $(BUILD_AUX): $(BUILD)
 $(BUILD) $(BUILD_AUX): %:
 	mkdir -p $@
 
+.PHONY: clean
 clean:
 	git clean -xfd $(foreach target, $(TARGETS), --exclude="$(target)")
