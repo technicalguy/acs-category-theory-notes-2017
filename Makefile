@@ -10,7 +10,8 @@ SRC := lecture1.tex \
        lecture6.tex \
        lecture7.tex \
        lecture8.tex \
-       lecture9.tex
+       lecture9.tex \
+       lecture11.tex
 
 SRC_DIR := tex
 SRC := $(addprefix $(SRC_DIR)/,$(SRC))
