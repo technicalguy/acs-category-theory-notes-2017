@@ -1,0 +1,111 @@
+\chapter{Representability}
+\lecturedetails{7 November 2017}{M Fiore, P Fernandes, P Bose}
+
+\begin{definition}[Representation]
+Consider a category $\mathcal{C}$ and a functor $K: \mathcal{C}^{op} \rightarrow \catset $.
+A representation is of $K$ is then given by:
+\begin{itemize}
+  \item an object $R \in \mathcal{C}$
+  \item a natural isomorphism $\rho: \mathcal{C(\phold, R)} \natarrow K(\_) $
+  \end{itemize}
+\end{definition}
+Notice that representations are unique up to isomorphism since:
+\[\mathcal{C}(\phold, R_1) \cong K(\phold) \cong \mathcal{C}(\phold, R_2)\ \iff R_1 \cong R_2\]
+
+\begin{example}
+If we consider $K_{A,B}(\phold) = \mathcal{C}(\phold, A) \times \mathcal{C}(\phold, B)$, we have from last chapter lecture that $A \times B$ coupled with $\rho : \{ (\pi_1 \circ \phold, \pi_2 \circ \phold) \}$ is a representation.
+\end{example}
+
+\begin{example}
+Consider  $K: \mathcal{C}^{op} \rightarrow \catset $ such that $K(c) = \mathbb{1}$. Then we have that:
+\[\mathcal{C}(\phold, R) \cong K(\phold) = \mathbb{1}\]
+So here the objects of the representation are terminal objects.
+
+\end{example}
+\section{Yoneda Lemma}
+\begin{theorem}[Yonneda Lemma]
+There is a natural bijection correspondence 
+\[ 
+  \Efrac
+    {\mathcal{C}(\phold, A) \natarrow K}
+    {K(R) }
+\]
+\end{theorem}
+\begin{exercise}
+Prove the Yonneda Lemma
+\end{exercise}
+\begin{example}
+Consider the category:\\
+\[\mathcal{W}: (0 \longleftarrow 1 \longleftarrow 2 \longleftarrow 3 \longleftarrow ...) \]
+We then have that a $K_{\mathcal{W}}$ must be of the form
+\[K_{\mathcal{W}}: (K_{\mathcal{W}}(1) \longrightarrow K_{\mathcal{W}}(2) \longrightarrow K_{\mathcal{W}}(3)  \longrightarrow ...) \]
+And that $\mathcal{W}(\phold, n)$ must be
+\[
+\mathcal{W}(\phold, n):
+\begin{tikzcd}
+\mathcal{W}(0, n) \arrow[r] & \mathcal{W}(1, n) \arrow[r] & ... \arrow[r] & \mathcal{W}(n, n) \arrow[r] & ... \\
+\emptyset \arrow[u, phantom, "\rotatebox{90}{$=$}"] & \emptyset \arrow[u, phantom, "\rotatebox{90}{$=$}"] & ... & \nelem{1} \arrow[u, phantom, "\rotatebox{90}{$=$}"] & ...
+\end{tikzcd}
+\]
+Look natural transformations between $\mathcal{W}(\phold, n)$ and K, so transformations such that:
+\begin{center}
+\begin{tikzcd}
+\emptyset \arrow[r] \arrow[d] & \emptyset \arrow[r] \arrow[d] & ... \arrow[r] & \nelem{1} \arrow[r] \arrow[d] & ...\\
+K_{\mathcal{W}}(0) \arrow[r] & K_{\mathcal{W}}(1) \arrow[r] & ... \arrow[r] & K_{\mathcal{W}}(n) \arrow[r] & ...
+\end{tikzcd}\\
+commutes
+\end{center}
+Then to give a natural transformation $\phi : \mathcal{C}(\phold, A) \natarrow K$ is the same as giving an element of $K_\mathcal{W}(n)$
+\end{example}
+\begin{definition}[Yoneda Embedding]
+Recall $\mathcal{C}(\phold, \phold): \mathcal{C}^{op} \times \mathcal{C} \rightarrow \catset$.\\
+By "currying", we have $y: \mathcal{C} \rightarrow \catset^{\mathcal{C}^{op}}$ such that for all arrows $f: A \rightarrow B$ in $\mathcal{C}$:
+\begin{center}
+\begin{tikzcd}
+A \arrow[mapsto]{r} \arrow{dd} & \mathcal{C}(-,A) \arrow{dd} \\
+f \ \ \ \arrow[mapsto]{r} & \ \ \ (f \circ -) \\
+B \arrow[mapsto]{r} & \mathcal{C}(-,B) \\
+\end{tikzcd}
+\end{center}
+
+Note $y_{A,B} : \mathcal{C}(A,B) \rightarrow \catset^{\mathcal{C}^{op}}(y_A, y_B)$ is a bijection, and thus defines the isomorphism:
+\[ \mathcal{C}(A,B)  \cong  Nat( \mathcal{C}(-,A), \mathcal{C}(-,B)) \]
+
+Intuitively $\catset^{\mathcal{C}^{op}}$ has an isomorphic copy of $\mathcal{C}$ in it. Such functors are called embeddings.
+\end{definition}
+
+
+\begin{definition}
+Let $F : \mathcal{A} \rightarrow \mathcal{B}$ be a functor. We say $F$ is faithful if $F_{X,Y} : \mathcal{A}(X,Y) \rightarrow \mathcal{B}(F(X),F(Y))$ is an injection for all objects $X,Y$ in $\mathcal{A}$. We say $F$ is full if $F_{X,Y}$ is surjective for all objects $X,Y$ in $\mathcal{A}$.
+\end{definition}
+
+
+\section{Representing Homs}
+
+Can we represent/internalise the set of arrows $\mathcal{C}(A,B)$ as an object in $\mathcal{C}$, say $(A \Rightarrow B)$?
+
+\begin{definition}[Exponentials]
+The exponential of objects $A$ and $B$ in a cartesian category $\mathcal{C}$ is a representation of parameterised maps from $A$ to $B$, that is:
+\[  \mathcal{C}(-, A \Rightarrow B) \cong \mathcal{C}(-\times A, B)  \]
+
+\end{definition}
+
+Equivalently an exponential is given by an evaluation map $\epsilon_{A,B} \in \mathcal{C} ((A \Rightarrow B) \times A, B)$ such that for all objects $X$ and arrows $f: X \times A $ in $\mathcal{C}$, there exists a unique arrow $\lambda^{A,B}(f) : X \rightarrow (A \Rightarrow B)$ making the following diagram commute:
+\begin{center}
+\begin{tikzcd}
+(A \Rightarrow B) \times A \arrow[r, "\epsilon_{A,B}"] & B \\
+X \times A \arrow[u, "\lambda^{A,B}(f) \times Id_A"] \arrow[ur, "f"] & {} 
+\end{tikzcd}
+\end{center}
+
+
+\textbf{Application}: Suppose $\mathcal{C}$ is a bicartesian (has products and coproducts) and closed (has exponentials). Then $\mathcal{C}$ is distributive, that is the natural map:
+\[  \delta: (X \times A) + (X \times B) \rightarrow X \times (A + B )\]
+is an isomorphism.
+
+\begin{exercise}
+Build the inverse of $\delta$ above. Recall:
+
+\[ P \cong Q \ \ \  \text{ iff }  \Efrac{Z \rightarrow P}{Z \rightarrow Q} \text{natural in Z} \ \ \ \text{iff}     \Efrac{P \rightarrow Z}{Q \rightarrow Z} \]
+\end{exercise}
+\end{document}
