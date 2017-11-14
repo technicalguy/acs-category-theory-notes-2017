@@ -21,11 +21,11 @@ In domain theory, we are interested in other kinds of least upper bounds. In
 particular, we are interested in least upper bounds of $\omega$-chains
 (countably increasing chains)
 \[
-	x_0 \leq x_1 \leq x_2 \leq \cdots \leq x_n \leq \cdots \quad (n \in \nats)
+    x_0 \leq x_1 \leq x_2 \leq \cdots \leq x_n \leq \cdots \quad (n \in \nats)
 \]
 
 The least upper bound of a chain $x_n$, if it exists, is denoted $\lub_{n \in
-    \nats}$ and in $\lscat{P}$ is analogous to the ``least upper bound of the
+\nats}$ and in $\lscat{P}$ is analogous to the ``least upper bound of the
 join construction''.
 
 In order to generalize these kinds of constructions in a category, we need
@@ -46,8 +46,8 @@ numbers and arrows $m \morpharrow n$ iff $m \leq n$. An $\omega$-chain in a
 category $\lscat{C}$ is nothing but a functor $X : \underline{\omega} \to
 \lscat{C}$ such that
 \begin{align*}
-	n & \mapsto X_n & (\text{object map}) \\
-	(m \leq n) & \mapsto (X_m \morpharrow X_n) &(\text{morphism map})
+    n & \mapsto X_n & (\text{object map}) \\
+    (m \leq n) & \mapsto (X_m \morpharrow X_n) &(\text{morphism map})
 \end{align*}
 
 \end{definition}
@@ -64,15 +64,15 @@ consists of an (initial universal) object $C$ (called a \emph{cocone}, with dual
 
 \begin{center}
 \begin{tikzcd}[row sep=2cm, column sep=2cm]
-X_0    \arrow[r]
-	   \arrow[drr,"\gamma_0",swap] &
-X_1    \arrow[r]
-	   \arrow[dr,"\gamma_1",swap]  &
-\cdots \arrow[r]
-	   \arrow[d,dashed]            &
-X_n    \arrow[r]
-	   \arrow[dl, "\gamma_n"]      &
-\cdots \arrow[dll, dashed]
+  X_0    \arrow[r]
+         \arrow[drr,"\gamma_0",swap]
+& X_1    \arrow[r]
+         \arrow[dr,"\gamma_1",swap]
+& \cdots \arrow[r]
+         \arrow[d,dashed]
+& X_n    \arrow[r]
+         \arrow[dl, "\gamma_n"]
+& \cdots \arrow[dll, dashed]
 \\
 && C
 \end{tikzcd}
@@ -82,9 +82,9 @@ such that the following diagram commutes $\forall n \in \nats$.
 
 \begin{center}
 \begin{tikzcd}[column sep=small]
-X_n     \arrow[rr]
-	    \arrow[dr, "\gamma_n", swap] &&
-X_{n+1} \arrow[dl, "\gamma_{n+1}"]
+   X_n     \arrow[rr]
+           \arrow[dr, "\gamma_n", swap]
+&& X_{n+1} \arrow[dl, "\gamma_{n+1}"]
 \\
 & C
 \end{tikzcd}
@@ -96,10 +96,10 @@ $\langle \delta_n : X_n \rightarrow D\rangle_{n \in \nats}$ such that the
 following diagram commutes,
 \begin{center}
 \begin{tikzcd}[column sep=small]
-X_n     \arrow[rr]
-	    \arrow[dr, "\delta_n", swap] &&
-X_{n+1}
-	    \arrow[dl, "\delta_{n+1}"]
+X_n   \arrow[rr]
+      \arrow[dr, "\delta_n", swap]
+&& X_{n+1}
+      \arrow[dl, "\delta_{n+1}"]
 \\
 & D
 \end{tikzcd}
@@ -107,15 +107,15 @@ X_{n+1}
 
 there exists a unique map
 \[
-	C \morpharr{\exists ! u} D
+    C \morpharr{\exists ! u} D
 \]
 such that the following commutes for all $n \in \nats$.
 \begin{center}
 \begin{tikzcd}[column sep=small]
-& X_n \arrow[dl, "\gamma_n",swap]
-	  \arrow[dr, "\delta_n"]
+&  X_n \arrow[dl, "\gamma_n",swap]
+       \arrow[dr, "\delta_n"]
 \\
-C     \arrow [rr, "u",swap]
+   C  \arrow [rr, "u",swap]
 && D
 \end{tikzcd}
 \end{center}
@@ -131,11 +131,11 @@ following expressing countable sums (the colimit is denoted by $\coprod Y_k$).
 \begin{center}
 \begin{tikzcd}[column sep=small]
 & {Y_n\ (n \in \nats)}
-	\arrow[dl, "\iota_k",swap]
-	\arrow[dr, "\delta_n"]
+  \arrow[dl, "\iota_k",swap]
+  \arrow[dr, "\delta_n"]
 \\
 \coprod_{k \in \nats} Y_k
-	\arrow [rr, "\exists ! u",swap, dashed]
+  \arrow [rr, "\exists ! u",swap, dashed]
 && D
 \end{tikzcd}
 \end{center}
