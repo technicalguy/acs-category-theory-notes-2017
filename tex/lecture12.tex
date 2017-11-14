@@ -349,7 +349,7 @@ Construct the equalizer $E$
 Suppose the following diagram commutes in a category $\mathcal{C}$
 \begin{center}
 \begin{tikzcd}
-F \arrow[d, "h"'] \arrow[r, "f'"] & E \arrow[r, "g'"] \arrow[d, "h'"'] & D \arrow[d, "h''"'] \\
+F \arrow[d, "h"'] \arrow[r, "f'"] & E \arrow[phantom, "\lrcorner", pos=0]{dr} \arrow[r, "g'"] \arrow[d, "h'"'] & D \arrow[d, "h''"'] \\
 A \arrow[r, "f"'] & B \arrow[r, "g"'] & C
 \end{tikzcd}
 \end{center}
@@ -368,7 +368,7 @@ A morphism $m: A \to B$ is a monomorphism iff
 
 \begin{center}
 \begin{tikzcd}
-A \arrow[r, "id_A"] \arrow[d, "id_A"'] & A \arrow[d] \\
+A \arrow[r, "id_A"] \arrow[d, "id_A"'] \arrow[phantom, "\lrcorner", pos=0]{dr} & A \arrow[d] \\
 A \arrow[r, "m"'] & B
 \end{tikzcd}	
 \end{center}
@@ -383,7 +383,7 @@ is a pullback
 In a pullback
 \begin{center}
 \begin{tikzcd}
-P \arrow[r] \arrow[d, "p"'] & S \arrow[d, "m"] \\
+P \arrow[r] \arrow[d, "p"'] \arrow[phantom, "\lrcorner", pos=0]{dr}  & S \arrow[d, "m"] \\
 A \arrow[r] & B
 \end{tikzcd}
 \end{center}
@@ -392,7 +392,7 @@ if $m: S \to B$ is a monomorphism, then $p: P \to A$ is also a monomorphism.
 Intuitively, monomorphisms are like injections and therefore are like predicates, as they select a subset of the elements in the range of the function. In the category $\catset$, we have the pullback 
 \begin{center}
 \begin{tikzcd}
-\{ (a,s) \mid f(a) = m(s) \}  \arrow[r] \arrow[d] & S \arrow[d, "m", tail] \\
+\{ (a,s) \mid f(a) = m(s) \}  \arrow[r] \arrow[d] \arrow[phantom, "\lrcorner", pos=0]{dr}  & S \arrow[d, "m", tail] \\
 A \arrow[r, "f"'] & B
 \end{tikzcd}
 \end{center}
@@ -406,20 +406,20 @@ which is the inverse image of $S$
 The idea is therefore given intuitively by the pullback
 \begin{center}
 \begin{tikzcd}
-f^{-1}(S) \arrow[r] \arrow[d, tail] & S \arrow[d, "m", tail] \\
+f^{-1}(S) \arrow[r] \arrow[d, tail] \arrow[phantom, "\lrcorner", pos=0]{dr}  & S \arrow[d, "m", tail] \\
 A \arrow[r, "f"'] & B
 \end{tikzcd}
 \end{center}
 
 \begin{remark}
-For a morphism $f: A \to B$ if we have the pullback
+For a morphism $f: A \to B$ we have the pullback
 \begin{center}
 \begin{tikzcd}
-A \arrow[r, "f"] \arrow[d, "id_A"] & B \arrow[d, "id_B"] \\
+A \arrow[r, "f"] \arrow[d, "id_A"]  \arrow[phantom, "\lrcorner", pos=0]{dr} & B \arrow[d, "id_B"] \\
 A \arrow[r, "f"'] & B
 \end{tikzcd}
 \end{center}
-we have that $f^{-1}(B) = A$.
+This corresponds to the fact that $f^{-1}(B) = A$.
 \end{remark}
 
 \begin{remark}
@@ -478,7 +478,7 @@ and mapping morphisms $f: Y \to X$ to functions $\mathit{Sub}(f): \mathit{Sub}(X
 where $f^*(m)$ is given by the pullback
 \begin{center}
 \begin{tikzcd}
-f^*(S) \arrow[r] \arrow[d, "f^*(m)"'] & S \arrow[d, "m", tail] \\
+f^*(S) \arrow[r] \arrow[d, "f^*(m)"'] \arrow[phantom, "\lrcorner", pos=0]{dr} & S \arrow[d, "m", tail] \\
 Y \arrow[r, "f"'] & X
 \end{tikzcd}
 \end{center}
