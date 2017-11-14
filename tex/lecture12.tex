@@ -1,0 +1,345 @@
+\chapter{Limits}
+\lecturedetails{14 November 2017}{M Fiore, N Licker, S Borgeaud}
+
+\section{Products}
+
+In a category with products, we have a $\prod_{i \in I} X_i$ such that for
+all $k \in I$:
+
+\begin{center}
+  \begin{tikzcd}
+    \prod_{i \in I} X_i
+      \arrow["\pi_k"]{d}
+    \\
+    X_k
+  \end{tikzcd}
+\end{center}
+
+\section{Equalizer}
+
+An equalizer is an object $E$ and a morphism $e: E \to A$ such that $fe=ge$ and
+for all objects $X$ and morphisms $x: X \to A$ satisfying $fx=gx$, there is a
+unique $u: X \to E$ such that $eu = x$.
+
+\begin{center}
+  \begin{tikzcd}
+    E
+      \arrow["e"]{r}
+    &
+    A
+      \arrow["f"above, shift left=+1]{r}
+      \arrow["g"below, shift left=-1]{r}
+    &
+    B
+    \\
+    &
+    \forall X
+      \arrow["x"]{u}
+      \arrow["\exists! u", dotted]{ul}
+    &
+  \end{tikzcd}
+\end{center}
+
+\begin{example}
+
+In $\catset$, $E = \Big\{ a \in A \mid f(a) = g(a)\Big\}$ is an equalizer
+for $A$, $f$ and $g$.
+
+\end{example}
+
+\section{Pullbacks}
+
+Pullbacks are limits for the diagram:
+
+\begin{center}
+  \begin{tikzcd}
+    &
+    B
+      \arrow["g"]{d}
+    \\
+    A
+      \arrow["f"]{r}
+    &
+    C
+  \end{tikzcd}
+\end{center}
+
+
+$P$, $p:P\to A$ and $q:P\to $B is a pullback of $f:A \to C$ and $g:B \to C$ if
+for all objects $X$ andmorphisms $u:X \to A$ and $v:X \to B$ such that $fu=fv$,
+there is a unique $w:X \to P$ such that $pw=u$ and $qw=v$:
+
+\begin{center}
+  \begin{tikzcd}
+    X
+      \arrow["\exists!w", dotted]{dr}
+      \arrow["v", bend left=20]{drr}
+      \arrow["u", bend right=20]{ddr}
+    &
+    &
+    \\
+    &
+    P
+      \arrow["q"]{r}
+      \arrow["p"]{d}
+      \arrow[phantom, "\lrcorner", pos=0]{dr}
+    &
+    B
+      \arrow["g"]{d}
+    \\
+    &
+    A
+      \arrow["f"]{r}
+    &
+    C
+  \end{tikzcd}
+\end{center}
+
+\begin{example}
+In $\catset$, $P = \Big\{(a, b) \in A \times B \mid f(a) = g(b)\Big\}$ is a
+pullback for $A$, $f$ and $g$.
+\end{example}
+
+\begin{definition}
+A diagram D of small cagories $\mathbb{G}$ in a category $\mathcal{C}$ is
+a functor $\mathbb{G} \xrightarrow{D} \mathcal{C}$.
+\end{definition}
+
+\begin{example}
+If $\mathbb{G}$ is discrete (has only identity arrows), then we have families
+$D_m, m \in \mathbb{G}$ that are diagrams for products.
+\end{example}
+
+\begin{example}
+Diagrams for equalisers
+
+$$
+G =
+\begin{tikzcd}
+  \bullet
+    \arrow[shift left=+1]{r}
+    \arrow[shift left=-1]{r}
+  &
+  \bullet
+\end{tikzcd}
+$$
+
+\end{example}
+
+\begin{example}
+Diagrams for pullbacks
+  \begin{center}
+    \begin{tikzcd}
+      &
+      \bullet
+        \arrow[]{d}
+      \\
+      \bullet
+        \arrow[]{r}
+      &
+      \bullet
+    \end{tikzcd}
+  \end{center}
+\end{example}
+
+\begin{definition}
+
+A cone for a diagram $D:\mathbb{G} \to \mathbb{G}$ consists of:
+
+\begin{itemize}
+\item an object $x \in \mathcal{C}$
+\item together with a family $\chi: X \to D m, m \in \mathbb{G}$
+
+Such that for all $m, n \in \mathbb{G}$ and $m \xrightarrow{e} n$:
+
+\begin{center}
+  \begin{tikzcd}
+    D m
+      \arrow["D e"]{rr}
+    &
+    &
+    D n
+    \\&&\\
+    &
+    X
+      \arrow["\chi_m"]{uul}
+      \arrow["\chi_n"]{uur}
+    &
+  \end{tikzcd}
+\end{center}
+
+\end{itemize}
+
+A limit of $D: \mathbb{G} \to \mathcal{C}$ is a terminal cone, that is:
+
+$$
+\Big(L, \lambda = \big\{ \lambda_m: L \to D m \big\}_{m \in \mathbb{G}}\Big)
+$$
+
+such that for all
+$\Big(X, \chi = \big\{ \chi_m: X \to D m \big\}_{m \ in \mathbb{G}}\Big)$ and
+$m \in \mathbb{G}$, there is a unique $u$ making the following diagram commute:
+
+\begin{center}
+  \begin{tikzcd}
+    X
+      \arrow["\exists!u"]{rr}
+      \arrow["\chi_m"below]{rdd}
+    &
+    &
+    L
+      \arrow["\lambda_m"]{ldd}
+    \\&&\\
+    &
+    D m
+    &
+  \end{tikzcd}
+\end{center}
+
+\end{definition}
+
+\begin{proposition}
+A category with small products and equalizers has all small limits.
+
+Idea: for a $D:\mathbb{G} \to \mathcal{C}$.
+
+\begin{center}
+  \begin{tikzcd}
+    \prod_{k\in\mathbb{G}}{D k}
+      \arrow["\pi_n"]{rr}
+      \arrow["\pi_m"]{rd}
+    &
+    &
+    D n
+    \\
+    &
+    D m
+      \arrow["D e"]{ur}
+    &
+  \end{tikzcd}
+\end{center}
+
+\begin{center}
+  \begin{tikzcd}
+    L
+      \arrow["eq"]{r}
+    &
+    \prod_{k\in\mathbb{G}}{D k}
+      \arrow
+        [
+          "{\langle D e \cdot \pi_m\rangle_{e:m\to n}}"above,
+          shift left=+1
+        ]
+        {rrr}
+      \arrow
+        [
+          "{\langle \pi_n \rangle_{e:m\to n}}"below,
+          shift left=-1
+        ]
+        {rrr}
+    &
+    &
+    &
+    \prod_{(e:m\to n) \in \mathbb{G}}
+    D n
+  \end{tikzcd}
+\end{center}
+
+The limit is L together with
+
+\begin{center}
+  \begin{tikzcd}
+    (L
+      \arrow["eq"]{r}
+      \arrow["\lambda_i"below, bend right=20]{rr}
+    &
+    \prod_k D k
+      \arrow["\pi_i"]{r}
+    &
+    D i )_{i \in \mathbb{G}}
+  \end{tikzcd}
+\end{center}
+
+\end{proposition}
+
+\begin{lemma}
+
+If a category has pullbacks and a terminal object, it has finite products.
+
+\begin{center}
+  \begin{tikzcd}
+    P
+      \arrow[phantom, "\lrcorner", pos=0]{dr}
+      \arrow[]{r}
+      \arrow[]{d}
+    &
+    B
+      \arrow[]{d}
+    \\
+    A
+      \arrow[]{r}
+    &
+    1
+  \end{tikzcd}
+  \begin{tikzcd}
+    &
+    P
+      \arrow[""]{dl}
+      \arrow[""]{dr}
+    &
+    \\
+    A
+    &
+    &
+    B
+  \end{tikzcd}
+\end{center}
+
+\end{lemma}
+
+\begin{lemma}
+
+If a category has pullbacks and a terminal object, it has equalizers.
+
+\begin{center}
+  \begin{tikzcd}
+    A
+      \arrow["f"above, shift left=+1]{r}
+      \arrow["g"below, shift left=-1]{r}
+    &
+    B
+  \end{tikzcd}
+\end{center}
+
+\begin{center}
+  \begin{tikzcd}
+    E
+      \arrow[]{r}
+      \arrow[]{d}
+    &
+    A
+      \arrow["{\langle id_A, g \rangle}"]{d}
+    \\
+    A
+      \arrow["{\langle id_A, g \rangle}"below]{r}
+    &
+    A \times B
+  \end{tikzcd}
+\end{center}
+
+Intuitively, in $\catset$:
+$$
+  E
+  =
+  \big\{(a, a') \mid (a, f(a) = (a', g(a')))\big\}
+  =
+  \big\{(a, a') \mid a = a' \wedge f(a) = g(a')\big\}
+  \cong
+  \big\{a \mid f(a) = g(a)\big\}
+$$
+
+\end{lemma}
+
+\begin{exercise}
+Construct the equalizer $E$
+\end{exercise}
