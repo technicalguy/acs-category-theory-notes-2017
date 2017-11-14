@@ -66,7 +66,7 @@ Pullbacks are limits for the diagram:
 
 
 $P$, $p:P\to A$ and $q:P\to $B is a pullback of $f:A \to C$ and $g:B \to C$ if
-for all objects $X$ andmorphisms $u:X \to A$ and $v:X \to B$ such that $fu=fv$,
+for all objects $X$ and morphisms $u:X \to A$ and $v:X \to B$ such that $fu=fv$,
 there is a unique $w:X \to P$ such that $pw=u$ and $qw=v$:
 
 \begin{center}
@@ -343,3 +343,156 @@ $$
 \begin{exercise}
 Construct the equalizer $E$
 \end{exercise}
+
+\section{Pullback Lemma}
+\begin{theorem}[Pullback Lemma]
+Suppose the following diagram commutes in a category $\mathcal{C}$
+\begin{center}
+\begin{tikzcd}
+F \arrow[d, "h"'] \arrow[r, "f'"] & E \arrow[r, "g'"] \arrow[d, "h'"'] & D \arrow[d, "h''"'] \\
+A \arrow[r, "f"'] & B \arrow[r, "g"'] & C
+\end{tikzcd}
+\end{center}
+And suppose the right square is a pullback.
+
+Then, the left square is a pullback if and only iff the outer rectangle is a pullback.
+\end{theorem}
+\begin{exercise}
+	Proof the Pullback Lemma.
+\end{exercise}
+
+\subsection{Monomorphisms are pullbacks}
+
+\begin{proposition}
+A morphism $m: A \to B$ is a monomorphism iff 
+
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "id_A"] \arrow[d, "id_A"'] & A \arrow[d] \\
+A \arrow[r, "m"'] & B
+\end{tikzcd}	
+\end{center}
+is a pullback
+\end{proposition}
+
+\begin{exercise}
+	Prove the proposition.
+\end{exercise}
+
+\begin{proposition}
+In a pullback
+\begin{center}
+\begin{tikzcd}
+P \arrow[r] \arrow[d, "p"'] & S \arrow[d, "m"] \\
+A \arrow[r] & B
+\end{tikzcd}
+\end{center}
+if $m: S \to B$ is a monomorphism, then $p: P \to A$ is also a monomorphism.
+\end{proposition}
+Intuitively, monomorphisms are like injections and therefore are like predicates, as they select a subset of the elements in the range of the function. In the category $\catset$, we have the pullback 
+\begin{center}
+\begin{tikzcd}
+\{ (a,s) \mid f(a) = m(s) \}  \arrow[r] \arrow[d] & S \arrow[d, "m", tail] \\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+But
+\[ \{ (a,s) \mid f(a) = m(s) \} \]
+is in bijection with
+\[ \{ a \mid f(a) \text{ in the image of } S \text{ under } m \} \]
+which is the inverse image of $S$
+\[ f^{-1}(m[S])\]
+
+The idea is therefore given intuitively by the pullback
+\begin{center}
+\begin{tikzcd}
+f^{-1}(S) \arrow[r] \arrow[d, tail] & S \arrow[d, "m", tail] \\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+
+\begin{remark}
+For a morphism $f: A \to B$ if we have the pullback
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "f"] \arrow[d, "id_A"] & B \arrow[d, "id_B"] \\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+we have that $f^{-1}(B) = A$.
+\end{remark}
+
+\begin{remark}
+We also have that
+\begin{center}
+\begin{tikzcd}
+f^{-1}(g^{-1}(S)) \arrow[r] \arrow[d] & g^{-1}(S) \arrow[r] \arrow[d] & S \arrow[d, tail] \\
+A \arrow[r, "f"'] & B \arrow[r,"g"] & C	
+\end{tikzcd}
+\end{center}
+corresponds to 
+\[ f^{-1}(g^{-1}(S)) = (g \circ f)^{-1} \]
+This fact corresponds to the first half of the pullback lemma.
+\end{remark}
+
+\section{Subobjects}
+\begin{definition}[$\approx$]
+	Given two monomorphisms $m_1: S_1 \to A$ and $m_2: S_2 \to A$, i.e.
+	\begin{center}
+		\begin{tikzcd}
+S_1 \arrow[rd, "m_1"', tail] &  & S_2 \arrow[ld, "m_2", tail] \\
+ & A & 
+\end{tikzcd}
+	\end{center}
+\end{definition}
+we say $m_1 \approx m_2$ holds iff there exists an isomorphism 
+\begin{tikzcd}
+S_1 \arrow[r, "\cong"] & S_2
+\end{tikzcd} such that
+\begin{center}
+\begin{tikzcd}
+S_1 \arrow[rd, "m_1"', tail] \arrow[rr, "\cong"] &  & S_2 \arrow[ld, "m_2", tail] \\
+ & A & 
+\end{tikzcd}
+\end{center}
+commutes.
+
+\begin{definition}[Suboject]
+	A suboject of an object $A$ is an equivalence class $[m]_{\approx}$ for $m$ a monomorphism into $A$.
+\end{definition}
+
+\begin{definition}[$\mathit{Sub}$ functor]
+	For a category $\mathcal{C}$ with pullbacks we have a functor $\mathit{Sub}: \mathcal{C}^\op \to  \catset$ mapping objects
+	
+\begin{center}
+\begin{tikzcd}
+X \arrow[rr, maps to] &  & \mathit{Sub}(X) = \{ [m]_{\approx} \mid m \text{ a monomorphism into } X\} &  \\
+\end{tikzcd}
+\end{center}
+and mapping morphisms $f: Y \to X$ to functions $\mathit{Sub}(f): \mathit{Sub}(X) \to \mathit{Sub}(Y)$ given by
+\begin{center}
+\begin{tikzcd}
+\lbrack m \rbrack_{\approx} \arrow[r, maps to] & \lbrack f^*(m)\rbrack_{\approx}
+\end{tikzcd}
+\end{center}
+where $f^*(m)$ is given by the pullback
+\begin{center}
+\begin{tikzcd}
+f^*(S) \arrow[r] \arrow[d, "f^*(m)"'] & S \arrow[d, "m", tail] \\
+Y \arrow[r, "f"'] & X
+\end{tikzcd}
+\end{center}
+\end{definition}
+\begin{remark}
+Functoriality follows from the pullback lemma.	
+\end{remark}
+
+\begin{exercise}
+What is the representation for $\mathit{Sub}$?
+\begin{center}
+\begin{tikzcd}
+\mathcal{C}(\_,\Omega) \arrow[r, "\cong", Rightarrow] & \mathit{Sub}(\_)
+\end{tikzcd}
+\end{center}	
+\end{exercise}
+ 
