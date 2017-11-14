@@ -160,7 +160,8 @@ As another useful example of a colimit, we consider the diagram called a \emph{p
 A \emph{coequaliser} is the colimit of a parallel pair diagram.
 \end{definition}
 
-As before, to define the coequaliser, we start by finding a suitable cocone for this diagram:
+As before, to define the coequaliser, we start by finding a suitable cocone for
+this diagram:
 
 \begin{center}
 \begin{tikzcd}[column sep=1.5em, row sep=2.5em]
@@ -174,8 +175,14 @@ As before, to define the coequaliser, we start by finding a suitable cocone for 
 \end{tikzcd}
 \end{center}
 
-We want this diagram to commute for both arrows, \ie\ $\beta \comp f = \alpha$ and $\beta \comp g = \alpha$. In fact, we don't need $\alpha$ as it can just be defined in terms of $\beta$. All we need is to find a $\beta : B \to C$ such that $\beta \comp f = \beta \comp g$, that is, a function which equalises $f$ and $g$. The universal initial solution to this problem is the \emph{coequaliser} of $f$ and $g$: for all other $\zeta : B \to Z$ which equalise $f$ and $g$, there exists a unique arrow $u : Z \to C$ such that the following diagram commutes:
-
+We want this diagram to commute for both arrows, \ie\ $\beta \comp f = \alpha$
+and $\beta \comp g = \alpha$. In fact, we don't need $\alpha$ as it can just be
+defined in terms of $\beta$. All we need is to find a $\beta : B \to C$ such
+that $\beta \comp f = \beta \comp g$, that is, a function which equalises $f$
+and $g$. The universal initial solution to this problem is the
+\emph{coequaliser} of $f$ and $g$: for all other $\zeta : B \to Z$ which
+equalise $f$ and $g$, there exists a unique arrow $u : Z \to C$ such that the
+following diagram commutes:
 
 \begin{center}
 \begin{tikzcd}
@@ -202,13 +209,16 @@ Let's consider coequalisers in the familiar category of sets.
 \end{tikzcd}
 \end{center}
 
-Given two sets $S$ and $T$, with two functions $f, g : S \to T$, the coequaliser $\kappa : T \to K$ of $S$ and $T$ is a function such that $\kappa \comp f = \kappa \comp g$, that is,
+Given two sets $S$ and $T$, with two functions $f, g : S \to T$, the coequaliser
+$\kappa : T \to K$ of $S$ and $T$ is a function such that $\kappa \comp f =
+\kappa \comp g$, that is,
 
 \begin{equation*}
     \forall s \in S.\ \kappa (f(s)) = \kappa (g(s))
 \end{equation*}
 
-We want to find a way of forcing $f(s)$ to equal $g(s)$. Looking closer at the set $T$, we would like to identify $f(s)$ and $g(s)$ for all $s \in S$.
+We want to find a way of forcing $f(s)$ to equal $g(s)$. Looking closer at the
+set $T$, we would like to identify $f(s)$ and $g(s)$ for all $s \in S$.
 
 \begin{center}
 \begin{tikzpicture}
@@ -231,15 +241,27 @@ We want to find a way of forcing $f(s)$ to equal $g(s)$. Looking closer at the s
 \end{tikzpicture}
 \end{center}
 
-Moreover, if, for example, $f(s)$ was equal to $g(s')$, we would like all of $f(s)$, $g(s)$, $f(s')$ and $g(s')$ to be equal -- or, at least, equivalent. This suggests defining an equivalence relation ensuring that the above elements all reside in the same equivalence class. The function $\kappa$ would then map every element $t \in T$ to its corresponding equivalence class in $K$, and therefore $K$ would be the \emph{quotient set} of $T$ by the equivalence relation.
+Moreover, if, for example, $f(s)$ was equal to $g(s')$, we would like all of
+$f(s)$, $g(s)$, $f(s')$ and $g(s')$ to be equal -- or, at least, equivalent.
+This suggests defining an equivalence relation ensuring that the above elements
+all reside in the same equivalence class. The function $\kappa$ would then map
+every element $t \in T$ to its corresponding equivalence class in $K$, and
+therefore $K$ would be the \emph{quotient set} of $T$ by the equivalence
+relation.
 
-Concretely, define the relation $ {}_{f}\hspace{-3px}\approx_{g}\ \subseteq T \times T$ as:
+Concretely, define the relation $ {}_{f}\hspace{-3px}\approx_{g}\ \subseteq T
+\times T$ as:
 
 \begin{equation*}
     {}_{f}\hspace{-3px}\approx_{g}\ \eqdef\ \{(f(s), g(s)) \suchthat s \in S\}
 \end{equation*}
 
-Now, let ${}_{f}\hspace{-3px}\threesim_{g}$ be the least equivalence relation that contains ${}_{f}\hspace{-3px}\approx_{g}$. That is, if $x \threesim y$, then there is a chain of elements $z_0, z_1, \ldots, z_n$ such that $x = z_0 \approx z_1 \approx \ldots \approx z_n = y$. Now, we define the coequaliser $\kappa$ of $f$ and $g$ as a function from $T$ to the quotient set $T / \threesim$ (set of equivalence classes of $T$ under $\threesim$):
+Now, let ${}_{f}\hspace{-3px}\threesim_{g}$ be the least equivalence relation
+that contains ${}_{f}\hspace{-3px}\approx_{g}$. That is, if $x \threesim y$,
+then there is a chain of elements $z_0, z_1, \ldots, z_n$ such that $x = z_0
+\approx z_1 \approx \ldots \approx z_n = y$. Now, we define the coequaliser
+$\kappa$ of $f$ and $g$ as a function from $T$ to the quotient set $T /
+\threesim$ (set of equivalence classes of $T$ under $\threesim$):
 
 \begin{center}
 \begin{tikzcd}[row sep=0.2em]
@@ -286,8 +308,11 @@ To find its colimit, once again, we construct the required commuting cocones:
 \end{tikzcd}
 \end{center}
 
-We require this diagram to commute, \ie\ $\alpha \comp f = \beta \comp g = \gamma$ (again, $\gamma$ can be defined from $\beta$ so it is usually omitted). We also require the colimit to be the universal initial solution: for all other potential limits $X$, there is a unique function from $K$ to $X$ such that the following diagram commutes:
-
+We require this diagram to commute, \ie\ $\alpha \comp f = \beta \comp g =
+\gamma$ (again, $\gamma$ can be defined from $\beta$ so it is usually omitted).
+We also require the colimit to be the universal initial solution: for all other
+potential limits $X$, there is a unique function from $K$ to $X$ such that the
+following diagram commutes:
 
 \begin{center}
 \begin{tikzcd}
@@ -302,8 +327,8 @@ We require this diagram to commute, \ie\ $\alpha \comp f = \beta \comp g = \gamm
 \end{center}
 
 
-This looks quite similar to the coproduct diagram, so our initial guess could be $K = A + B$:
-
+This looks quite similar to the coproduct diagram, so our initial guess could be
+$K = A + B$:
 
 \begin{center}
 \begin{tikzcd}
@@ -316,8 +341,11 @@ This looks quite similar to the coproduct diagram, so our initial guess could be
 \end{tikzcd}
 \end{center}
 
-However, because of $C$ and the extra arrows $f$ and $g$, this diagram does not commute: we can't have $\iota_1 \comp f = \iota_2 \comp g$, since $\iota_1$ and $\iota_2$ have disjoint ranges. The trick is to equalise $\iota_1$ and $\iota_2$ with a coequaliser $c = \text{coeq} (\iota_1 \comp f,\ \iota_2 \comp g )$ (denoted by $\twoheadrightarrow$):
-
+However, because of $C$ and the extra arrows $f$ and $g$, this diagram does not
+commute: we can't have $\iota_1 \comp f = \iota_2 \comp g$, since $\iota_1$ and
+$\iota_2$ have disjoint ranges. The trick is to equalise $\iota_1$ and $\iota_2$
+with a coequaliser $c = \text{coeq} (\iota_1 \comp f,\ \iota_2 \comp g )$
+(denoted by $\twoheadrightarrow$):
 
 \begin{center}
 \begin{tikzcd}
@@ -332,7 +360,8 @@ However, because of $C$ and the extra arrows $f$ and $g$, this diagram does not 
 \end{tikzcd}
 \end{center}
 
-This construction, called a \emph{pushout}, is the colimit of the span. The following notation is used to combine the summation and coequaliser operations:
+This construction, called a \emph{pushout}, is the colimit of the span. The
+following notation is used to combine the summation and coequaliser operations:
 
 \begin{center}
 \begin{tikzcd}
@@ -344,10 +373,11 @@ This construction, called a \emph{pushout}, is the colimit of the span. The foll
 \end{tikzcd}
 \end{center}
 
-\exercise{Show that the pushout satisfies the colimit properties (initial universal solution).}
+\exercise{Show that the pushout satisfies the colimit properties (initial
+universal solution).}
 
-In $\catset$, the pushout is the quotient set (by the appropriate equivalence relation) of the disjoint union of $A$ and $B$.
-
+In $\catset$, the pushout is the quotient set (by the appropriate equivalence
+relation) of the disjoint union of $A$ and $B$.
 
 \begin{center}
 \begin{tikzcd}
@@ -361,16 +391,20 @@ In $\catset$, the pushout is the quotient set (by the appropriate equivalence re
 
 \subsection{Arbitrary diagrams}
 
-So far we looked at special cases of colimits for $\omega$-chains, countable sums, coequalisers and pushouts. However, the construction we saw in the previous section can be applied to any finite diagram to find its colimit.
+So far we looked at special cases of colimits for $\omega$-chains, countable
+sums, coequalisers and pushouts. However, the construction we saw in the
+previous section can be applied to any finite diagram to find its colimit.
 
 \begin{proposition}
-If a category has all finite sums and coequalisers, all finite diagrams have colimits.
+If a category has all finite sums and coequalisers, all finite diagrams have
+colimits.
 \end{proposition}
 
 In fact, we can state a more general result:
 
 \begin{proposition}
-If a category has all small coproducts and coequalisers, all small diagrams have colimits.
+If a category has all small coproducts and coequalisers, all small diagrams have
+colimits.
 \end{proposition}
 
 To demonstrate this, consider an arbitrary diagram such as this one:
@@ -382,7 +416,10 @@ A \arrow[r] & D &
 \end{tikzcd}
 \end{center}
 
-The ``algorithm'' for finding its colimit is simply a repetition of the construction we performed for pushouts: find the sum of two objects and take the coequaliser of its injections. Repeat this on the pairwise colimits until the colimit of the whole diagram is reached.
+The ``algorithm'' for finding its colimit is simply a repetition of the
+construction we performed for pushouts: find the sum of two objects and take the
+coequaliser of its injections. Repeat this on the pairwise colimits until the
+colimit of the whole diagram is reached.
 
 \begin{center}
 \begin{minipage}{0.23\textwidth}
