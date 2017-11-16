@@ -1,0 +1,184 @@
+\chapter{Representability}
+\lecturedetails{7 November 2017}{M Fiore, P Fernandes, P Bose}
+
+\begin{definition}[Representation]
+Consider a category $\mathcal{C}$ and a functor 
+$K: \mathcal{C}^{op} \rightarrow \catset $.
+A \emph{representation} of $K$ is given by:
+\begin{itemize}
+  \item an object $R \in \mathcal{C}$
+  \item a natural isomorphism $\rho: \mathcal{C(\phold, R)}
+    \overset\iso\natarrow K(\phold) $
+  \end{itemize}
+\end{definition}
+Notice that representations are unique up to isomorphism since:
+\[\mathcal{C}(\phold, R_1) \cong K(\phold) \cong 
+\mathcal{C}(\phold, R_2)\ \iff R_1 \cong R_2\]
+
+\begin{example}
+If we consider $K_{A,B}(\phold) = \mathcal{C}(\phold, A) \times \mathcal{C}
+(\phold, B)$, we have from last lecture that $A \times B$ coupled with the
+natural isomorphism $(\pi_1 \circ \phold, \pi_2 \circ \phold)$ is a
+representation.  
+\end{example}
+
+\begin{example}
+Consider  $K: \mathcal{C}^{op} \rightarrow \catset $ such that 
+$K(C) = \mathbb{1}$ for all $C\in\mathcal C$. Then we have that:
+\[\mathcal{C}(\phold, R) \cong \mathbb{1}\]
+So representing objects are terminal.
+
+\end{example}
+\section{Yoneda Lemma}
+\begin{theorem}[Yonneda Lemma]
+There is a natural bijective correspondence 
+\[ 
+  \Efrac
+    {\mathcal{C}(\phold, R) \natarrow K}
+    {K(R)}
+\]
+\end{theorem}
+\begin{exercise}
+Prove the Yonneda Lemma
+\end{exercise}
+\begin{example}
+Consider the category:\\
+\[\mathcal{W}
+  \eqdef 
+  (\, 0 \longleftarrow 1 \longleftarrow \cdots \longleftarrow i \longleftarrow
+  i+1 \longleftarrow \cdots\,) 
+  \qquad(i\in\nats)
+\]
+We then have that $K:\mathcal W^\op\to\catset$ must be of the form
+\[K 
+  \ : \ 
+  (\, K(0) \longrightarrow K(1) \longrightarrow \cdots \longrightarrow
+  K(i) \longrightarrow K(i+1) \longrightarrow \cdots \,) 
+  \qquad(i\in\nats)
+\] 
+and that, for $n\in\mathcal W$, $\mathcal{W}(\phold,n):\mathcal
+W^\op\to\catset$ must be of the form
+\[
+\mathcal{W}(\phold, n)
+\ : \
+\begin{tikzcd}
+\mathcal{W}(0, n) \arrow[r] & \mathcal{W}(1, n) \arrow[r] & \cdots 
+\arrow[r] & \mathcal{W}(n, n) \arrow[r] & 
+\mathcal{W}(n+1,n) \arrow[r] & 
+\cdots 
+\\
+\emptyset \arrow[u, phantom, "\rotatebox{90}{$=$}"] & \emptyset 
+\arrow[u, phantom, "\rotatebox{90}{$=$}"] & \cdots & 
+\nelem{1} \arrow[u, phantom, "\rotatebox{90}{$=$}"] & 
+\nelem{1} \arrow[u, phantom, "\rotatebox{90}{$=$}"] & \cdots
+\end{tikzcd}
+\]
+The natural transformations from $\mathcal{W}(\phold, n)$ to $K$ amount to 
+commutative diagrams as follows:
+\begin{center}
+\begin{tikzcd}
+\emptyset \arrow[r] \arrow[d] & \emptyset \arrow[r] \arrow[d] & \cdots
+\arrow[r] & \emptyset \arrow[r] \arrow[d] & \nelem{1} \arrow[r] \arrow[d] &
+\nelem{1} \arrow[r] \arrow[d] & \cdots 
+\\
+K(0) \arrow[r] & K(1) \arrow[r] & \cdots \arrow[r] & K(n-1) \arrow[r] & K(n)
+\arrow[r] & K(n+1) \arrow[r] & \cdots 
+\end{tikzcd}
+\end{center}
+We then see that to give a natural transformation 
+$\mathcal{W}(\phold,n) \natarrow K$ is to give an element of $K(n)$. 
+\end{example}
+
+\begin{remark}
+Recall the hom-functor 
+$\mathcal{C}(\phold,\Phold): \mathcal{C}^{op} \times \mathcal{C} \rightarrow
+\catset$.
+\end{remark}
+
+\begin{definition}[Yoneda Embedding]
+By ``currying'' the hom-functor associated to a small category~$\mathbb C$, we
+have the \emph{Yoneda embedding} 
+$\yon: \mathbb{C} \rightarrow \catset^{\mathbb{C}^{op}}$ given for all arrows
+$f: A \rightarrow B$ in $\mathbb{C}$ as:
+\begin{center}
+\begin{tikzcd}
+A \arrow[mapsto]{r} \arrow{dd} & \mathbb{C}(-,A) \arrow{dd} \\
+f \ \ \ \arrow[mapsto]{r} & \hspace*{12.5mm} \ \ (f \comp \phold) \\
+B \arrow[mapsto]{r} & \mathbb{C}(-,B) \\
+\end{tikzcd}
+\end{center}
+
+Recall that we have shown a bijective correspondence
+\[ 
+  \mathbb{C}(A,B) 
+  \,\iso\,
+  \text{Nat}\big( \mathbb{C}(-,A), \mathbb{C}(-,B)\big) 
+\]
+that is in fact given by
+\[
+  \yon_{A,B} 
+  : \mathbb{C}(A,B) \to \catset^{\mathbb{C}^{op}}\big(\yon(A),\yon(B)\big)
+\]
+so that, $\yon: \mathbb C\to\catset^{\mathbb C^\op}$ intuitively provides an
+isomorphic copy of $\mathbb C$ in $\catset^{\mathbb{C}^{op}}$ Such functors
+are referred to as embeddings.
+\end{definition}
+
+\begin{definition}
+Let $F : \mathcal{A} \rightarrow \mathcal{B}$ be a functor. We say $F$ is 
+\emph{faithful} if 
+$F_{X,Y} : \mathcal{A}(X,Y) \rightarrow \mathcal{B}\big(F(X),F(Y)\big)$ is an
+injection for all objects $X,Y$ in $\mathcal{A}$.  We say that $F$ is
+\emph{full} if $F_{X,Y}$ is surjective for all objects $X,Y$ in $\mathcal{A}$.
+\end{definition}
+
+\section{Representing hom-sets}
+
+Can we represent/internalise the set of arrows $\mathcal{C}(A,B)$ of a
+category $\mathcal C$ as an object, say $(A \Rightarrow B)$, in it?
+
+\begin{definition}[Exponentials]
+The \emph{exponential} of objects $A$ and $B$ in a cartesian category
+$\mathcal{C}$ is a representation of the functor 
+$\mathcal C(\phold\times A,B):\mathcal C^\op\to\catset$ of the parameterised
+maps from $A$ to $B$; that is, it is given by an object $A\Rightarrow B$ in
+$\mathcal C$ together with a natural isomorphism
+\[  
+  \mathcal{C}(\phold, A \Rightarrow B) 
+  \cong 
+  \mathcal{C}(\phold\times A, B)  
+  \enspace.
+\]
+\end{definition}
+%
+Equivalently, such an exponential is given by an evaluation map 
+\[
+  \varepsilon_{A,B} \in \mathcal{C}\big((A \Rightarrow B) \times A, B\big)
+\]
+such that for all objects $X$ and arrows $f: X \times A \to B$ in
+$\mathcal{C}$, there exists a unique arrow 
+$\lambda^{A,B}(f) : X \rightarrow (A \Rightarrow B)$ making the following
+diagram commute: 
+\begin{center}
+\begin{tikzcd}
+(A \Rightarrow B) \times A \arrow[r, "\epsilon_{A,B}"] & B \\
+X \times A \arrow[u, "\lambda^{A,B}(f) \times Id_A"] \arrow[ur,"f",swap] & {} 
+\end{tikzcd}
+\end{center}
+
+\begin{exercise}
+Suppose that $\mathcal{C}$ is a bicartesian (\ie~it has
+finite products and finite coproducts) and closed (\ie~it has exponentials).
+Then $\mathcal{C}$ is distributive; that is, the canonical map
+\[  
+  \delta: (A \times X) + (B \times X) \rightarrow (A + B )\times X
+\]
+is an isomorphism.
+%
+Build the inverse of $\delta$ above using that:
+\[ 
+  P \cong Q 
+  \enspace \text{ iff }  \enspace 
+  \Efrac{P \rightarrow Z}{Q \rightarrow Z}\ \text{natural in Z} 
+\]
+\end{exercise}
