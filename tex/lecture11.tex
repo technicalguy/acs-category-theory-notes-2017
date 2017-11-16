@@ -1,0 +1,540 @@
+\newcommand*{\threesim}{%
+\mathrel{\vcenter{\offinterlineskip
+\hbox{$\sim$}\vskip-.45ex\hbox{$\sim$}\vskip-.45ex\hbox{$\sim$}}}}
+
+\chapter{Colimits}
+\lecturedetails{9 November 2017}{M Fiore, S Lau, D Szamozvancev}
+
+We can generalize products and coproducts, amongst other similar notions in
+category theory, using the idea of limits and colimits.  We begin with a
+motivating example.
+
+\section{Colimits of $\omega$-chains}
+
+\subsection{Lubs of $\omega$-chains}
+
+Consider a preorder $(P, \leq)$ regarded as a category  $\lscat{P}$.
+
+In $\lscat{P}$,  products are meets ($\wedge, \bigwedge$) and coproducts are
+joins ($\vee,\bigvee$). These constructions were previously defined for pairs
+and, more generally, for subsets of elements.
+
+In domain theory, we are interested in other kinds of least upper bounds. In
+particular, we are interested in least upper bounds of $\omega$-chains (or
+countably increasing chains)
+\[
+    x_0 \leq x_1 \leq x_2 \leq \cdots \leq x_n \leq \cdots \quad (n \in \nats)
+\]
+
+The least upper bound of an $\omega$-chain $\seq{ x_n }_{n\in\nats}$, if it
+exists, is denoted $\lub_{n \in \nats}x_n$ and in $\lscat{P}$ has the
+universal property of being an upper bound of the $\omega$-chain that is least
+amongst all upper bounds of the $\omega$-chain.
+
+To generalize these kinds of constructions in a category, we need something
+analogous to $\omega$-chains and to the universal definition of least upper
+bounds.
+
+\subsection{$\omega$-chains}
+
+\begin{definition}[$\omega$-chain]
+Informally, an $\omega$-chain in a category is given by a diagram as follows
+\[
+    X_0 \morpharrow X_1 \morpharrow X_2 \morpharrow \cdots \morpharrow X_i
+    \morpharrow \cdots
+    \qquad(i\in\nats)
+\]
+that is, a family of objects $X_i$~($i\in\nats$) with a map from $X_i$ to
+$X_{i+1}$ for each $i \in \nats$.
+
+Formally, consider the category $\underline{\omega}$ with objects the natural
+numbers and arrows $m \morpharrow n$ iff $m \leq n$. An $\omega$-chain in a
+category $\lscat{C}$ is then a functor $X : \underline{\omega} \to \lscat{C}$
+such that
+\begin{align*}
+    n & \mapsto X_n & (\text{object map}) \\
+    (m \leq n) & \mapsto (X_m \morpharrow X_n) &(\text{morphism map})
+\end{align*}
+
+\end{definition}
+
+\begin{definition}[Colimits of $\omega$-chains]
+The colimit of an $\omega$-chain
+\[
+    X_0 \morpharrow X_1 \morpharrow X_2 \morpharrow \cdots \morpharrow X_i
+    \morpharrow \cdots
+    \qquad(i\in\nats)
+\]
+say
+\begin{center}
+\begin{tikzcd}[row sep=2cm, column sep=2cm]
+  X_0    \arrow[r]
+         \arrow[drr,"\gamma_0",swap]
+& X_1    \arrow[r]
+         \arrow[dr,"\gamma_1",swap]
+& \cdots \arrow[r]
+         \arrow[d,dashed]
+& X_n    \arrow[r]
+         \arrow[dl, "\gamma_n"]
+& \cdots \arrow[dll, dashed]
+\\
+&& C
+\end{tikzcd}
+\end{center}
+consists of a object $C$ (called a \emph{vertex}) together with a family of
+arrows $\langle \gamma_n : X_n \morpharrow C \rangle _{n \in \nats}$ (called a
+\emph{cocone}, with dual \emph{cone} for limits) such that the following
+diagram commutes 
+\begin{center}
+\begin{tikzcd}[column sep=small]
+   X_n     \arrow[rr]
+           \arrow[dr, "\gamma_n", swap]
+&& X_{n+1} \arrow[dl, "\gamma_{n+1}"]
+\\
+& C
+\end{tikzcd}
+\qquad$(n \in \nats)$
+\end{center}
+and is initial universal, in the sense that for any other cocone, say given by
+an object $D$ and family of arrows $\langle \delta_n : X_n \rightarrow
+D\rangle_{n \in \nats}$ such that the following diagram commutes,
+\begin{center}
+\begin{tikzcd}[column sep=small]
+X_n   \arrow[rr]
+      \arrow[dr, "\delta_n", swap]
+&& X_{n+1}
+      \arrow[dl, "\delta_{n+1}"]
+\\
+& D
+\end{tikzcd}
+\end{center}
+there exists a unique map
+\[
+    C \morpharr{u} D
+\]
+such that the following commutes 
+\begin{center}
+\begin{tikzcd}[column sep=small]
+&  X_n \arrow[dl, "\gamma_n",swap]
+       \arrow[dr, "\delta_n"]
+\\
+   C  \arrow [rr, "\exists!\,u",swap]
+&& D
+\end{tikzcd}
+\end{center}
+for all $n \in \nats$.
+\end{definition}
+
+\begin{remark}
+Intuitively, this universal property generalizes the notion of least upper
+bound from preorders to categories. For $C$ is an ``upper bound'' (witnessed
+by $\gamma$) and if $D$ is also an ``upper bound'' (witnessed by $\delta$),
+then there is a unique arrow from $C$ to $D$, expressing ``$C \leq D$'', and
+mapping the former to the latter.
+\end{remark}
+
+This idea of a colimit generalizes to other diagrams. For instance, consider the
+following expressing countable sums (the colimit is denoted by
+$\coprod_{k\in\nats} Y_k$):
+\begin{center}
+\begin{tikzcd}[column sep=small]
+& 
+Y_n 
+\arrow[dl, "\iota_n",swap] 
+\arrow[dr, "\delta_n"]
+\\
+\coprod_{k \in \nats} Y_k
+  \arrow [rr, "{\exists !\, [\delta_k]_{k\in\nats}}",swap, dashed]
+& & 
+D
+\end{tikzcd}
+\qquad($n \in \nats$)
+\end{center}
+
+N.B.\enspace Here $Y_n$~($n\in\nats$) is discrete, whereas the $\omega$-chain
+used above in defining $\omega$-colimits had structure. We can define limits
+and colimits for arbitrary diagrams, though they may not necessarily exist.
+
+\section{Coequalisers}
+
+As another useful example of a colimit, we consider the diagram called a \emph{parallel pair}, consisting of two objects in a category $\lscat C$ with two parallel morphisms between them:
+
+\begin{center}
+\begin{tikzcd}
+    A \arrow[r, shift left=5pt, "f"]
+      \arrow[r,shift right=5pt, swap, "g"]
+    & B
+\end{tikzcd}
+\end{center}
+
+\begin{definition}[Coequaliser]
+A \emph{coequaliser} is the colimit of a parallel pair diagram.
+\end{definition}
+
+As before, to define the coequaliser, we start by finding a suitable cocone for
+this diagram:
+
+\begin{center}
+\begin{tikzcd}[column sep=1.5em, row sep=2.5em]
+    A \arrow[rr, shift left=5pt, "f"]
+      \arrow[rr, shift right=5pt, swap, "g"]
+      \arrow[rd, "\alpha", swap]
+    & {}
+    & B \arrow[ld, "\beta"]
+    \\
+    {} & C
+\end{tikzcd}
+\end{center}
+
+We want this diagram to commute \emph{serially}~(\ie~for each arrow in turn):
+$\beta \comp f = \alpha$ and $\beta \comp g = \alpha$. In fact, we don't need
+to provide $\alpha$ as it can just be defined in terms of $\beta$. All we need
+is $\beta : B \to C$ such that $\beta \comp f = \beta \comp g$, that is, a
+function which \emph{coequalises} $f$ and $g$.  The universal initial solution
+to this problem is the \emph{coequaliser} of $f$ and $g$: for all 
+$\zeta : B \to Z$ which coequalise $f$ and $g$, there exists a unique arrow 
+$u : Z \to C$ such that the following diagram commutes:
+\begin{center}
+\begin{tikzcd}
+      A \arrow[r, shift left=5pt, "f"]
+        \arrow[r,shift right=5pt, swap, "g"]
+    & B \arrow[r, "\beta"]
+        \arrow[rd, swap, "\forall \zeta"]
+    & C \arrow[d, dashed, "\exists! u"]
+    \\
+    {} & {} & \forall Z
+\end{tikzcd}
+\end{center}
+
+\subsection{Coequalisers in sets}
+Let's consider coequalisers in the familiar category of sets.
+
+\begin{center}
+\begin{tikzcd}
+      S \arrow[r, shift left=5pt, "f"]
+        \arrow[r, shift right=5pt, swap, "g"]
+    & T \arrow[r, "\kappa"]
+    & K
+\end{tikzcd}
+\end{center}
+
+Given two sets $S$ and $T$, with two functions $f, g : S \to T$, the
+coequaliser $\kappa : T \to K$ of $S$ and $T$ is a function such that 
+$\kappa \comp f = \kappa \comp g$, that is,
+
+\begin{equation*}
+    \forall s \in S.\ \kappa (f(s)) = \kappa (g(s))
+\end{equation*}
+
+We want to find a way of forcing $f(s)$ to equal $g(s)$. Looking closer at the
+set $T$, we would like to identify $f(s)$ and $g(s)$ for all $s \in S$.
+
+\begin{center}
+\begin{tikzpicture}
+    [
+        group/.style={ellipse, draw, minimum height=20pt,
+                      minimum width=50pt, label=right:#1},
+        subgroup/.style={rounded corners=10, draw, dashed},
+        dot/.style={circle, fill, minimum width=2.5pt, inner sep=0pt}
+    ]
+    \node (fs) {$f(s)$};
+    \node (gs) [below=10pt of fs] {$g(s)$};
+    \node (fsp) [right=10pt of fs] {$f(s')$};
+    \node (gsp) [below=10pt of fsp] {$g(s')$};
+    \node (fspp) [below=10pt of gs] {$f(s'')$};
+    \node (gspp) [right=10pt of fspp] {$g(s'')$};
+    \node (s) [fit=(fs) (gs), subgroup] {};
+    \node (sp) [fit=(fsp) (gsp), subgroup] {};
+    \node (spp) [fit=(fspp) (gspp), subgroup] {};
+    \node [fit=(s) (sp) (spp), group=T] {};
+\end{tikzpicture}
+\end{center}
+
+Moreover, if, for example, $f(s)$ was equal to $g(s')$, we would like all of
+$f(s)$, $g(s)$, $f(s')$ and $g(s')$ to be equal -- or, at least, equivalent.
+This suggests defining an equivalence relation ensuring that the above elements
+all reside in the same equivalence class. The function $\kappa$ would then map
+every element $t \in T$ to its corresponding equivalence class in $K$, and
+therefore $K$ would be the \emph{quotient set} of $T$ by the equivalence
+relation.
+
+Concretely, define the relation $ {}_{f}\hspace{-3px}\sim_{g}\ \subseteq T
+\times T$ as:
+
+\begin{equation*}
+    {}_{f}\hspace{-3px}\sim_{g}\ 
+    \eqdef\ 
+    \bigsetof{\,\big(f(s), g(s)\big) \suchthat s \in S\,}
+\end{equation*}
+and let ${}_{f}\hspace{-3px}\approx_{g}$ be the least equivalence relation
+that contains ${}_{f}\hspace{-3px}\sim_{g}$. That is, 
+$x\: {}_f\hspace*{-3px}\approx_g y$ iff there is a finite sequence of elements
+$z_0, z_1, \ldots, z_n$~$(n\in\nats)$ such that 
+\[
+ x = z_0\ 
+ {}_f\hspace*{-3px}\sim_g 
+ z_1 \
+ {}_f\hspace*{-3px}\sim_g 
+ \ \cdots \
+ {}_f\hspace*{-3px}\sim_g 
+ z_{n-1}\
+ {}_f\hspace*{-3px}\sim_g 
+ z_n = y
+ \enspace.  
+\]
+Now, we define the coequaliser $\kappa$ of $f$ and $g$ as a function from $T$
+to the quotient set $T_{\mbox{/${}_f\hspace*{-3px}\approx_g$}}$, the set of
+equivalence classes of $T$ under ${}_f\hspace*{-3px}\approx_g$:
+
+\begin{center}
+\begin{tikzcd}[row sep=0.2em]
+      S \arrow[r, shift left=5pt, "f"]
+        \arrow[r, shift right=5pt, swap, "g"]
+    & T \arrow[r, "\kappa"]
+    & T_{\mbox{/${}_f\hspace*{-3px}\approx_g$}}
+    \\
+    {}
+    & t \arrow[r, mapsto]
+    & \left[ t \right]_{ {}_f\hspace*{-0px}\approx_g }
+\end{tikzcd}
+\end{center}
+
+\begin{exercise}
+    Show that this definition has the universal property of coequalisers.
+\end{exercise}
+
+\section{Pushouts}
+
+Consider the following diagram, called a \emph{span}:
+
+\begin{center}
+\begin{tikzcd}
+    C \arrow[r, "g"] \arrow[d, "f", swap]
+    & B
+    \\
+    A
+\end{tikzcd}
+\end{center}
+
+To define its colimit, called a \emph{pushout}, we again consider the required
+commuting cocones:
+
+\begin{center}
+\begin{tikzcd}
+    C \arrow[r, "g"] \arrow[d, "f", swap] \arrow[rd, "\gamma"]
+    & B \arrow[d, "\beta"]
+    \\
+    A \arrow[r, "\alpha"]
+    & K
+\end{tikzcd}
+\end{center}
+
+We require this diagram to commute, 
+\ie~$\alpha \comp f = \beta \comp g = \gamma$; again, $\gamma$ can be defined
+from $\alpha$ or $\beta$ so it is usually omitted).  We also require the
+pushout to be the universal initial solution: for all other cocones (also
+called \emph{cospans}) $(u: A\to X\leftarrow B: v)$, there is a unique map
+from $K$ to $X$ such that the following diagram commutes:
+\begin{center}
+\begin{tikzcd}
+    C \rar{g} \dar[swap]{f}
+    & B \arrow[d, "\beta"] \arrow[ddr, bend left=30, "\forall v"] &[-0.5em] {}
+    \\
+    A \arrow[r, "\alpha"] \arrow[rrd, bend right=30, "\forall u"]
+    & K \arrow[rd, dashed, "\exists! w"] & {}
+    \\[-0.5em]
+    && \forall X
+\end{tikzcd}
+\end{center}
+
+The following notation is used for pushouts:
+\begin{center}
+\begin{tikzcd}
+    C \rar{g} \dar{f} \arrow[dr, phantom, "\ulcorner" font=\Large, very near end]
+    & B \dar{\beta}
+    \\
+    A \rar[swap]{\alpha}
+    & K
+\end{tikzcd}
+\end{center}
+
+\paragraph{Pushouts from coproducts and coequalisers.}
+
+The above looks similar to the coproduct diagram, so our initial guess to
+construct a pushout could be to take $A + B$:
+
+\begin{center}
+\begin{tikzcd}
+    C \rar{g} \dar[swap]{f}
+    & B \arrow[d, "\iota_2", dotted]
+    \\
+    A \arrow[swap,r, "\iota_1", dotted]
+    & A + B
+\end{tikzcd}
+\end{center}
+
+However, this diagram does not necessarily commute: there is no reason for
+which $\iota_1 \comp f = \iota_2 \comp g$ in general.  The trick is then to
+universally force this commutativity by means of the coequaliser 
+$c = \text{coeq} (\iota_1 \comp f,\ \iota_2 \comp g )$:
+
+\begin{center}
+\begin{tikzcd}
+    C \rar{g} \dar[swap]{f}
+    & B \arrow[d, "\iota_2", dotted] \arrow[ddr, bend left=30, "\beta"]
+    &[-0.5em] {}
+    \\
+    A \arrow[r, "\iota_1", dotted] \arrow[drr, bend right=30, "\alpha"]
+    & A + B \arrow[rd, "c"] & {}
+    \\[-0.5em]
+    && K
+\end{tikzcd}
+\end{center}
+
+\exercise{ 
+  Show that the above construction yields a pushout.
+}
+
+\begin{example}
+In $\catset$, the pushout is then a quotient set (by the appropriate
+equivalence relation) of the disjoint union of $A$ and $B$.
+\begin{center}
+\begin{tikzcd}
+    C \rar \dar \arrow[dr, phantom, "\ulcorner" font=\Large, very near end]
+    & B \dar
+    \\
+    A \rar
+    & (A \uplus B)_{\mbox{\hspace*{-1mm}/$\approx$}}
+\end{tikzcd}
+\end{center}
+\end{example}
+
+\section{Finite colimits}
+
+So far we looked at special cases of colimits for $\omega$-chains, countable
+sums, coequalisers and pushouts. However, the construction we saw in the
+previous section can be applied to any finite diagram to find its colimit.
+
+\begin{proposition}
+If a category has initial object, binary sums, and coequalisers, then all
+finite diagrams have a colimit.
+\end{proposition}
+
+In fact, we can state a more general result:
+
+\begin{proposition}
+If a category has all small coproducts and coequalisers, all small diagrams
+have a colimit.
+\end{proposition}
+
+To demonstrate this, consider an arbitrary diagram such as this one:
+
+\begin{center}
+\begin{tikzcd}
+C \arrow[r,"g"] \arrow[d,"f",swap] & B \arrow[r,"j"] \arrow[d,"i"] & E \\
+A & D &
+\end{tikzcd}
+\end{center}
+
+The ``algorithm'' for finding its colimit is simply a repetition of the
+construction we performed for pushouts.  First we consider the sum
+$K=A+B+C+D+E$.  To make the family 
+\begin{center}\begin{tikzcd}[column sep=3em, row sep=2.5em]
+  A 
+  \arrow[swap,drr,"\iota_A"] 
+  & B 
+  \arrow[dr,"\iota_B"] 
+  & C 
+  \arrow[d,"\iota_C"] 
+  & 
+  D 
+  \arrow[dl,"\iota_D",swap] 
+  & E 
+  \arrow[dll,"\iota_E"] 
+  \\
+  && K &&&
+\end{tikzcd}\end{center}
+into a cocone for the diagram, we repeatedly enforce compatibility with each
+of the arrows in the diagram by means of coequalisers.
+\begin{itemize}
+\item
+  To enforce compatibility with $f: C\to A$, we take the coequaliser
+  \begin{center}\begin{tikzcd}[row sep=0em]
+    C 
+    \arrow[rd,"f",swap]
+    \arrow[rr,shift left=10pt,"\iota_C"]
+    & 
+    & K \arrow[r,two heads,"\kappa_f"] & K_f
+    \\
+    & A \arrow[ru,"\iota_A",swap] & 
+  \end{tikzcd}\end{center}
+
+\item
+  To further enforce compatibility with $g:C\to B$, we take the coequaliser
+  \begin{center}\begin{tikzcd}[row sep=0em]
+    C 
+    \arrow[rd,"g",swap]
+    \arrow[rr,shift left=10pt,"\kappa_f\comp\iota_C"]
+    & 
+    & K_f \arrow[r,two heads,"\kappa_{g}"] & K_{f,g}
+    \\
+    & B \arrow[ru,"\kappa_f\comp\iota_B",swap] & 
+  \end{tikzcd}\end{center}
+
+\item
+  To further enforce compatibility with $i:B\to D$, we take the coequaliser
+  \begin{center}\begin{tikzcd}[row sep=0em,column sep=3em]
+    B 
+    \arrow[rd,"i",swap]
+    \arrow[rr,shift left=10pt,"\kappa_g\comp\kappa_f\comp\iota_B"]
+    & 
+    & K_{f,g} \arrow[r,two heads,"\kappa_i"] & K_{f,g,i}
+    \\
+    & D \arrow[ru,swap,"\kappa_g\comp\kappa_f\comp\iota_D"] & 
+  \end{tikzcd}\end{center}
+
+\item
+  Finally, to further enforce compatibility with $j:B\to E$, we take the
+  coequaliser 
+  \begin{center}\begin{tikzcd}[row sep=0em,column sep=3em]
+    B 
+    \arrow[rd,"j",swap]
+    \arrow[rr,shift
+    left=10pt,"\kappa_i\comp\kappa_g\comp\kappa_f\comp\iota_B"
+    ]
+    & 
+    & K_{f,g,i} \arrow[r,two heads,"\kappa_j"] & K_{f,g,i,j}
+    \\
+    & E
+    \arrow[ru,swap,"\kappa_i\comp\kappa_g\comp\kappa_f\comp\iota_E"] 
+    & 
+  \end{tikzcd}\end{center}
+\end{itemize}
+The family 
+\[
+  \bigsetof{\,
+  \kappa_j\comp\kappa_i\comp\kappa_g\comp\kappa_f\comp\iota_X 
+  : X\to K_{f,g,i,j}
+  \,}_{X\in\setof{A,B,C,D,E}}
+\]
+is a colimiting cocone.
+
+Alternatively, we could have done the above construction ``in parallel'' with
+just one coequalizer:
+\begin{center}\begin{tikzcd}
+\dom(f)+\dom(g)+\dom(i)+\dom(j)
+\arrow[rr,shift left=10pt,"{[\,\iota_A\comp f\,,\,\iota_B\comp
+  g\,,\,\iota_D\comp i\,,\,\iota_E\comp j\,]}"]
+\arrow[swap,rr,shift
+right=10pt,"{[\,\iota_C\,,\,\iota_C\,,\,\iota_B\,,\,\iota_B\,]}"]
+&& 
+A+B+C+D+E
+\arrow[r,two heads,"q"]
+& 
+Q
+\end{tikzcd}\end{center}
+obtaining the colimiting cocone
+\[
+  \bigsetof{\, q\comp\iota_X : X\to Q \,}_{X\in\setof{A,B,C,D,E}}
+\]
+

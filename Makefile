@@ -12,6 +12,7 @@ SRC := lecture1.tex \
        lecture8.tex \
        lecture9.tex \
        lecture10.tex \
+       lecture11.tex \
        lecture12.tex
 
 SRC_DIR := tex
