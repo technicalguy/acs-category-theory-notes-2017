@@ -1,0 +1,596 @@
+\chapter{Limits}
+\lecturedetails{14 November 2017}{M Fiore, N Licker, S Borgeaud}
+
+\section{Products}
+
+Recall that in a category with products, we have a $\prod_{i \in I} X_i$
+together with 
+\begin{center}
+  \begin{tikzcd}
+    \prod_{i \in I} X_i
+      \arrow["\pi_k"]{d}
+    \\
+    X_k
+  \end{tikzcd}
+\end{center}
+for all $k \in I$.
+
+\section{Equalizers}
+
+An \emph{equalizer} of a parallel pair $f,g: A\to B$ is an object $E$ and a
+morphism $e: E \to A$ such that $fe=ge$ and for all objects $X$ and morphisms
+$x: X \to A$ satisfying $fx=gx$, there is a unique $u: X \to E$ such that
+$eu = x$.
+
+\begin{center}
+  \begin{tikzcd}
+    E
+      \arrow["e"]{r}
+    &
+    A
+      \arrow["f"above, shift left=+1]{r}
+      \arrow["g"below, shift left=-1]{r}
+    &
+    B
+    \\
+    &
+    \stackrel{\mbox{$X$}}\forall 
+      \arrow["\forall x",swap]{u}
+      \arrow["\exists! u", dotted]{ul}
+    &
+  \end{tikzcd}
+\end{center}
+
+\begin{example}
+In $\catset$, $E = \bigsetof{ a \in A \mid f(a) = g(a) }\hookrightarrow A$ is
+an equalizer of $f,g:A\to B$. 
+\end{example}
+
+\section{Pullbacks}
+
+Pullbacks are limits of diagrams of the form:
+\begin{center}
+  \begin{tikzcd}
+    &
+    B
+      \arrow["g"]{d}
+    \\
+    A
+      \arrow["f"]{r}
+    &
+    C
+  \end{tikzcd}
+\end{center}
+A span $A\stackrel p\longleftarrow P\stackrel q\longrightarrow B$ is a
+\emph{pullback} of the cospan $(f:A \to C\leftarrow B: g)$ if for all spans
+$A\stackrel u\longleftarrow X\stackrel v\longrightarrow B$ such that $fu=gv$,
+there is a unique $w:X \to P$ such that $pw=u$ and $qw=v$:
+\begin{center}
+  \begin{tikzcd}
+    X
+      \arrow["\exists!w", dotted]{dr}
+      \arrow["v", bend left=20]{drr}
+      \arrow["u", bend right=20]{ddr}
+    &
+    &
+    \\
+    &
+    P
+      \arrow["q"]{r}
+      \arrow["p"]{d}
+      \arrow[phantom, "\lrcorner", pos=0]{dr}
+    &
+    B
+      \arrow["g"]{d}
+    \\
+    &
+    A
+      \arrow["f"]{r}
+    &
+    C
+  \end{tikzcd}
+\end{center}
+
+\begin{example}
+In $\catset$, $P = \bigsetof{(a, b) \in A \times B \mid f(a) = g(b) }$,
+together with the projections to $A$ and $B$, is a pullback of
+$(f:A \to C\leftarrow B: g)$.
+\end{example}
+
+\begin{lemma}[Pullback Lemma]
+For a commutative diagram
+\begin{center}
+\begin{tikzcd}
+  \bullet \arrow[d] \arrow[r] & \bullet 
+  \arrow[phantom, "\lrcorner", pos=0]{dr} \arrow[r] \arrow[d] & \bullet 
+  \arrow[d] 
+  \\ 
+  \bullet \arrow[r] & \bullet \arrow[r] & \bullet 
+\end{tikzcd}
+\end{center}
+where the right square is a pullback, the left square is a pullback if and
+only iff so is the outer rectangle.
+\end{lemma}
+
+\begin{exercise}
+	Proof the Pullback Lemma.
+\end{exercise}
+
+
+\section{Limits of diagrams}
+
+\begin{definition}
+A \emph{diagram} of shape a small category $\mathbb{G}$ in a category
+$\mathcal{C}$ is a functor $\mathbb{G} \xrightarrow{D} \mathcal{C}$.
+\end{definition}
+
+\begin{example}
+Diagrams for a discrete shape $\mathbb{G}$ (\ie~categories with only identity
+arrows) amount to families of objects $\setof{  D_n }_{n \in \mathbb{G}}$ and
+provide diagrams for [co]products.
+\end{example}
+
+\begin{example}
+Diagrams for equalisers are of shape
+\begin{center}\begin{tabular}{|c|}\hline
+  \begin{tikzcd}
+  \bullet
+    \arrow[shift left=+1.5]{r}
+    \arrow[shift left=-1.5]{r}
+  &
+  \bullet
+  \end{tikzcd}\\ \hline
+  \end{tabular}\end{center}
+\end{example}
+
+\begin{example}
+Diagrams for pullbacks are of shape
+  \begin{center}\begin{tabular}{|c|}\hline
+    \begin{tikzcd}
+      &
+      \bullet
+        \arrow[]{d}
+      \\
+      \bullet
+        \arrow[]{r}
+      &
+      \bullet
+    \end{tikzcd}\\ \hline\end{tabular}
+  \end{center}
+\end{example}
+
+\begin{definition}
+A \emph{cone} for a diagram $D:\mathbb{G} \to \mathcal{C}$ consists of:
+\begin{itemize}
+\item an object $X \in \mathcal{C}$
+\item together with a family 
+$\chi = \setof{\chi_n: X \to Dn}_{n \in \mathbb{G}}$ such that for all 
+$m \xrightarrow{e} n$ in $\mathbb{G}$ the diagram 
+\begin{center}
+  \begin{tikzcd}
+    D m
+      \arrow["D e"]{rr}
+    &
+    &
+    D n
+    \\&&\\
+    &
+    X
+      \arrow["\chi_m"]{uul}
+      \arrow["\chi_n",swap]{uur}
+    &
+  \end{tikzcd}
+\end{center}
+commutes
+\end{itemize}
+
+A \emph{limit} of $D: \mathbb{G} \to \mathcal{C}$ is a terminal cone; that is,
+a cone 
+\[
+\big(L, \lambda = \big\{ \lambda_m: L \to D m \big\}_{m \in \mathbb{G}}\big)
+\]
+such that for all cones
+$\big(X, \chi = \big\{ \chi_m: X \to D m \big\}_{m \in \mathbb{G}}\big)$,
+there is a unique $u$ making the following diagram commute:
+\begin{center}
+  \begin{tikzcd}
+    X
+      \arrow["\exists!u"]{rr}
+      \arrow["\chi_m"below]{rdd}
+    &
+    &
+    L
+      \arrow["\lambda_m"]{ldd}
+    \\&&\\
+    &
+    D m
+    &
+  \end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{proposition}
+A category with small products and equalizers has all small limits.
+\end{proposition}
+\begin{proof}[Proof idea]
+For a diagram $D$ of shape $\mathbb{G}$, consider the construction
+\begin{center}
+  \begin{tikzcd}
+    L
+      \arrow["\text{eq}"]{r}
+    &
+    \prod_{k\in\mathbb{G}}{D k}
+      \arrow
+        [
+          "{\langle D(e) \comp \pi_m\rangle_{e:m\to n}}"above,
+          shift left=+1
+        ]
+        {rrr}
+      \arrow
+        [
+          "{\langle \pi_n \rangle_{e:m\to n}}"below,
+          shift left=-1
+        ]
+        {rrr}
+    &
+    &
+    &
+    \prod_{(e:m\to n) \in \mathbb{G}}
+    D n
+  \end{tikzcd}
+\end{center}
+
+The limit is then given by the family
+\begin{center}$ 
+\lambda =
+\big\{
+  \begin{tikzcd}
+    L
+      \arrow["{\text{eq}}",swap]{r}
+      \arrow["\lambda_i"above , bend left=20]{rr}
+    &
+    {\prod_{k\in\mathbb G} D k}
+      \arrow["{\pi_i}",swap,r]
+    &
+    D i 
+  \end{tikzcd}
+\big\}_{i\in\mathbb{G}}
+$\end{center}
+which is a cone because the diagram 
+\begin{center}
+  \begin{tikzcd}[row sep=5em]
+    L
+      \arrow["\text{eq}"]{r}
+      \arrow[shift left=-1,"D(e)\comp\lambda_m",bend right]{drrr}
+      \arrow[shift left=+1,"{\lambda_n}",swap,bend right]{drrr}
+    &
+    \prod_{k\in\mathbb{G}}{D k}
+      \arrow
+        [
+          "{\langle D(e) \comp \pi_m\rangle_{e:m\to n}}"above,
+          shift left=+1
+        ]
+        {rrr}
+      \arrow
+        [
+          "{\langle \pi_n \rangle_{e:m\to n}}"below,
+          shift left=-1
+        ]
+        {rrr}
+      \arrow[shift left=-1,"D(e)\comp\pi_m"]{drr}
+      \arrow[shift left=+1,"{\pi_n}",swap]{drr}
+    &
+    &
+    &
+    \prod_{(e:m\to n) \in \mathbb{G}}
+    D n
+    \arrow["\pi_{(e:m\to n)}"]{dl}
+    \\
+    & & & 
+    Dn
+    & 
+  \end{tikzcd}
+\end{center}
+commutes for all $e:m\to n$ in $\mathbb G$.
+
+It remains to show the universal property, which is left as an
+\textbf{exercise}.
+\end{proof}
+
+\begin{lemma}
+If a category has pullbacks and terminal object, then it has finite products.
+\end{lemma}
+\begin{proof}[Proof idea]
+For every pullback diagram
+\begin{center}
+  \begin{tikzcd}
+    P
+      \arrow[phantom, "\lrcorner", pos=0]{dr}
+      \arrow[]{r}
+      \arrow[]{d}
+    &
+    B
+      \arrow[]{d}
+    \\
+    A
+      \arrow[]{r}
+    &
+    1
+  \end{tikzcd}
+\end{center}
+the span
+\begin{center}
+  \begin{tikzcd}
+    &
+    P
+      \arrow[""]{dl}\arrow[""]{dr}
+    &
+    \\
+    A
+    &
+    &
+    B
+  \end{tikzcd}
+\end{center}
+is a product.
+\end{proof}
+
+\begin{lemma}
+If a category has pullbacks and terminal object, then it has equalizers.
+\end{lemma}
+\begin{proof}[Proof idea]
+Every pullback 
+\begin{center}
+  \begin{tikzcd}
+    E
+      \arrow[phantom, "\lrcorner", pos=0]{dr}
+      \arrow["e"]{r}
+      \arrow["e"left]{d}
+    &
+    A
+      \arrow["{\langle id_A, g \rangle}"]{d}
+    \\
+    A
+      \arrow["{\langle id_A, f \rangle}"below]{r}
+    &
+    A \times B
+  \end{tikzcd}
+\end{center}
+gives the equalizer diagram 
+\begin{center}
+  \begin{tikzcd}
+    E
+      \arrow["e"above]{r}
+    &
+    A
+      \arrow["f"above, shift left=+1]{r}
+      \arrow["g"below, shift left=-1]{r}
+    &
+    B
+  \end{tikzcd}
+\end{center}
+\end{proof}
+
+\begin{remark}
+In $\catset$, the above construction describes the equalizer
+\[
+  \bigsetof{\,a\in A\ \mbox{\Large$\mid$}\ f(a) = g(a)\,}
+\]
+by constructing the isomorphic set
+\[
+  \bigsetof{\, 
+    (a, a')\in A\times A\ 
+    \mbox{\Large$\mid$}\
+    \big(a, f(a)\big) = \big(a', g(a')\big)
+    \,}
+  \enspace.
+\]
+\end{remark}
+
+\section{Inverse images}
+
+\begin{proposition}
+In a pullback
+\begin{center}
+\begin{tikzcd}
+P \arrow[r] \arrow[d, "p"'] \arrow[phantom, "\lrcorner", pos=0]{dr}  & 
+S \arrow[d, "m",tail] 
+\\ A \arrow[r] & B
+\end{tikzcd}
+\end{center}
+where $m: S \to B$ is a monomorphism, necessarily so is $p: P \to A$.
+\end{proposition}
+
+\begin{remark}
+Intuitively, monomorphisms are injective maps and therefore they are like
+predicates: they select a subset of the elements in the range. 
+
+In $\catset$, we have the pullback 
+\begin{center}
+\begin{tikzcd}
+\bigsetof{\, (a,s)\in A\times S \suchthat f(a) = m(s) \,}  
+\arrow[r] \arrow[d,tail] \arrow[phantom, "\lrcorner", pos=0]{dr}  & 
+S \arrow[d, "m", tail] \\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+and since 
+\[ 
+  \bigsetof{\, (a,s)\in A\times S \suchthat f(a) = m(s) \,} 
+  \ \iso \
+  \bigsetof{\, a\in A \suchthat f(a) \in m[S] \,} 
+  \ = \
+  f^{-1}\big(m[S]\big)
+  \enspace,
+\]
+where $m[S]\eqdef\bigsetof{m(s)\in B\suchthat s\in S}\subseteq B$ is the image
+of $S$ under $m$, we also have the pullbacks 
+\begin{center}
+\begin{tikzcd}
+f^{-1}\big(m[S]\big) 
+\arrow[r] \arrow[d, hook] \arrow[phantom, "\lrcorner", pos=0]{dr}  
+& S \arrow[d,"m",tail] 
+\\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\qquad and \qquad
+\begin{tikzcd}
+f^{-1}\big(m[S]\big) 
+\arrow[r] \arrow[d, hook] \arrow[phantom, "\lrcorner", pos=0]{dr}  
+& m[S] \arrow[d,hook] 
+\\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+
+Hence, again intuitively, pullbacks of monomorphisms along a map are like
+inverse images.
+
+For instance, note that for a morphism $f: A \to B$ we have the pullback
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "f"] \arrow[d, "id_A",swap,tail]  
+\arrow[phantom, "\lrcorner", pos=0]{dr} 
+& B \arrow[d, "id_B",tail] \\
+A \arrow[r, "f"'] & B
+\end{tikzcd}
+\end{center}
+which abstractly captures the set-theoretic fact that $f^{-1}(B) = A$ for all
+functions $f$.
+
+We also have the set-theoretic fact that, for all functions $f:A\to B$ and
+$g:B\to C$, 
+\[
+  (g \circ f)^{-1}(S) 
+  \,=\,
+  f^{-1}\big(g^{-1}(S)\big) 
+  \enspace\text{for all $S\subseteq C$}
+\]
+that abstractly corresponds to the half of the Pullback Lemma that asserts
+that, if 
+\begin{center}
+\begin{tikzcd}
+f^{*}\big(g^{*}(S)\big) 
+\arrow[phantom, "\lrcorner", pos=0]{dr} 
+\arrow[r] 
+\arrow[d,tail] & 
+g^{*}(S) \arrow[d,tail] 
+\\
+A \arrow[r, "f"'] & B 
+\end{tikzcd}
+\qquad and \qquad
+\begin{tikzcd}
+g^{*}(S) \arrow[r] \arrow[d,tail]
+\arrow[phantom, "\lrcorner", pos=0]{dr} 
+& 
+S \arrow[d, tail] 
+\\
+B \arrow[r,"g"'] & C	
+\end{tikzcd}
+\end{center}
+are pullbacks, then so is
+\begin{center}
+\begin{tikzcd}
+f^{*}\big(g^{*}(S)\big) 
+\arrow[phantom, "\lrcorner", pos=0]{dr} 
+\arrow[r] 
+\arrow[d,tail] & g^{*}(S) \arrow[r] & 
+S \arrow[d, tail] 
+\\
+A \arrow[r, "f"'] & B \arrow[r,"g"'] & C	
+\end{tikzcd}
+\end{center}
+\end{remark}
+
+\section{Subobjects}
+
+\begin{proposition}
+A morphism $m: A \to B$ is a monomorphism iff 
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "id_A"] \arrow[d, "id_A"'] \arrow[phantom, "\lrcorner", pos=0]{dr}
+& A \arrow[d,"m"] \\ A \arrow[r, "m",swap] & B
+\end{tikzcd}	
+\end{center}
+is a pullback
+\end{proposition}
+
+\begin{exercise}
+	Prove the proposition.
+\end{exercise}
+
+\begin{definition}[Monomorphism equivalence]
+Given two monomorphisms $m_1: S_1 \to A$ and $m_2: S_2 \to A$; that is,
+	\begin{center}
+		\begin{tikzcd}
+S_1 \arrow[rd, "m_1"', tail] &  & S_2 \arrow[ld, "m_2", tail] \\
+ & A & 
+\end{tikzcd}
+	\end{center}
+\end{definition}
+we say $m_1 \approx m_2$ holds iff there exists a (necessarily unique)
+isomorphism $S_1 \stackrel\iso\longrightarrow S_2$ such that the diagram
+\begin{center}
+\begin{tikzcd}
+S_1 \arrow[rd, "m_1"', tail] \arrow[rr, "\cong"] &  & S_2 \arrow[ld, "m_2", tail] \\
+ & A & 
+\end{tikzcd}
+\end{center}
+commutes.
+
+\begin{definition}[Suboject]
+A \emph{suboject} of an object $A$ is an equivalence class $[m]_{\approx}$ for
+$m$ a monomorphism into $A$.  
+\end{definition}
+
+\begin{definition}[Subobject functor]
+For a category $\mathcal{C}$ with pullbacks we have a 
+\emph{subobject functor}
+\[
+\mathrm{Sub}: \mathcal{C}^\op \to  \catset 
+\]
+mapping objects
+\begin{center}
+\begin{tikzcd}[column sep=small]
+X \arrow[rr, maps to] &  & 
+\mathrm{Sub}(X) 
+\eqdef \bigsetof{\, [m]_{\approx} \mid m \text{ is a monomorphism into } X \,}  
+\end{tikzcd}
+\end{center}
+and mapping a morphism $f: Y \to X$ in $\mathcal C$ to the function
+$\mathrm{Sub}(f): \mathrm{Sub}(X) \to \mathrm{Sub}(Y)$ given by
+\begin{center}
+\begin{tikzcd}
+\lbrack m \rbrack_{\approx} \arrow[r, maps to] & \lbrack f^*(m)\rbrack_{\approx}
+\end{tikzcd}
+\end{center}
+for a pullback square
+\begin{center}
+\begin{tikzcd}
+f^*(S) \arrow[r] \arrow[d, "f^*(m)"', tail] 
+\arrow[phantom, "\lrcorner", pos=0]{dr} & S \arrow[d, "m", tail] \\
+Y \arrow[r, "f"'] & X
+\end{tikzcd}
+\end{center}
+\end{definition}
+\begin{remark}
+Functoriality follows from the pullback lemma.	
+\end{remark}
+
+\begin{example}
+In $\catset$, two injections into the same set are equivalent iff they have
+the same image, and $\mathrm{Sub}$ is naturally isomorphic to the
+contravariant powerset functor (with action given by inverse image).
+\end{example}
+
+\begin{exercise}
+What is a representation 
+\begin{center}
+\begin{tikzcd}
+\mathcal{C}(\phold,\Omega) \arrow[r, "\iso", Rightarrow] &
+\mathrm{Sub}(\phold)
+\end{tikzcd}
+\end{center}	
+for $\mathrm{Sub}$?
+\end{exercise}
+ 
