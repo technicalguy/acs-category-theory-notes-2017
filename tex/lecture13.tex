@@ -1,0 +1,354 @@
+\chapter{Adjoint Functors}
+\lecturedetails{16 November 2017}{M Fiore, R Kusztos}
+
+\section{More about subobjects classifiers}
+
+Recall the definition of the \underline{Sub} functor: 
+
+\begin{align*}
+  \underline{Sub}: \lscat{C}^{op} &\longrightarrow \textbf{Set} \\
+  X &\longmapsto \underline{Sub}(X) = \bigl\{ [m]_{\approx} | 
+    \textrm{m is mono into X} \bigl\} \\ 
+\end{align*}
+
+\begin{center}
+  \begin{tikzcd}
+    f^{*}(P)
+      \arrow[phantom, "\lrcorner", pos=0]{dr} 
+      \arrow[r] 
+      \arrow[d] & 
+    X 
+      \arrow[d] \\
+    P
+      \arrow[r] & 
+    Y
+  \end{tikzcd}
+\end{center}
+
+What is a representation for this?
+\begin{definition}[Subobject classifiers]
+  To give a natural isomorphism, 
+  $\lscat{C}(\_,\Omega) \overset{\iso}{\Longrightarrow} \underline{Sub}(\_) $ 
+  is equivalent to giving an 
+  $\Omega \in \lscat{C}$ 
+  and a 
+  $ \Bigl[t \underset{\Omega}{\overset{T}{\downarrow}} \Bigl] 
+    \in \underline{Sub}(\Omega)$
+  such that for all 
+  $X \in \lscat{C}^{\Omega}$
+  there exists a bijective correspondence: 
+
+  \begin{align*}
+    \forall 
+    \Bigl[m \underset{X}{\overset{P}{\downarrow}} \Bigl] 
+    \in \underline{Sub}(X) \quad
+    \exists! 
+    X \overset{\chi_{[m]}}{\longrightarrow} \Omega \quad 
+    \textrm{such that} \quad
+    \chi_{[m]}^{*}[t] = [m]
+  \end{align*}
+\end{definition}
+
+\begin{definition}[Subobject classifiers]
+  \label{subobject_classifier_def}
+  The previous definition is equivalent to simply giving 
+  $\Omega \in \lscat{C}$
+  and 
+  $t \underset{\Omega}{\overset{T}{\downarrow}} \in \lscat{C}$
+  such that 
+  \begin{align*}
+    \forall 
+    m \underset{X}{\overset{P}{\downarrow}}
+    \in \underline{Sub}(X) \quad
+    \exists! 
+    X \overset{\chi_{m}}{\longrightarrow} \Omega
+  \end{align*}  
+  \begin{center}
+    \begin{tikzcd}
+    P 
+      \arrow[phantom, "\lrcorner", pos=0]{dr} 
+      \arrow[r, "u"] 
+      \arrow[d, "m"] & 
+    T 
+      \arrow[d, "t"] \\
+    X
+      \arrow[r, "\chi_m"] & 
+    \Omega
+    \end{tikzcd}
+    \end{center}
+  for some $u$
+\end{definition}
+
+\begin{example}[in $\textbf{Set}$]
+\begin{align*}
+  1 \overset{t}{\longrightarrow} \{t, f\} = \Omega
+\end{align*}
+\begin{align*}
+  Sub(X) = \mathcal{P}(X)
+\end{align*}
+
+\begin{center}
+  \begin{tikzcd}
+    P 
+      \arrow[phantom, "\lrcorner", pos=0]{dr} 
+      \arrow[r, "u"] 
+      \arrow[d, "m"] & 
+    1
+      \arrow[d, "t"] \\
+    X
+      \arrow[r, "\exists!\varphi"] & 
+    \{t, f\}
+    \end{tikzcd}
+  \end{center}
+
+Where $\varphi$ is such that $\varphi^{-1}\{t\} = P$ \\
+Since we are in set, $\varphi$ is the characteristic function of X
+
+\begin{equation*}
+ \varphi = \chi_m(x) = 
+  \begin{cases}
+    t & x \in P \\
+    f & x \notin P 
+  \end{cases}
+\end{equation*}
+
+\end{example}
+
+\begin{exercise}
+  In the subobject classifier definition 
+  (Definition \ref{subobject_classifier_def}), $T$ is necessarily a
+terminal object
+\end{exercise}
+
+\begin{definition}[Toposes]
+  A topos is a category with: 
+  \begin{itemize}
+    \item all finite limits 
+    \item exponentials
+    \item subobject classifier $\Omega$
+  \end{itemize}
+
+Examples of toposes are: 
+  \textbf{Set}, 
+  $\textbf{Set}^{\mathbb{C}^{op}}$, 
+  \textbf{DirGraph}
+
+\end{definition}
+
+\begin{remark}
+  Toposes are models of Higher Intuitionistic Logic.
+\end{remark}
+
+\begin{exercise}
+  What is $\Omega$ in \textbf{DirGraph}?
+
+  For some graph 
+  $G = (N, E)$, 
+  Sub(G) = the set of all its subgraphs, each given by a subset of nodes,
+  $S_n \subseteq N$
+  and a subset of edges 
+  $E_n \subseteq E$ 
+  between nodes in $S_n$.
+
+  \begin{center}
+    \begin{tikzcd}
+      \bullet 
+        \arrow[rr, bend left] & {} \arrow[dd, hook'] & 
+        \bullet \arrow[loop, looseness=4] &  &  &  & 
+        \bullet \arrow[dd, hook'] \arrow[loop, looseness=4] \\
+       &  &  &  &  &  &  \\
+       & {} &  &  &  &  & {} \\
+      \bullet \arrow[rr, bend left] 
+      \arrow[rd, bend right] &  & 
+      \bullet
+        & {} 
+      \arrow[rr] &  & {} & 
+      \textcolor{green}{\bullet} 
+      \arrow[loop left, green]
+      \arrow[loop right, red]
+      \arrow[bend left=20, blue]{d} \\
+       & \bullet \arrow[ru, bend right] \arrow[lu, bend right] &  &  &  &  & 
+       \textcolor{red}{\bullet} 
+       \arrow[loop right, red]
+       \arrow[bend left=20, blue]{u}
+    \end{tikzcd}
+  \end{center}
+\end{exercise}
+
+\begin{exercise}
+  What is $\Omega$ in $\textbf{Set}^{(0 \to 1)}$, also known as the 
+Sierpinski topos.
+\end{exercise}
+
+\section{Adjoint Functors}
+
+\begin{example}
+  In the first lecture we introduced the free functor which maps a set to 
+the free monoid:
+
+  \begin{align*}
+    \textbf{Set} &\overset{F}{\longrightarrow} \textbf{Mon} \\
+    S &\longmapsto (S^*, t, \circ)
+  \end{align*}
+  Similarly, we can introduce the forgetful functor U, which gives the set 
+underlying a monoid.
+
+\begin{center}
+  \begin{tikzcd}[sep=3em]
+    \textbf{Mon}
+      \ar["U"{right}]{d} 
+    \\
+    \textbf{Set}
+      \ar[bend left=40, "F"{left}]{u}
+  \end{tikzcd}\\[1mm]
+\end{center}
+
+Here, we observe that:
+
+\begin{align*}
+  \textbf{Mon}(F(S), \underline{M}) &\cong_{nat} 
+    \textbf{Set}(S, U(\underline(M))) \\
+    \shortintertext{We write that:} \\
+    F &\dashv U \\
+    \intertext{To say that F and U are adjoints; F is called the left adjoint
+    whereas U is called the right adjoint}
+  \end{align*}
+\end{example}
+
+\begin{example}[Colimits]
+  \begin{align*}
+    \lscat{C} &\underset{\Delta}{\longrightarrow} \lscat{C}^\mathbb{G} \\ 
+    X &\longmapsto \Delta(X): \mathbb{C} \to \lscat{G} \quad 
+    \textrm{which maps} \quad
+    e \overset{m}{\underset{n}{\downarrow}} \longmapsto
+    \overset{x}{\underset{x}{\downarrow}}id
+  \end{align*} 
+That is, 
+  \begin{align*}
+    \textrm{For} \quad D \in \lscat{C}^\mathbb{G},  \quad
+    &\varphi: D \Rightarrow \Delta(X) \\
+    &\equiv \textrm{cocone with vertex x for diagram D} \\
+    \lscat{C}(\underline{colim}D, X) &\cong 
+      \lscat{C}^{\mathbb{G}}(D, \Delta(X)) \\ 
+    \underline{colim} &\dashv \Delta \\ 
+    \shortintertext{Dually,} \\ 
+    \lscat{C}(X, \underline{lim}D) &\cong
+      \lscat{C}^{\mathbb{G}}(\Delta(X), D) \\
+    \Delta &\dashv \underline{lim}  
+  \end{align*}
+
+\end{example}
+
+\begin{definition}[Adjoint Pair]
+An adojoint pair of functors, $F \dashv G: \lscat{D} \to \lscat{C}$ consists
+of: 
+ \begin{center}
+  \begin{tikzcd}
+    \lscat{D} 
+    \ar[bend left=20, "G"]{r} &
+   \lscat{C} 
+    \ar[bend left=20, "F"]{l}
+  \end{tikzcd}
+\end{center}
+together with a natural isomorphism:
+\begin{align*}
+\lscat{D}(F C, D) &\cong 
+  \lscat{C}(C, G D) \\ 
+\end{align*}
+
+Equivalently, to give a left adjoint $F$ to a functor 
+$G: \lscat{D} \to \lscat{G}$
+is to give for all $X \in \lscat{C}$
+and object $F(x) \in \lscat{D}$
+together with a map $X \underset{\eta_X}{\rightarrow} G(F(X)$
+in $\lscat{C} $
+such that: 
+\begin{center}
+    \begin{tikzcd}[ampersand replacement=\&]
+    X \arrow[r, "\eta_X"]
+    \arrow[dr, "\forall f"{left}] \&
+    G(F(X)) \arrow[d, "G(f^\#)"] \& 
+    F(X) \arrow[d, mapsto, "\exists! f^\#"] \\
+    {} \& G(Y) \& Y
+  \end{tikzcd} 
+\end{center}
+\end{definition}
+\begin{proposition}
+  Left adjoints preserve colimits and dually, right adjoints preserve limits.
+\end{proposition}
+
+\begin{example}
+A functor $F: \lscat{C} \to \lscat{D}$ preserves sums if:
+
+  \begin{center}
+    \begin{tabular}[t]{lc}
+    $\forall$ sums in $\lscat{C}$
+    \begin{tikzcd}
+      {} & A + B & {} \\
+      A \ar["\iota_1"]{ru} & & B \ar["\iota_2"above]{lu} \\
+    \end{tikzcd}
+    ,
+    \begin{tikzcd}
+      {} & F(A + B) & {} \\
+      F(A) \ar["F(\iota_1)"]{ru} & & F(B) \ar["F(\iota_2)"above]{lu} \\
+    \end{tikzcd}
+    is a sum in $\lscat{D}$.
+    \end{tabular}
+  \end{center}
+
+If $\lscat{D}$ has sums, 
+
+\begin{center}
+  \begin{tikzcd}
+    & F(A) + F(B) \ar["\cong", dotted]{d} & \\ 
+    & F(A + B) & \\
+    F(A) \ar["F(\iota_1)"]{ru} 
+         \ar["\iota^{F(A), F(B)}_1", bend left=40]{ruu} & & 
+    F(B) \ar["F(\iota_2)"]{lu}
+         \ar["\iota^{F(A), F(B)}_2", bend right=40]{luu} \\
+    
+
+  \end{tikzcd}
+\end{center} 
+
+We need to show that $F(A) + F(B) \cong F(A + B)$. We have previously shown
+that this is equivalent to showing that: 
+
+\[ 
+  \Efrac
+    {F(A) + F(B) \to z}
+    {F(A + B) \to z}
+\]
+
+Intuitively,
+
+\LARGE\[
+  \Efrac
+  {
+  \Efrac
+    {F(A) + F(B) \to z} 
+    { \Efrac 
+      {F(A) \to z}  
+      {A \to G z}
+      \quad 
+      \Efrac 
+      {F(B) \to z}
+      {B \to G z}
+    }
+  }
+  {
+    \Efrac 
+    {A + B \to G z}
+    {F(A + B) \to z}
+  }
+\]
+
+\end{example}
+
+\begin{example}
+  Exponentials are adjoints.
+  \begin{align*}
+    \_ \times A &\dashv A \Rightarrow (\_) \\
+    \lscat{C}(X (\times A), B) &\cong \lscat{C}(X, (A \Rightarrow) B)
+  \end{align*}
+\end{example} 
