@@ -1,0 +1,181 @@
+\chapter{More Adjoint Functors}
+\lecturedetails{21 November 2017}{M Fiore, Brad Hardy}
+
+\section{Different Definitions of Adjunctions}
+
+Recall the original definition of adjoint functors:
+
+ \begin{center}
+  \begin{tikzcd}
+    \lscat{D} 
+    \ar[bend left=20, "G"]{r} &
+   \lscat{C} 
+    \ar[bend left=20, "F"]{l}
+  \end{tikzcd}
+\end{center}
+together with a natural isomorphism:
+\begin{equation*}
+\lscat{D}(F C, D) \cong 
+  \lscat{C}(C, G D) \;.
+\end{equation*}
+
+To have this natural isomorphism is to have (natural in $C$ and $D$):
+\begin{center}
+  \begin{tikzcd}
+    \lscat{D}(FC, D)
+    \ar[bend left=20, "\varphi"]{r} &
+    \lscat{C}(C, UD)
+    \ar[bend left=20,  "\phi"]{l}
+  \end{tikzcd}
+\end{center}
+
+Then we also have the following equivalences
+\begin{align*}
+  \Efrac{F C' \overset{Fh}\longrightarrow F C \overset{f}\longrightarrow D}
+  {C' \underset{h}\longrightarrow C \underset{\varphi(f)}\longrightarrow UD}
+  &\hspace{2in}
+  \Efrac{F C \overset{f}\longrightarrow D \overset{h}\longrightarrow D'}
+    {C \underset{\varphi(f)}\longrightarrow UD \underset{\varphi(U h)}\longrightarrow UD'}
+  \\\\
+  \varphi(f \comp F h) = \varphi(f) \comp h
+  &\hspace{2in}
+    \varphi(h \comp f) = Uh \comp \varphi(f)
+\end{align*}
+
+In particular, we have $\varphi(\id{FC}) = \eta_C$ satisfying, for any $f$,
+\begin{equation*}
+  \Efrac{FC' \overset{F f}\longrightarrow FC \overset{\id{}}\longrightarrow FC}
+  {C' \underset{f}\longrightarrow C \underset{\eta_C}\longrightarrow UFC}\;.
+\end{equation*} 
+
+\begin{definition}[Adjunctions, version 2]
+Putting that last fact differently, we have an equivalent definition of an
+adjunction: to have an adunction $F \dashv U$ is to have for each $C$, $\eta_C$ such that
+\begin{equation*}
+  \Efrac{FC \overset{\id{}}\longrightarrow FC}
+  {C \underset{\eta_C}\longrightarrow UFC}
+\end{equation*} 
+and
+\begin{center}
+\begin{tikzcd}
+C \arrow[rdd, "\forall f"'] \arrow[rr, "\eta_C"] &  & UFC \arrow[ldd, "Uf^\#"] & UC \arrow[dd, "\exists!f^\#"] \\
+ &  &  &  \\
+ & UD &  & D
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{definition}[Adjunctions, version 3]
+Similarly, we can play the dual game to arrive at another equivalent defintion:
+to have an adunction $F \dashv U$ is to have for each $D$, $\epsilon_D$ such that
+\begin{equation*}
+  \Efrac{FUD \overset{\epsilon_D}\longrightarrow D}
+  {UD \underset{\id{}}\longrightarrow UD}
+\end{equation*} 
+and
+\begin{center}
+\begin{tikzcd}
+UD & FUD \arrow[rr, "\varepsilon_D"] &  & D \\
+ &  &  &  \\
+C \arrow[uu, "\exists! \hat f"] &  & FC \arrow[luu, "F \hat f"] \arrow[ruu, "\forall f"'] & 
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\section{Adjoints Between Posets}
+
+If we regard posets as categories, we can talk about adjunctions between them.
+Suppose we have
+\begin{center}
+\begin{tikzcd}
+P \arrow[rr, "f", bend left] & \adjointDown & Q \arrow[ll, "g", bend left]
+\end{tikzcd}
+\end{center}
+(recalling that functors $f,g$ between poset categories are monotone functions
+between the posets).
+
+Then to have the adjunction is to have
+\begin{itemize}
+\item via definition version 1,
+\[\forall p \in P, q \in Q.\; f(p) \le_Q q \iff p \le_p g(q)\;;\]
+\item via definition version 2,
+\[\forall p \in P.\; p \le_P (f \comp g)(p)\;;\]
+\item via definition version 3,
+\[\forall q \in Q.\; (f \comp g)(q) \le_Q q\;.\]
+\end{itemize}
+
+Now, suppose $P$ and $Q$ are complete (\ie they have all joins and meets).
+Notice that $f$ preserves joins and $g$ preserves meets. Conversely (this only
+works in $\catposet$), if $f : P \longrightarrow Q$ preserves joins then it has
+a right adjoint, and if $g : Q \longrightarrow P$ preserves meets then it has a
+left adjoint.
+
+\emph{Proof}. Given $g : Q \longrightarrow P$, we need to define $f : P
+\longrightarrow Q$ such that
+\begin{center}
+  \begin{tikzcd}
+p \arrow[r, "f"] \arrow[d] & f(p) \arrow[d] \\
+g(q) & q \arrow[l, "g"]
+\end{tikzcd}
+\end{center}
+commutes.
+
+\begin{exercise}
+Check that the greatest lower bound
+\[f = \bigwedge \{q \in Q\;|\; p \le g(p)\}\;.\]
+is a solution.
+\end{exercise}
+
+\begin{example}
+  Let $X \overset{f}\longrightarrow Y$ be a function (in $\catset$). Then the
+  inverse image $f^{-1}$ preserves both $\cup$ and $\cap$. Hence we have arrows
+  which we will call $\exists f$ and $\forall f$ satisfying
+  \begin{center}
+    \begin{tikzcd}
+ &  & \adjointDown &  &  \\
+\mathcal P(X) \arrow[rrrr, "\exists f", bend left=70] \arrow[rrrr, "\forall f"', bend right=70] &  &  &  & \mathcal P(Y) \arrow[llll, "f^{-1}"] \\
+ &  & \adjointDown &  & 
+\end{tikzcd}
+  \end{center}
+
+  \begin{exercise}
+    Give explicit descriptions of $\exists f \dashv f^{-1} \dashv \forall f$.
+  \end{exercise}
+
+  \textbf{Example of the example.} Let's compute the adjoints in the special case
+  \begin{center}
+    \begin{tikzcd}
+ &  & \adjointDown &  &  \\
+\mathcal P(A \times B) \arrow[rrrr, "\exists_A", bend left=70] \arrow[rrrr, "\forall_A"', bend right=70] &  &  &  & \mathcal P(B) \arrow[llll, "\pi_2^{-1}"] \\
+ &  & \adjointDown &  & 
+\end{tikzcd}
+  \end{center}
+
+\textbf{Idea.} Members of $\mathcal P(A \times B)$ can be seen as predicates
+over $A$ and $B$. Then, given some predicate $P(x^A, y^B)$, $\exists_A$ and
+$\forall_A$ give us predicates on just a variable in $B$:
+\begin{align*}
+  \exists_A(P)(y^B) & = \exists x \in A.\; P(x, y) \\
+  \forall_A(P)(y^B) & = \forall x \in A.\; P(x, y) \; .
+\end{align*}
+
+Notice that $\pi_2^{-1}(P) = \{(a, b) \in A \times B \;|\; b \in P\} \longrightarrow
+P = A \times P$. Then to show that $\exists_A$ and $\forall_A$ are the required
+adjoints is to show that
+
+\[
+  \Efrac{\exists_A(R) \subseteq P}{R \subseteq \pi_2^{-1}(P) = A \times P}
+\]
+and
+\[
+  \Efrac{A \times P = \pi_2^{-1}(P) \subseteq R}{P \subseteq \forall_A(R)}\;.
+\]
+
+Interestingly, this is a possible definition of quantifiers in terms of
+adjoints [due to Lawvere].
+\end{example}
+
+\begin{remark}
+ This works in every topos for \underline{Sub} (the subobject functor defined
+ last lecture).
+\end{remark}
