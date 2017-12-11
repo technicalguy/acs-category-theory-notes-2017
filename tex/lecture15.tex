@@ -1,0 +1,218 @@
+\chapter{Categorical Semantics of Dependent Sums and Products; Monads}
+\lecturedetails{23 November 2017}{M Fiore, N Alcock}
+
+\section{Categorical Semantics of Dependent Sums and Products}
+There is a unique map $X \to 1$, so $\slice{\cat{C}}{1}: (X, X \to 1)$ is equivalent to simply giving $X$. Therefore $\slice{\cat{C}}{1} \iso \cat{C}$.
+
+\begin{center}
+\begin{tikzcd}
+\slice{\cat{C}}{A} \arrow[rr, "(A \Rightarrow -) = \prod_A"{name=U}, bend left=49] \arrow[rr, "\sum_A"'{name=D}, bend right=49] &  & \cat{C} \arrow[ll, "-\times A"{name=M}] &  & A \times C \arrow[d] \arrow[r] \arrow[dr, phantom, "\lrcorner", very near start] & C \arrow[d] \\
+ &  &  &  & A \arrow[r] & 1
+\arrow[from=U, to=M, phantom, "\dashv" rotate=90]
+\arrow[from=M, to=D, phantom, "\dashv" rotate=90]
+\end{tikzcd}
+\end{center}
+
+\begin{example}
+In $\catset$ we have: $I \xto{f} J$.
+
+\begin{center}
+\begin{tikzcd}
+\slice{\catset}{I} \arrow[rr, "\prod_f"{name=U}, bend left=49] \arrow[rr, "\sum_f"'{name=D}, bend right=49] &  & \slice{\catset}{J} \arrow[ll, "f^{*}"{name=M}]
+\arrow[from=U, to=M, phantom, "\dashv" rotate=90]
+\arrow[from=M, to=D, phantom, "\dashv" rotate=90]
+\end{tikzcd}
+\end{center}
+
+\begin{align*}
+\{X_i\}_{i \in I} \xmapsto{\sum_f} \{\sum_{i : f(i) \neq j} X_i\}_{j \in J} \\
+\{Y_{f(i)}\}_{i \in I} \overset{f^{*}}{\mapsfrom} \{Y_j\}_{j \in J} \\
+\{X_i\}_{i \in I} \xmapsto{\prod_f} \{\prod_{i : f(i) \neq j} X_i\}_{j \in J}
+\end{align*}
+
+$f^{*}$ is sometimes known as \textit{reindexing}.
+\end{example}
+
+Consider  $\slice{\catset}{I}$. Objects are sets $X$ with maps into $I$: $(X, X \xto{p} I)$. $X = \bigcup_{i \in I} \{x \in X \suchthat p(x) = i\}$. To make this precise, we can consider:
+
+\begin{center}
+\begin{tikzcd}
+\slice{\catset}{I} \arrow[rr, bend left=49] &  & \catset^I \arrow[ll, bend left=49]
+\end{tikzcd}
+\end{center}
+
+where $\catset^I$ is a category with objects $X = \{X_i\}_{i \in I}$ and morphisms such that for every morphism $S \xto{\varphi} T$ in $\catset$, we have a morphism $S_i \xto{\varphi_i} T_i$ for each $i \in I$.
+
+\begin{center}
+\begin{tikzcd}
+X \arrow[d, "p"] \arrow[r, maps to] & \{p^{-1}(i)\}_{i \in I} = X_i &  & \bigcup_{i \in I} (\{i\} \times S_i) = \biguplus_{i \in I} S_i \arrow[d] &  & S=\{S_i\}_{i \in I} \arrow[ll, maps to] \\
+I &  &  & I &  & 
+\end{tikzcd}
+\end{center}
+
+\section{Equivalences of categories}
+
+\begin{definition}[Equivalence of categories]
+Let $F: \cat{C} \to \cat{D}$ and $G: \cat{D} \to \cat{C}$ be adjoint functors, $F \adjoint G$. If there exist natural transformations such that $\Id{\cat{C}} \iso GF$ and $FG \iso \Id{\cat{D}}$, then $\cat{C}$ and $\cat{D}$ are said to be equivalent.
+\end{definition}
+
+$\slice{\catset}{I}$ and $\catset^{I}$ are equivalent.
+
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, maps to] \arrow[d] & \{p^{-1}(i)\}_{i \in I} \arrow[r, maps to] & \biguplus_{i \in I} p^{-1}(i) \arrow[r, "\cong" description, phantom, no head] \arrow[d] & X \arrow[ld] \\
+I &  & I &  \\
+\{S_i\}_{i \in I} \arrow[r, maps to] & \biguplus_{i \in I} S_i \arrow[r, maps to] \arrow[d] & \{\{i\} \times S_i\}_{i \in I} \arrow[r, "\cong" description, phantom, no head] & \{S_i\}_{i \in I} \\
+ & I &  & 
+\end{tikzcd}
+\end{center}
+
+Equivalence is the natural notion for comparing categories.
+
+For $\scat{C}, \scat{D}$ small categories:
+
+\begin{center}
+\begin{tikzcd}
+\catset^{\scat{C}^{op}} \arrow[rr, "f_{*}"{name=U}, bend left=49] \arrow[rr, "f!"'{name=D}, bend right=49] &  & \catset^{\scat{D}^{op}} \arrow[ll, "f^{*}"{name=M}] \\
+\scat{C} \arrow[rr, "f"'] \arrow[u, hook, "y"] & & \scat{D} \arrow[u, hook, "y"]
+\arrow[from=U, to=M, phantom, "\dashv" rotate=90]
+\arrow[from=M, to=D, phantom, "\dashv" rotate=90]
+\end{tikzcd}
+\end{center}
+
+where $f^{*}$ maps $(\scat{D}^{op} \xto{X} \catset) \mapsto (\scat{C} \xto{Xf} \catset)$, and $y$ is the Yoneda embedding. This is the categorical version of:
+
+\begin{center}
+\begin{tikzcd}
+\powerset(A) \arrow[rr, ""{name=U}, bend left=49] \arrow[rr, ""{name=D}, bend right=49] &  & \powerset(B) \arrow[ll, ""{name=M}] \\
+A \arrow[rr, "f"'] \arrow[u, hook, "\{-\}"] & & B \arrow[u, hook, "\{-\}"']
+\arrow[from=U, to=M, phantom, "\dashv" rotate=90]
+\arrow[from=M, to=D, phantom, "\dashv" rotate=90]
+\end{tikzcd}
+\end{center}
+
+\section{Adjoint functors}
+To recap, the following three conditions are equivalent:
+\begin{align*}
+\cat{D}(FX, Y) \natiso \cat{C}(X, GY) \\
+X \xto{\eta_X} GFX & \text{(univ.)} \\
+FGY \xto{\eta_Y} Y & \text{(univ.)} \\
+\end{align*}
+
+For $X \to Y$, if $\eta$ and $\varepsilon$ are natural transformations, then the following diagram commutes:
+
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\eta_X"] \arrow[d, "f"'] & GFX \arrow[d, "GFf"] \\
+Y \arrow[r, "\eta_Y"] & GFY
+\end{tikzcd}
+\end{center}
+
+There is a general proof technique for proving diagrams commute using adjunctions. Say that we want to prove the following diagram commutes:
+
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, bend left=49] \arrow[rd, bend right=49] &  \\
+ & GZ
+\end{tikzcd}
+\end{center}
+
+This diagram commutes iff the following one does:
+
+\begin{center}
+\begin{tikzcd}
+X \arrow[rd, "F", bend left=49] \arrow[rd, "F"', bend right=49] &  &  \\
+ & FGZ \arrow[rd, "\varepsilon_Z"] &  \\
+ &  & Z
+\end{tikzcd}
+\end{center}
+
+Similarly, if we want to prove the following diagram commutes:
+
+\begin{center}
+\begin{tikzcd}
+FA \arrow[rd, bend left=49] \arrow[rd, bend right=49] &  \\
+ & B
+\end{tikzcd}
+\end{center}
+
+we can use the commutativity of the following one:
+
+\begin{center}
+\begin{tikzcd}
+A \arrow[rd, "\eta_A"] &  &  \\
+ & GFA \arrow[rd, "G", bend left=49] \arrow[rd, "G"', bend right=49] &  \\
+ &  & GB
+\end{tikzcd}
+\end{center}
+
+\begin{example}
+$ $ \newline
+\begin{center}
+\begin{tikzcd}
+FX \arrow[r, "F\eta_X"] \arrow[d, "Ff"] & FGFX \arrow[d, "FGFf"] &  \\
+FY \arrow[r, "F\eta_Y"] & FGFY \arrow[rd, "\varepsilon_Y"] &  \\
+ &  & FY
+\end{tikzcd}
+\end{center}
+
+\[\Efrac{FX' \xto{Fh} FX \xto{f} Y}{X' \xto{h} X \xto{\hat{f}} G}\]
+\[(f \comp Fh)\hat{} = \hat{f} \comp h\]
+So:
+\[\Efrac{FX \xto{\id{FX}} FX}{X \xto{\eta_X \iso \hat{\id{FX}}} GFX}\]
+
+\begin{definition}[Adjunction triangle laws]
+For $F \adjoint G$, the following diagrams commute (making use of the proof technique above):
+
+\begin{center}
+\begin{tikzcd}
+G \arrow[Rightarrow, rd, "\id{G}"'] \arrow[Rightarrow, r, "\eta G"] & GFG \arrow[Rightarrow, d, "G\varepsilon"] & F \arrow[Rightarrow, rd, "\id{F}"'] \arrow[Rightarrow, r, "F\eta"] & FGF \arrow[Rightarrow, d, "\varepsilon F"] \\
+ & G &  & F
+\end{tikzcd}
+\end{center}
+
+In fact, to have an adjunction is equivalent to having:
+\begin{center}
+\begin{tikzcd}
+\cat{C} \arrow[r, "F", bend left] & \cat{D} \arrow[l, "G", bend left]
+\end{tikzcd}
+\end{center}
+together with $\eta: \Id{} \natto GF$ and $\varepsilon: FG \natto \Id{}$ such that the triangle laws hold.
+\end{definition}
+\end{example}
+
+\section{Monads}
+We want to compare $(FX \xto{f} Y) \mapsto (X \xto{\eta_X} GFX \xto{Gf} GY)$ and $(FX \xto{Fg} FGY \xto{\varepsilon_Y} Y) \mapsfrom (X \xto{g} GY)$ to the identity.
+
+\begin{definition}[Monad]
+A monad on $\cat{C}$ is an endofunctor $T$ together with $\eta: \Id{} \natto T$, $\mu: TT \natto T$ satisfying the monoid laws:
+
+\textbf{Identity:}
+\begin{center}
+\begin{tikzcd}
+T \arrow[rd, "\id{}"] \arrow[r, "T\eta"] & TT \arrow[d, "\mu"] & T \arrow[ld, "\id{}"'] \arrow[l, "\eta T"'] \\
+ & T & 
+\end{tikzcd}
+\end{center}
+
+\textbf{Associativity:}
+\begin{center}
+\begin{tikzcd}
+TTT \arrow[r, "T\mu"] \arrow[d, "\mu T"'] & TT \arrow[d, "\mu"] \\
+TT \arrow[r, "\mu"] & T
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+If we pick $T = GF$, then the monoid laws are satisfied by the adjunction's triangle laws (for example, $TT \xto{\mu} T$ is equal to $GFGF \xto{G \varepsilon F} GF$).
+
+\begin{proposition}
+Every adjunction, $F: \cat{D} \to \cat{C} \adjoint G: \cat{C} \to \cat{D}$ induces a monad on $\cat{C}$, where $T = GF$.
+
+\begin{center}
+\begin{tikzcd}
+\cat{D} \arrow[r, "F"{name=F}, bend left] & \cat{C} \arrow[l, "G"{name=G}, bend left] \arrow[loop right, "T"]
+\arrow[from=F, to=G, phantom, "" description]{}{\perp}
+\end{tikzcd}
+\end{center}
+\end{proposition}

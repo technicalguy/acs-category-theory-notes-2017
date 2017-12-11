@@ -33,6 +33,7 @@
 \usepackage{xfrac}
 
 \usepackage{hyperref}
+\usepackage{nicefrac}
 
 % Don't put formatting in the Title; this will show up in other places once
 % we add headers. Instead, do the formatting manually
@@ -117,6 +118,8 @@
 \newcommand{\comp}{\circ} % composition
 \newcommand{\icomp}{\,} % implicit composition
 \newcommand{\iso}{\cong}
+\newcommand{\natiso}{\cong_{nat}}
+\newcommand{\adjoint}{\dashv}
 
 \newcommand{\setof}[1]{ \{ #1 \} }
 \newcommand{\bigsetof}[1]{ \big\{ #1 \big\} }
@@ -133,12 +136,16 @@
 \newcommand{\morpharrow}{\longrightarrow}
 \newcommand{\morpharr}[1]{\overset{#1}{\morpharrow}}
 \newcommand{\natto}{\Rightarrow}
+\newcommand{\xto}[1]{\xrightarrow{#1}}
+\newcommand{\xnattto}[1]{\xRightarrow{#1}}
 \newcommand{\natarrow}{\Longrightarrow}
 \newcommand{\natarr}[1]{\overset{#1}{\natarrow}}
 \newcommand{\lscat}[1]{\mathcal{#1}} % locally small category
 \newcommand{\scat}[1]{\mathbb{#1}} % small category
 \newcommand{\univpair}[1]{\langle #1 \rangle}
 \newcommand{\bigunivpair}[1]{\big\langle #1 \big\rangle}
+\newcommand{\slice}[2]{\nicefrac{#1}{#2}} % slice category
+\newcommand{\powerset}{\mathcal{P}}
 
 \newcommand{\seq}[1]{\langle #1 \rangle}
 
@@ -241,5 +248,6 @@ Zongzhe Yuan\\
 \include{tex/lecture12}
 \include{tex/lecture13}
 \include{tex/lecture14}
+\include{tex/lecture15}
 
 \end{document}
