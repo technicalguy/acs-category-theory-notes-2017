@@ -1,0 +1,273 @@
+\chapter{Adjoint Functors in Logic}
+\lecturedetails{21 November 2017}{M Fiore, B Hardy, O Richardson}
+
+The agenda for the next couple of lectures is (1) to focus on the links to logic (which will be presented in an informal manner, and not in full generality), and (2) some examples and techniques for how to prove things with adjoint functors.
+
+\section{Different Definitions of Adjunctions}
+We will explore four equivalent definitions of adjoint functors; the first three will be given in this lecture, and the last one will be described later on, once we have more intuition and context.
+
+\subsection{Definition By Isomorphism}
+The first definition is the original one given in in the last lecture. Given two functors $F: \lscat{C} \to \lscat{D}$ and $U: \lscat{D} \to \lscat{C}$ (think of $F$ as the free functor, which creates the most general possible structure, and $U$ as forgetful) 
+ \begin{center}
+  \begin{tikzcd}
+    \lscat{D} 
+    \ar[bend left=20, "G"]{r} &
+   \lscat{C} 
+    \ar[bend left=20, "F"]{l}
+  \end{tikzcd}
+\end{center}
+Recall that $U \vdash F$ if there is an isomorphism:
+\begin{equation*}
+\lscat{D}(F C, D) \cong 
+  \lscat{C}(C, G D) \;.
+\end{equation*}
+which is natural in $C$ and $D$. In the isomorphism above, let's name the maps $\varphi$ and $\phi$, as in the diagram below.
+\begin{center}
+  \begin{tikzcd}
+    \lscat{D}(FC, D)
+    \ar[bend left=20, "\varphi"]{r} &
+    \lscat{C}(C, UD)
+    \ar[bend left=20,  "\phi"]{l}
+  \end{tikzcd}
+\end{center}
+We can also view these equivalences as two bijective correspondances between morphisms:
+\begin{align*}
+\Efrac{ F C \overset{f}\longrightarrow D}
+{C \underset{\varphi(f)}\longrightarrow UD}
+&\hspace{2in}
+\Efrac{F C \overset{f}\longrightarrow D \overset{h}\longrightarrow D'}
+{C \underset{\varphi(f)}\longrightarrow UD \underset{\varphi(U h)}\longrightarrow UD'}
+\end{align*}
+The question now becomes: what does naturality in $C$ look like? For any morphism $h : C' \to C$ in $\lscat{C}$, naturality in $C$ amounts to a structure preserving commutativity condition on $\varphi$, as below
+\begin{align*}
+  \Efrac{F C' \overset{Fh}\longrightarrow F C \overset{f}\longrightarrow D}
+  {C' \underset{h}\longrightarrow C \underset{\varphi(f)}\longrightarrow UD}
+  &\hspace{2in}
+  \Efrac{F C \overset{f}\longrightarrow D \overset{h}\longrightarrow D'}
+    {C \underset{\varphi(f)}\longrightarrow UD \underset{\varphi(U h)}\longrightarrow UD'}
+  \\[1em]
+  \text{Naturality in $C$:}~~&\hspace{2in}~~\text{Naturality in $D$:} \\
+  \varphi(f \comp F h) = \varphi(f) \comp h
+  &\hspace{2in}
+    \varphi(h \comp f) = Uh \comp \varphi(f)
+\end{align*}
+
+\begin{remark}
+	To ``transpose'' an arrow is to move it from the top to the bottom of the equivalence (or vice versa). On the left, this amounts to applying $F$, and on the right it ammounts to applying $U$.
+\end{remark}
+
+\subsection{Definition by Units}
+
+In particular, we can transpose identities, and so we have $\varphi(\id{FC}) = \eta_C$ satisfying, for any $f$,
+\begin{equation*}
+  \Efrac{FC' \overset{F f}\longrightarrow FC \overset{\id{}}\longrightarrow FC}
+  {C' \underset{f}\longrightarrow C \underset{\eta_C}\longrightarrow UFC}\;.
+\end{equation*} 
+
+
+
+\begin{definition}[Adjunctions, version 2]
+Putting that last fact differently, we have an equivalent definition of an
+adjunction: to have an adunction $F \dashv U$ is to have for each $C$, $\eta_C$ such that
+\begin{equation*}
+  \Efrac{FC \overset{\id{}}\longrightarrow FC}
+  {C \underset{\eta_C}\longrightarrow UFC}
+\end{equation*} 
+and
+\begin{center}
+\begin{tikzcd}
+C \arrow[rdd, "\forall f"'] \arrow[rr, "\eta_C"] &  & UFC \arrow[ldd, "Uf^\#"] & UC \arrow[dd, "\exists!f^\#"] \\
+ &  &  &  \\
+ & UD &  & D
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+Thus, an an adjunction can be specified by a family of identity transpose maps $\eta_C$.
+
+\subsection{Definition by Counits}
+\begin{definition}[Adjunctions, version 3]
+Similarly, we can play the dual game to arrive at another equivalent defintion:
+to have an adunction $F \dashv U$ is to have for each $D$, $\epsilon_D$ such that
+\begin{equation*}
+  \Efrac{FUD \overset{\epsilon_D}\longrightarrow D}
+  {UD \underset{\id{}}\longrightarrow UD}
+\end{equation*} 
+and
+\begin{center}
+\begin{tikzcd}
+UD & FUD \arrow[rr, "\varepsilon_D"] &  & D \\
+ &  &  &  \\
+C \arrow[uu, "\exists! \hat f"] &  & FC \arrow[luu, "F \hat f"] \arrow[ruu, "\forall f"'] & 
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\section{Adjoints Between Posets}
+\begin{remark}
+	Sometimes if struggling with understanding a category in full generality, one can take away structure, and think of it as an order or a monoid. 
+\end{remark}
+If we regard posets as categories, we can talk about adjunctions between them. note that adjuncts between posets are also called ``Galois connections'', and have applications in abstract interpretations.
+
+
+Suppose we have
+\begin{center}
+\begin{tikzcd}
+P \arrow[rr, "f", bend left] & \adjointDown & Q \arrow[ll, "g", bend left]
+\end{tikzcd}
+\end{center}
+(recalling that functors $f,g$ between poset categories are monotone functions
+between the posets).
+
+Then to have the adjunction is to have
+\begin{itemize}
+\item From the bijection condition (definition 1)
+\[\forall p \in P, q \in Q.\; f(p) \le_Q q \iff p \le_p g(q)\;;\]
+\item by naturality in $p$, (or more clearly, units from definition 2)
+\[\forall p \in P.\; p \le_P (f \comp g)(p)\;;\]
+\item by naturality in $q$, (or more clearly, counits from definition 3)
+\[\forall q \in Q.\; (f \comp g)(q) \le_Q q\;.\]
+\end{itemize}
+
+Now, suppose $P$ and $Q$ are complete (\ie they have all joins and meets).
+Notice that $f$ preserves joins and $g$ preserves meets. Conversely (this only
+works in $\catposet$), if $f : P \longrightarrow Q$ preserves joins then it has
+a right adjoint, and if $g : Q \longrightarrow P$ preserves meets then it has a
+left adjoint.
+
+\emph{Proof}. Given $g : Q \longrightarrow P$, we need to define $f : P
+\longrightarrow Q$ such that
+\begin{center}
+  \begin{tikzcd}
+p \arrow[r, "f"] \arrow[d] & f(p) \arrow[d] \\
+g(q) & q \arrow[l, "g"]
+\end{tikzcd}
+\end{center}
+commutes.
+
+\begin{exercise}
+Check that the greatest lower bound $f$ and least upper bound $g$ 
+\begin{align*}
+	f &\eqdef \bigwedge \{q \in Q~|~ p \le g(q)\}\\
+	g &\eqdef \bigvee \{p \in P~|~ f(p) \le q\}
+\end{align*}
+are adjoint.
+\end{exercise}
+
+\section{Adjoints as a basis for Existential/Universal Quantifies}
+\begin{example}
+  Let $X \overset{f}\longrightarrow Y$ be a function (in $\catset$). Because the
+  inverse image $f^{-1}$ preserves both $\cup$ and $\cap$ (meets and joins), then by the above it must have both a right and a left adjoint functor. Hence we have arrows
+  which we will call $\exists f$ and $\forall f$ satisfying
+  \begin{center}
+    \begin{tikzcd}
+ &  & \adjointDown &  &  \\
+\mathcal P(X) \arrow[rrrr, "\exists f", bend left=70] \arrow[rrrr, "\forall f"', bend right=70] &  &  &  & \mathcal P(Y) \arrow[llll, "f^{-1}"] \\
+ &  & \adjointDown &  & 
+\end{tikzcd}
+  \end{center}
+
+  \begin{exercise}
+    Give explicit descriptions of $\exists f \dashv f^{-1} \dashv \forall f$.
+  \end{exercise}
+
+  \textbf{Example of the example.} Let's compute the adjoints in the special case of the above example, where $X = A \times B$, $Y = B$, and $f = \pi_2^{A,B}$.
+  
+  \begin{center}
+    \begin{tikzcd}
+ &  & \adjointDown &  &  \\
+\mathcal P(A \times B) \arrow[rrrr, "\exists_A", bend left=70] \arrow[rrrr, "\forall_A"', bend right=70] &  &  &  & \mathcal P(B) \arrow[llll, "\pi_2^{-1}"] \\
+ &  & \adjointDown &  & 
+\end{tikzcd}
+  \end{center}
+
+\textbf{Idea.} Members of $\mathcal P(A \times B)$ can be seen as predicates/relations
+over $A$ and $B$. Then, given some predicate $R(x^A, y^B)$ (read as $x$ fo type $A$, and $y$ of type $B$), $\exists_A$ and
+$\forall_A$ give us predicates on just a variable in $B$:
+\begin{align*}
+  \exists_A(P)(y^B) & = \exists x \in A.~R(x, y) \\
+  \forall_A(P)(y^B) & = \forall x \in A.~R(x, y).
+\end{align*}
+
+Notice that $\pi_2^{-1}(P) = \{(a, b) \in A \times B \;|\; b \in P\} \longrightarrow
+P = A \times P$. Then to show that $\exists_A$ and $\forall_A$ are the required
+adjoints is to show that
+
+\[
+  \Efrac{\exists_A(R) \subseteq P}{R \subseteq \pi_2^{-1}(P) = A \times P}
+\]
+and
+\[
+  \Efrac{A \times P = \pi_2^{-1}(P) \subseteq R}{P \subseteq \forall_A(R)}\;.
+\]
+
+Interestingly, this is a possible definition of quantifiers in terms of
+adjoints [due to Lawvere].
+\end{example}
+
+\begin{remark}
+ This works in every topos with \underline{Sub} (a subobject classifier), although the details are different.
+\end{remark}
+
+\section{Connectives and Slice Categories}
+
+Observe the following two analogies
+
+\begin{align*}
+	\Efrac{C \to A \times B}{C \to A\quad C \to B} &\hspace{10em} \Efrac{\Gamma \vdash A \land B}{\Gamma \vdash A\quad \Gamma \vdash B} \\
+	\Efrac{C \times A  \to B}{C \to A \Rightarrow B} &\hspace{10em} \Efrac{\Gamma, A \vdash B}{\Gamma \vdash A \Rightarrow B}
+\end{align*}
+
+\begin{remark}
+	This generalizes in connection to type theory, with respect to slice categories (to be defined below), where $\exists_A$ becomes a $\Sigma$ type, and $\forall_A$ becomes a $\Pi$ type.
+\end{remark}
+
+\begin{definition}
+	Given a category $\lscat{C}$ and an object $A \in \lscat C$, the \textit{slice of $\lscat C$ over $A$}, denoted $\sfrac{\lscat C}{ A}$, has
+	\begin{align*}
+		\textbf{objects:} \qquad & \left(X \in \lscat C, ~f\underset{A}{\overset{X}{\downarrow}} \right) \\
+		\textbf{Morphisms:} \qquad & \left(X , ~f \underset{A}{\overset{X}{\downarrow}} \right) \overset{h}{\longrightarrow} \left(Y, ~g\underset{A}{\overset{Y}{\downarrow}} \right)\\
+		& \text{ are maps $h: X \to Y$ such that } \\
+		& \begin{tikzcd}[ampersand replacement=\&]
+			 X \arrow[r, "h"] \arrow[dr, "f"'] \& Y \arrow[d, "g"] \\ \&A
+		\end{tikzcd} \qquad\text{commutes}
+	\end{align*}
+\end{definition}
+
+We also have a forgetful functor $\Sigma_A$, defined as follows
+\begin{align*}
+\sfrac{\lscat C }{A} &\overset{\Sigma_A}{\longrightarrow} \lscat C \\
+\left(X , \underset{A}{\overset{X}{\downarrow}}f \right) &\longmapsto X
+\end{align*}
+
+\textbf{Proposition.} $\Sigma_A: \sfrac{\lscat C}{A} \to \lscat C$ has a right adjoint if and only if $\lscat C$ has products with A. \footnote{this condition was originally "$\lscat C$ has pullbacks along maps into $A$, but we didn't have time enough to do the more general result with this premise}
+
+\begin{center}
+	\begin{tikzcd}[column sep = huge, row sep=large]
+		\sfrac{\lscat C}{A}
+			\arrow[r, bend left= 50, "\Pi_A"{name=P, above}]
+			\arrow[r, bend right=50, "\Sigma_A"{name=S, below}]
+		 & \lscat C \arrow[l, "{(~)^*}"{name=M, description}]\\
+		 \arrow[from={S}, to={M}, phantom, "\dashv" rotate=90 ]
+		 \arrow[from={M}, to={P}, phantom, "\dashv" rotate=90 ]
+		 
+	\end{tikzcd}
+\end{center}
+
+
+In Type Theory, given a function $f: A \to B$ in $\lscat C$ that has pullbacks $f^*$ along $f$, then the sigma is left adjoint to $f^*$, and if we're lucky we will also have $\pi_f$, right adjoint $f^*$.
+\begin{center}
+	\begin{tikzcd}[column sep = huge, row sep=large]
+		\sfrac{\lscat C}{A}
+			\arrow[r, bend left= 50, "\Pi_f"{name=P, above}]
+			\arrow[r, bend right=50, "\Sigma_f"{name=S, below}]
+		& \sfrac{\lscat C}{B} \arrow[l, "{f^*}"{name=M, description}]\\
+		\arrow[from={S}, to={M}, phantom, "\dashv" rotate=90 ]
+		\arrow[from={M}, to={P}, phantom, "\dashv" rotate=90 ]
+	\end{tikzcd}
+\end{center}
+The general idea is to replace the subobjects with slices and keep the pullbacks.
+\begin{align*}
+	\lscat C &\overset{(~)^*}{\longrightarrow} \sfrac{\lscat C }{A} \\
+	X &\longmapsto \left(X \times A, \underset{A}{\overset{X \times A}{\downarrow}}\pi_2 \right)
+\end{align*}

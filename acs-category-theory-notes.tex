@@ -27,6 +27,11 @@
 \usepackage{tikz}
 \usetikzlibrary{fit, positioning, shapes, calc}
 \usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage{xfrac}
+
 \usepackage{hyperref}
 
 % Don't put formatting in the Title; this will show up in other places once
@@ -149,6 +154,9 @@
 \newcommand{\op}{\mathrm{op}}
 \newcommand{\dom}{\mathrm{dom}}
 
+\newcommand{\adjointDown}{\mathbin{\rotatebox[origin=c]{90}{$\vdash$}}}
+\newcommand{\adjointUp}{\mathbin{\rotatebox[origin=c]{90}{$\dashv$}}}
+
 % Double-lined fractions, notation for bijective correspondence
 % https://tex.stackexchange.com/questions/56003/fraction-with-doubled-line
 \newcommand{\Efrac}[2]{%
@@ -220,29 +228,18 @@ Zongzhe Yuan\\
 \newpage
 
 \include{tex/lecture1}
-
 \include{tex/lecture2}
-
 \include{tex/lecture3}
-
 \include{tex/lecture4}
-
 \include{tex/lecture5}
-
 \include{tex/lecture6}
-
 \include{tex/lecture7}
-
 \include{tex/lecture8}
-
 \include{tex/lecture9}
-
 \include{tex/lecture10}
-
 \include{tex/lecture11}
-
 \include{tex/lecture12}
-
 \include{tex/lecture13}
+\include{tex/lecture14}
 
 \end{document}
