@@ -92,3 +92,24 @@ types.
 \end{tikzcd}
 \end{center}
 (Prove that this is the product.)
+
+New let us gradually build up the type system, first we will add product types.
+
+\section{Product types}
+
+The types are extended to
+\begin{align*}
+    \tau \Coloneqq \beta \mid \text{unit} \mid \tau_1 \ast \tau_2
+\end{align*}
+with typing rules
+\begin{align*}
+    \infer{\Gamma \vdash (t_1, t_2) : \tau_1 \ast \tau_2}{\Gamma \vdash t_1 :
+    \tau_1 & \Gamma \vdash t_2 : \tau_2}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma \vdash \text{fst}(t) : \tau_1}{\Gamma \vdash t : \tau_1 \ast
+    \tau_2}
+    &&
+    \infer{\Gamma \vdash \text{snd}(t) : \tau_2}{\Gamma \vdash t : \tau_1 \ast
+    \tau_2}
+\end{align*}
