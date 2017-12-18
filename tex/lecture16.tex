@@ -48,3 +48,47 @@ since the only rule for typing is
     \infer[(i \in (1, \ldots, n))]{x_1 : \beta_1,\ \ldots,\ x_n :
     \beta_n\ \vdash\ x_i : \beta_i}{}
 \end{align*}
+
+\section{Category of Context}
+
+The objects are contexts (i.e. lists of [variables with associated] types).
+
+The morphisms from $\Gamma$ to $\Delta$ are $m$-tuples of terms in context
+$\Gamma$ of type $\sigma_i$, where the length of $\Delta$ is $m$ and it's
+elements are $\sigma_i$ for $i \in (1, \ldots, m)$. That is, if $\Gamma = (x_1 :
+\beta_1,\ \ldots,\ x_n : \beta_n)$ and $\Delta = (y_1 : \sigma_1,\ \ldots,\ y_m
+: \sigma_m)$, then a morphism $\Gamma \rightarrow \Delta$ is an $m$-tuple
+$(t_1,\ \ldots, t_m)$ of terms $t_i$ where each term $t_i$ has type $\sigma_i$
+under the context $\Gamma$, i.e., $\Gamma \vdash t_i : \sigma_i$.
+
+Identities $\Gamma \rightarrow \Gamma$ are just the list of variables
+$(x_1,\ \ldots, x_n)$.
+
+Composition is given by substitution:
+\begin{center}
+\begin{tikzcd}
+    \Gamma \arrow[rr, "{(\Gamma \vdash t_i : \tau_i)_{i = 1,\ldots,p}}"] &  &
+    \Delta \arrow[rr, "{(\Delta \vdash u_j : \sigma_j)_{j = 1, \ldots, q}}"] &
+    & \Theta
+\end{tikzcd}
+\end{center}
+\begin{align*}
+    &(\Delta \vdash u_j : \sigma_j)_{j = 1,\ldots,q} \circ
+    (\Gamma \vdash t_i :   \tau_i)_{i = 1,\ldots,p} \\
+    =\ \ &(\Gamma \vdash u_j[\sfrac{t_1}{x_1},\ \ldots,\ \sfrac{t_n}{x_n}] :
+    \sigma_j)_{j = 1,\ldots,q}
+\end{align*}
+This seems very trivial, but it is not completely trivial.
+
+The category of contexts is the free Cartesian category on the set of base
+types.
+\begin{center}
+\begin{tikzcd}
+    &  & \Gamma = ((x_1, \tau_1), (x_2, \tau_2), \ldots, (x_n, \tau_n)
+    \arrow[lldd, "(\Gamma \vdash x_1 : \tau_1)"'] \arrow[ldd, "(\Gamma \vdash
+    x_2 : \tau_2)"] \arrow[rrdd, "(\Gamma \vdash x_n : \tau_n)"] &  &  \\
+    &  & \dots &  &  \\
+    (x_1, \tau_1) & (x_2, \tau_2) & \dots &  & (x_n, \tau_n)
+\end{tikzcd}
+\end{center}
+(Prove that this is the product.)
