@@ -1,0 +1,50 @@
+\chapter{Categorical Semantics}
+\lecturedetails{28 November 2017}{M Fiore, A Hammond, S Steenkamp}
+
+Type theories extend algebraic theories, and the relation between them can be
+made mathematically precise. We can extend even further to get dependent type
+theory.
+\begin{align*}
+    \text{\textbf{Algebraic theories}}\quad &\hookrightarrow\quad
+    \text{\textbf{Type theories}} \\
+    \text{sorts}\quad &\hookrightarrow\quad \text{types} \\
+    \text{operators}\quad &\leadsto\quad \text{operators} \\
+    \text{terms}\quad &\mathrel{\phantom{\hookrightarrow}}\quad \text{variable
+    binding} \\
+    \text{equational logic}\quad &
+\end{align*}
+Sorts have no structure, just names, whereas types have structure.
+
+\section{Sorts (a.k.a. basic types)}
+
+\newcommand{\nat}{\textbf{nat}}
+\newcommand{\bool}{\textbf{bool}}
+\newcommand{\ctxt}{\text{Ctxt}}
+
+Consider a simple language with some basic types $\beta$ built in (e.g. \nat,
+\bool), which may also have some operators (e.g. $+$, $\&\&$, etc.). Then we can
+define contexts which give types to variables
+\begin{align*}
+    \Gamma = (x_1 : \beta_1,\ \ldots,\ x_n : \beta_n)
+\end{align*}
+The context can be thought of as a list of variables with associated types. If
+each variable is numbered (var1, var2, \ldots), then the context can just be a
+list of types $(\beta_1,\ \beta_2,\ \ldots)$, with the position in the list
+indicating which variable the type is associated to.
+
+The rules for the context are:
+\begin{align*}
+    \infer[\text{empty context}]{\bullet : \ctxt}{} &&
+    \infer[\text{extra ``assumption''}]
+    {(\Gamma,\ x : \beta) : \ctxt}{\Gamma : \ctxt}
+\end{align*}
+The only terms that are valid are those variables that are in the context:
+\begin{align*}
+    x_1 : \beta_1,\ \ldots,\ x_n : \beta_n \quad \vdash \quad x_i : \beta_i
+    && \text{(for $i = 1, \ldots, n$)}
+\end{align*}
+since the only rule for typing is
+\begin{align*}
+    \infer[(i \in (1, \ldots, n))]{x_1 : \beta_1,\ \ldots,\ x_n :
+    \beta_n\ \vdash\ x_i : \beta_i}{}
+\end{align*}
