@@ -113,3 +113,86 @@ with typing rules
     \infer{\Gamma \vdash \text{snd}(t) : \tau_2}{\Gamma \vdash t : \tau_1 \ast
     \tau_2}
 \end{align*}
+
+We would like to give meaning to these symbols.
+
+\section{Categorical semantics in Cartesian categories}
+
+\subsection{For product types}
+
+Given a Cartesian category $\mathcal{C}$ with $\llbracket \beta \rrbracket \in
+\mathbb{C}$.
+
+Interpret contexts $\Gamma = (x_1 : \tau_1,\ \ldots,\ x_n :
+\tau_n)$ as $\llbracket \Gamma \rrbracket = \llbracket \tau_1 \rrbracket \times
+\ldots \times \llbracket \tau_n \rrbracket$,
+
+the unit type $()$ as $\llbracket () \rrbracket = 1$,
+
+and product types $\tau_1 \ast \tau_2$ as $\llbracket \tau_1 \ast \tau_2
+\rrbracket = \llbracket \tau_1 \rrbracket \times \llbracket \tau_2 \rrbracket$.
+
+Now we ask the question: What equational theory need be imposed on the type
+theory so that the interpretation is sound and complete?
+
+In $\mathbb{C}$ the typing inference
+\begin{tikzcd}
+    \llbracket \Gamma \rrbracket \arrow[rr, "\llbracket \Gamma \vdash t : \tau
+    \rrbracket"] \arrow[rr, "\text{(projection)}"'] &  & \llbracket \tau
+    \rrbracket
+\end{tikzcd}
+is given by projection.
+
+Specifically, we define:
+\begin{align*}
+    \llbracket \Gamma \vdash x_i : \tau_i \rrbracket &\eqdef
+    \pi_i : \llbracket \tau_1 \rrbracket \times \ldots \times \llbracket \tau_n
+    \rrbracket \rightarrow \llbracket \tau_i \rrbracket
+    \\
+    \llbracket \Gamma \vdash (t_1, t_2) : \tau_1 \ast \tau_2 \rrbracket &\eqdef
+    \big(\,\llbracket \Gamma \vdash t_1 : \tau_1 \rrbracket,\,\,
+           \llbracket \Gamma \vdash t_2 : \tau_2 \rrbracket\,\big)
+    \\
+    \llbracket \Gamma \vdash \text{fst}(t) : \tau_1 \rrbracket &\eqdef
+    \pi_1 \circ \llbracket \Gamma \vdash t : \tau_1 \ast \tau_2 \rrbracket
+    \\
+    \llbracket \Gamma \vdash \text{snd}(t) : \tau_2 \rrbracket &\eqdef
+    \pi_2 \circ \llbracket \Gamma \vdash t : \tau_1 \ast \tau_2 \rrbracket
+\end{align*}
+
+\subsection{What does soundness and completeness mean?}
+
+Soundness means that
+\begin{align*}
+    \text{if}\quad& \Gamma \vdash t = u : \tau \implies \llbracket \Gamma \vdash t
+    : \tau \rrbracket
+    \\
+    \text{and}\quad& \Gamma \vdash t = u : \tau \implies \llbracket \Gamma \vdash u
+    : \tau \rrbracket
+    \\
+    \text{then}\quad& \llbracket \Gamma \vdash t : \tau \rrbracket = \llbracket
+    \Gamma \vdash u : \tau \rrbracket
+\end{align*}
+and completeness means
+\begin{align*}
+    &\forall \Gamma \vdash t : \tau, \forall \Gamma \vdash u : \tau, \forall
+    \text{Cartesian closed categories } \mathbb{C},
+    \\
+    &\mathbb{C}\llbracket \Gamma \vdash t : \tau \rrbracket =
+    \mathbb{C}\llbracket \Gamma \vdash u : \tau \rrbracket \implies
+    \Gamma \vdash t = u : \tau
+\end{align*}
+
+\subsection{Equational theroy for product types}
+
+So, what equational theory do we need to impose on product types so that the
+interpretation is sound and complete?
+\begin{align*}
+    \text{fst}((t_1, t_2)) =\; &t_1 : \tau_1
+    \\
+    \text{snd}((t_1, t_2)) =\; &t_2 : \tau_2
+    \\
+    t = (\text{fst}(t), \text{snd}(t)) :\; &\tau_1 \ast \tau_2
+\end{align*}
+
+Note that it is not always possible to find a (finite) set of rules.
