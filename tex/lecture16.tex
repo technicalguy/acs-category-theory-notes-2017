@@ -50,7 +50,7 @@ since the only rule for typing is
     \beta_n\ \vdash\ x_i : \beta_i}{}
 \end{align*}
 
-\section{Category of Context}
+\section{Category of Contexts}
 
 The objects are contexts (i.e. lists of [variables with associated] types).
 
@@ -211,7 +211,7 @@ with the following typing rules
     \infer{\Gamma \vdash (\eqncode{case}\ t \eqncode{of} x_1 : \tau_1 \Rightarrow
     t_1 \mid x_2 : \tau_2 \Rightarrow t_2) : \tau}
     {\Gamma \vdash t : \tau_1 + \tau_2 & \Gamma, x_1 : \tau_1 \vdash t_1 : \tau
-    & \Gamma, x_2 : \tau_2 : t_2 : \tau}
+    & \Gamma, x_2 : \tau_2 \vdash t_2 : \tau}
 \end{align*}
 \begin{align*}
     \infer{\Gamma \vdash \eqncode{inl}(t_1) : \tau_1 + \tau_2}
@@ -288,3 +288,82 @@ and the interpretation is
 \end{tikzcd}
 \end{center}
 this commutes by the \emph{substitution by composition} lemma.
+
+\section{Function Types}
+
+The types can also be extended with 
+\begin{align*}
+    \tau \Coloneqq \ldots \mid \tau_1\rightarrow\tau_2
+\end{align*}
+with the following typing rules
+\begin{align*}
+    \infer{\Gamma\vdash t(t_1) : \tau_2}
+    {\Gamma\vdash t : \tau_1 \rightarrow \tau_2 & \Gamma\vdash t : \tau_1}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma\vdash\lambda x:\tau_1 .\; t : (\tau_1 \rightarrow \tau_2)}
+    {\Gamma, x:\tau_1\vdash t : \tau_2}
+\end{align*}
+In a cartesian closed category the interpretation of $\tau_1 \rightarrow \tau_2$
+is:
+\begin{align*}
+    \llbracket\tau_1 \rightarrow \tau_2\rrbracket =
+    \llbracket\tau_1\rrbracket\Rightarrow\llbracket\tau_2\rrbracket
+\end{align*}
+
+The interpretation of function abstraction is:
+\begin{align*}
+    \llbracket\Gamma\vdash\lambda x:\tau_1 .\; t :
+    \tau_1\rightarrow\tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \times
+    \llbracket\tau_1\rrbracket
+    \rightarrow
+    \llbracket\tau_2\rrbracket
+\end{align*}
+or equivalently
+\begin{align*}
+    \llbracket\Gamma\vdash\lambda x:\tau_1 .\; t :
+    \tau_1\rightarrow\tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \rightarrow
+    \llbracket\tau_1\rrbracket
+    \Rightarrow
+    \llbracket\tau_2\rrbracket
+\end{align*}
+and the interpretation of function application is
+\begin{align*}
+    \llbracket\Gamma\vdash t_1(t_2) : \tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \rightarrow
+    (\llbracket\tau_1\llbracket \Rightarrow \llbracket\tau_2\rrbracket)
+    \times
+    \llbracket\tau_1\rrbracket
+\end{align*}
+
+These satisfy the equational theory
+\begin{align*}
+    (\lambda x.\; t) u = t[u/x] \\
+    (\lambda x.\; t x) = t  && x \not\in FV(t)
+\end{align*}
+
+\section{Curry-Howard Isomorphism}
+
+If we consider the category of contexts with all the terms removed, such that the objects are just tuples of types,
+
+\begin{align*}
+    \Gamma \equiv \tau_1,\tau_2,\tau_3...\tau_n
+\end{align*}
+
+then the typing rules become identical to logical inference rules, e.g.
+
+\begin{align*}
+    \infer{\Gamma\vdash \tau_1 \times \tau_2}
+    {\Gamma\vdash\tau_1 & \Gamma\vdash\tau_2}
+\end{align*}
+
+which is the usual inference rule for logical conjunction, where the types
+represent propositions. This is the Curry-Howard Isomorphism.
