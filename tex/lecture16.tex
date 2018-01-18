@@ -1,0 +1,369 @@
+\chapter{Categorical Semantics}
+\lecturedetails{28 November 2017}{M Fiore, A Hammond, S Steenkamp}
+
+\newcommand{\nat}{\textbf{nat}}
+\newcommand{\bool}{\textbf{bool}}
+\newcommand{\ctxt}{\text{Ctxt}}
+\newcommand{\eqncode}[1]{\mathbin{\text{\textbf{#1}}}}
+
+Type theories extend algebraic theories, and the relation between them can be
+made mathematically precise. We can extend even further to get dependent type
+theory.
+\begin{align*}
+    \text{\textbf{Algebraic theories}}\quad &\hookrightarrow\quad
+    \text{\textbf{Type theories}} \\
+    \text{sorts}\quad &\hookrightarrow\quad \text{types} \\
+    \text{operators}\quad &\leadsto\quad \text{operators} \\
+    \text{terms}\quad &\mathrel{\phantom{\hookrightarrow}}\quad \text{variable
+    binding} \\
+    \text{equational logic}\quad &
+\end{align*}
+Sorts have no structure, just names, whereas types have structure.
+
+\section{Sorts (a.k.a. basic types)}
+
+Consider a simple language with some basic types $\beta$ built in (e.g. \nat,
+\bool), which may also have some operators (e.g. $+$, $\&\&$, etc.). Then we can
+define contexts which give types to variables
+\begin{align*}
+    \Gamma = (x_1 : \beta_1,\ \ldots,\ x_n : \beta_n)
+\end{align*}
+The context can be thought of as a list of variables with associated types. If
+each variable is numbered (var1, var2, \ldots), then the context can just be a
+list of types $(\beta_1,\ \beta_2,\ \ldots)$, with the position in the list
+indicating which variable the type is associated to.
+
+The rules for the context are:
+\begin{align*}
+    \infer[\text{empty context}]{\bullet : \ctxt}{} &&
+    \infer[\text{extra ``assumption''}]
+    {(\Gamma,\ x : \beta) : \ctxt}{\Gamma : \ctxt}
+\end{align*}
+The only terms that are valid are those variables that are in the context:
+\begin{align*}
+    x_1 : \beta_1,\ \ldots,\ x_n : \beta_n \quad \vdash \quad x_i : \beta_i
+    && \text{(for $i = 1, \ldots, n$)}
+\end{align*}
+since the only rule for typing is
+\begin{align*}
+    \infer[(i \in (1, \ldots, n))]{x_1 : \beta_1,\ \ldots,\ x_n :
+    \beta_n\ \vdash\ x_i : \beta_i}{}
+\end{align*}
+
+\section{Category of Contexts}
+
+The objects are contexts (i.e. lists of [variables with associated] types).
+
+The morphisms from $\Gamma$ to $\Delta$ are $m$-tuples of terms in context
+$\Gamma$ of type $\sigma_i$, where the length of $\Delta$ is $m$ and it's
+elements are $\sigma_i$ for $i \in (1, \ldots, m)$. That is, if $\Gamma = (x_1 :
+\beta_1,\ \ldots,\ x_n : \beta_n)$ and $\Delta = (y_1 : \sigma_1,\ \ldots,\ y_m
+: \sigma_m)$, then a morphism $\Gamma \rightarrow \Delta$ is an $m$-tuple
+$(t_1,\ \ldots, t_m)$ of terms $t_i$ where each term $t_i$ has type $\sigma_i$
+under the context $\Gamma$, i.e., $\Gamma \vdash t_i : \sigma_i$.
+
+Identities $\Gamma \rightarrow \Gamma$ are just the list of variables
+$(x_1,\ \ldots, x_n)$.
+
+Composition is given by substitution:
+\begin{center}
+\begin{tikzcd}
+    \Gamma \arrow[rr, "{(\Gamma \vdash t_i : \tau_i)_{i = 1,\ldots,p}}"] &  &
+    \Delta \arrow[rr, "{(\Delta \vdash u_j : \sigma_j)_{j = 1, \ldots, q}}"] &
+    & \Theta
+\end{tikzcd}
+\end{center}
+\begin{align*}
+    &(\Delta \vdash u_j : \sigma_j)_{j = 1,\ldots,q} \circ
+    (\Gamma \vdash t_i :   \tau_i)_{i = 1,\ldots,p} \\
+    =\ \ &(\Gamma \vdash u_j[\sfrac{t_1}{x_1},\ \ldots,\ \sfrac{t_n}{x_n}] :
+    \sigma_j)_{j = 1,\ldots,q}
+\end{align*}
+This seems very trivial, but it is not completely trivial.
+
+The category of contexts is the free Cartesian category on the set of base
+types.
+\begin{center}
+\begin{tikzcd}
+    &  & \Gamma = ((x_1, \tau_1), (x_2, \tau_2), \ldots, (x_n, \tau_n)
+    \arrow[lldd, "(\Gamma \vdash x_1 : \tau_1)"'] \arrow[ldd, "(\Gamma \vdash
+    x_2 : \tau_2)"] \arrow[rrdd, "(\Gamma \vdash x_n : \tau_n)"] &  &  \\
+    &  & \dots &  &  \\
+    (x_1, \tau_1) & (x_2, \tau_2) & \dots &  & (x_n, \tau_n)
+\end{tikzcd}
+\end{center}
+(Prove that this is the product.)
+
+New let us gradually build up the type system, first we will add product types.
+
+\section{Product types}
+
+The types are extended to
+\begin{align*}
+    \tau \Coloneqq \beta \mid \text{unit} \mid \tau_1 \ast \tau_2
+\end{align*}
+with typing rules
+\begin{align*}
+    \infer{\Gamma \vdash (t_1, t_2) : \tau_1 \ast \tau_2}{\Gamma \vdash t_1 :
+    \tau_1 & \Gamma \vdash t_2 : \tau_2}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma \vdash \text{fst}(t) : \tau_1}{\Gamma \vdash t : \tau_1 \ast
+    \tau_2}
+    &&
+    \infer{\Gamma \vdash \text{snd}(t) : \tau_2}{\Gamma \vdash t : \tau_1 \ast
+    \tau_2}
+\end{align*}
+
+We would like to give meaning to these symbols.
+
+\section{Categorical semantics in Cartesian categories}
+
+\subsection{For product types}
+
+Given a Cartesian category $\mathcal{C}$ with $\llbracket \beta \rrbracket \in
+\mathbb{C}$.
+
+Interpret contexts $\Gamma = (x_1 : \tau_1,\ \ldots,\ x_n :
+\tau_n)$ as $\llbracket \Gamma \rrbracket = \llbracket \tau_1 \rrbracket \times
+\ldots \times \llbracket \tau_n \rrbracket$,
+
+the unit type $()$ as $\llbracket () \rrbracket = 1$,
+
+and product types $\tau_1 \ast \tau_2$ as $\llbracket \tau_1 \ast \tau_2
+\rrbracket = \llbracket \tau_1 \rrbracket \times \llbracket \tau_2 \rrbracket$.
+
+Now we ask the question: What equational theory need be imposed on the type
+theory so that the interpretation is sound and complete?
+
+In $\mathbb{C}$ the typing inference
+\begin{tikzcd}
+    \llbracket \Gamma \rrbracket \arrow[rr, "\llbracket \Gamma \vdash t : \tau
+    \rrbracket"] \arrow[rr, "\text{(projection)}"'] &  & \llbracket \tau
+    \rrbracket
+\end{tikzcd}
+is given by projection.
+
+Specifically, we define:
+\begin{align*}
+    \llbracket \Gamma \vdash x_i : \tau_i \rrbracket &\eqdef
+    \pi_i : \llbracket \tau_1 \rrbracket \times \ldots \times \llbracket \tau_n
+    \rrbracket \rightarrow \llbracket \tau_i \rrbracket
+    \\
+    \llbracket \Gamma \vdash (t_1, t_2) : \tau_1 \ast \tau_2 \rrbracket &\eqdef
+    \big(\,\llbracket \Gamma \vdash t_1 : \tau_1 \rrbracket,\,\,
+           \llbracket \Gamma \vdash t_2 : \tau_2 \rrbracket\,\big)
+    \\
+    \llbracket \Gamma \vdash \text{fst}(t) : \tau_1 \rrbracket &\eqdef
+    \pi_1 \circ \llbracket \Gamma \vdash t : \tau_1 \ast \tau_2 \rrbracket
+    \\
+    \llbracket \Gamma \vdash \text{snd}(t) : \tau_2 \rrbracket &\eqdef
+    \pi_2 \circ \llbracket \Gamma \vdash t : \tau_1 \ast \tau_2 \rrbracket
+\end{align*}
+
+\subsection{What does soundness and completeness mean?}
+
+Soundness means that
+\begin{align*}
+    \text{if}\quad& \Gamma \vdash t = u : \tau \implies \llbracket \Gamma \vdash t
+    : \tau \rrbracket
+    \\
+    \text{and}\quad& \Gamma \vdash t = u : \tau \implies \llbracket \Gamma \vdash u
+    : \tau \rrbracket
+    \\
+    \text{then}\quad& \llbracket \Gamma \vdash t : \tau \rrbracket = \llbracket
+    \Gamma \vdash u : \tau \rrbracket
+\end{align*}
+and completeness means
+\begin{align*}
+    &\forall \Gamma \vdash t : \tau, \forall \Gamma \vdash u : \tau, \forall
+    \text{Cartesian closed categories } \mathbb{C},
+    \\
+    &\mathbb{C}\llbracket \Gamma \vdash t : \tau \rrbracket =
+    \mathbb{C}\llbracket \Gamma \vdash u : \tau \rrbracket \implies
+    \Gamma \vdash t = u : \tau
+\end{align*}
+
+\subsection{Equational theroy for product types}
+
+So, what equational theory do we need to impose on product types so that the
+interpretation is sound and complete?
+\begin{align*}
+    \text{fst}((t_1, t_2)) =\; &t_1 : \tau_1
+    \\
+    \text{snd}((t_1, t_2)) =\; &t_2 : \tau_2
+    \\
+    t = (\text{fst}(t), \text{snd}(t)) :\; &\tau_1 \ast \tau_2
+\end{align*}
+
+Note that it is not always possible to find a (finite) set of rules.
+
+Now we will look at (the categorical semantics for) sum types and function types.
+
+\section{Sum types}
+
+The types are extended to
+\begin{align*}
+    \tau \Coloneqq \ldots \mid \varnothing \mid \tau_1 + \tau_2
+\end{align*}
+with the following typing rules
+\begin{align*}
+    \infer{\Gamma \vdash (\eqncode{case}\ t \eqncode{of} x_1 : \tau_1 \Rightarrow
+    t_1 \mid x_2 : \tau_2 \Rightarrow t_2) : \tau}
+    {\Gamma \vdash t : \tau_1 + \tau_2 & \Gamma, x_1 : \tau_1 \vdash t_1 : \tau
+    & \Gamma, x_2 : \tau_2 \vdash t_2 : \tau}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma \vdash \eqncode{inl}(t_1) : \tau_1 + \tau_2}
+    {\Gamma \vdash t_1 : \tau_1}
+    &&
+    \infer{\Gamma \vdash \eqncode{inr}(t_2) : \tau_1 + \tau_2}
+    {\Gamma \vdash t_2 : \tau_2}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma \vdash \bot_\tau(t) : \tau}
+    {\Gamma \vdash t : \varnothing}
+\end{align*}
+This last rule says that if you can get something in the empty type then you can
+get something in any type. In fact this rule is suggested by the mathematics:
+\begin{center}
+\begin{tikzcd}
+    \llbracket \Gamma \rrbracket \arrow[rr, "\llbracket \Gamma \vdash
+    \bot_\tau(t) : \tau \rrbracket"] \arrow[rd, "\llbracket \Gamma \vdash t :
+    \varnothing \rrbracket"'] &  & \llbracket \tau \rrbracket \\
+    & 0 \arrow[ru, "\exists!0_\tau"'] &
+\end{tikzcd}
+\end{center}
+The intepretations of $\varnothing$ and $\tau_1 + \tau_2$ are:
+\begin{align*}
+    &\llbracket \varnothing \rrbracket = 0
+    \\
+    &\llbracket \tau_1 + \tau_2 \rrbracket = \llbracket \tau_1 \rrbracket +
+    \llbracket \tau_2 \rrbracket
+\end{align*}
+Additionally in a category with coproducts we have
+\begin{center}
+\begin{tikzcd}
+    \llbracket t_1 \rrbracket \arrow[rrd, "\iota_1"] &  &  \\
+    &  & \llbracket t_1 \rrbracket + \llbracket t_2 \rrbracket \\
+    \llbracket t_2 \rrbracket \arrow[rru, "\iota_2"'] &  &
+\end{tikzcd}
+\end{center}
+
+\begin{exercise}
+    Give a categorial interpretation of sum types in a distributive category,
+    crucially using $\delta$ (it is not possible in a non-distributive
+    category).
+\end{exercise}
+
+The equational theory that must be satisfied is:
+\begin{align*}
+    \eqncode{case}(\eqncode{inl}(t)) \eqncode{of} x_1 \Rightarrow t_1 &\mid x_2
+    \Rightarrow t_2\quad =\quad t_1[\sfrac{t}{x_1}]
+    \\
+    \eqncode{case}(\eqncode{inr}(t)) \eqncode{of} x_1 \Rightarrow t_1 &\mid x_2
+    \Rightarrow t_2\quad =\quad t_2[\sfrac{t}{x_2}]
+    \\
+    e = \eqncode{case}\ e \eqncode{of} x \Rightarrow \eqncode{inl}(x) &\mid x
+    \Rightarrow \eqncode{inr}(x)
+\end{align*}
+Although to show this works we need to consider $\llbracket t_1[\sfrac{t}{x_1}]
+\rrbracket$, but what is the (categorical) interpretation of substitution?
+
+The substitution rule is
+\begin{align*}
+    \infer[\text{(sub)}]
+    {\Gamma \vdash t[\sfrac{u}{x}] : \sigma}
+    {\Gamma, x : \tau \vdash t : \sigma & \Gamma \vdash u : \tau}
+\end{align*}
+and the interpretation is
+\begin{center}
+\begin{tikzcd}
+    \llbracket \Gamma \rrbracket \arrow[rr, "{\llbracket \Gamma \vdash
+    t[\sfrac{u}{x}] : \sigma \rrbracket}"] \arrow[rdd, "{\langle \text{id},
+    \llbracket u \rrbracket \rangle}"'] &  & \llbracket \sigma \rrbracket \\
+    &  &  \\
+    & \llbracket \Gamma \rrbracket \times \llbracket \tau \rrbracket \arrow[ruu,
+    "\llbracket t \rrbracket"'] &
+\end{tikzcd}
+\end{center}
+this commutes by the \emph{substitution by composition} lemma.
+
+\section{Function Types}
+
+The types can also be extended with 
+\begin{align*}
+    \tau \Coloneqq \ldots \mid \tau_1\rightarrow\tau_2
+\end{align*}
+with the following typing rules
+\begin{align*}
+    \infer{\Gamma\vdash t(t_1) : \tau_2}
+    {\Gamma\vdash t : \tau_1 \rightarrow \tau_2 & \Gamma\vdash t : \tau_1}
+\end{align*}
+\begin{align*}
+    \infer{\Gamma\vdash\lambda x:\tau_1 .\; t : (\tau_1 \rightarrow \tau_2)}
+    {\Gamma, x:\tau_1\vdash t : \tau_2}
+\end{align*}
+In a cartesian closed category the interpretation of $\tau_1 \rightarrow \tau_2$
+is:
+\begin{align*}
+    \llbracket\tau_1 \rightarrow \tau_2\rrbracket =
+    \llbracket\tau_1\rrbracket\Rightarrow\llbracket\tau_2\rrbracket
+\end{align*}
+
+The interpretation of function abstraction is:
+\begin{align*}
+    \llbracket\Gamma\vdash\lambda x:\tau_1 .\; t :
+    \tau_1\rightarrow\tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \times
+    \llbracket\tau_1\rrbracket
+    \rightarrow
+    \llbracket\tau_2\rrbracket
+\end{align*}
+or equivalently
+\begin{align*}
+    \llbracket\Gamma\vdash\lambda x:\tau_1 .\; t :
+    \tau_1\rightarrow\tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \rightarrow
+    \llbracket\tau_1\rrbracket
+    \Rightarrow
+    \llbracket\tau_2\rrbracket
+\end{align*}
+and the interpretation of function application is
+\begin{align*}
+    \llbracket\Gamma\vdash t_1(t_2) : \tau_2\rrbracket
+    \eqdef
+    \llbracket\Gamma\rrbracket
+    \rightarrow
+    (\llbracket\tau_1\llbracket \Rightarrow \llbracket\tau_2\rrbracket)
+    \times
+    \llbracket\tau_1\rrbracket
+\end{align*}
+
+These satisfy the equational theory
+\begin{align*}
+    (\lambda x.\; t) u = t[u/x] \\
+    (\lambda x.\; t x) = t  && x \not\in FV(t)
+\end{align*}
+
+\section{Curry-Howard Isomorphism}
+
+If we consider the category of contexts with all the terms removed, such that the objects are just tuples of types,
+
+\begin{align*}
+    \Gamma \equiv \tau_1,\tau_2,\tau_3...\tau_n
+\end{align*}
+
+then the typing rules become identical to logical inference rules, e.g.
+
+\begin{align*}
+    \infer{\Gamma\vdash \tau_1 \times \tau_2}
+    {\Gamma\vdash\tau_1 & \Gamma\vdash\tau_2}
+\end{align*}
+
+which is the usual inference rule for logical conjunction, where the types
+represent propositions. This is the Curry-Howard Isomorphism.

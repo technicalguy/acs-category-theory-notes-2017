@@ -16,7 +16,8 @@ SRC := lecture1.tex \
        lecture12.tex \
        lecture13.tex \
        lecture14.tex \
-       lecture15.tex
+       lecture15.tex \
+       lecture16.tex
 
 SRC_DIR := tex
 SRC := $(addprefix $(SRC_DIR)/,$(SRC))
